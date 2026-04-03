@@ -1,0 +1,6 @@
+7dtd-binaries/
+bin/
+obj/
+dist/
+*.user
+.vs/

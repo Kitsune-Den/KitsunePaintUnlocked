@@ -1,0 +1,56 @@
+
+=== get_UvMap ===
+  IL (6 bytes): 7E-03-00-00-04-2A
+
+=== ParseOpaqueConfig ===
+  ERR: Could not load file or assembly 'MemoryPack, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
+
+=== GetFreePaintID ===
+  IL (40 bytes): 16-0A-2B-0F-7E-73-00-00-0A-06-9A-2D-02-06-2A-06-17-58-0A-06-7E-73-00-00-0A-8E-69-32-E7-72-C7-02-00-70-73-74-00-00-0A-7A
+  Locals:
+    [0] Int32
+
+=== PatchAtlasBlocks ===
+  IL (204 bytes): 02-2D-0B-72-F5-02-00-70-73-74-00-00-0A-7A-02-7B-42-00-00-0A-75-1C-00-00-01-0A-06-2D-0B-72-0F-03-00-70-73-74-00-00-0A-7A-06-7B-43-00-00-0A-8E-69-20-FF-FF-00-00-31-0B-72-35-03-00-70-73-74-00-00-0A-7A-06-7B-43-00-00-0A-8E-69-D1-0B-28-0F-00-00-06-03-7B-10-00-00-04-6F-49-00-00-0A-2D-13-28-0F-00-00-06-03-7B-10-00-00-04-07-6F-4A-00-00-0A-2B-2C-28-0F-00-00-06-03-7B-10-00-00-04-6F-4B-00-00-0A-07-2E-19-72-5B-03-00-70-17-8D-05-00-00-01-25-16-03-7B-10-00-00-04-A2-28-75-00-00-0A-06-7B-43-00-00-0A-8E-69-07-17-58-2F-0E-06-7C-43-00-00-0A-07-17-58-28-03-00-00-2B-06-7B-43-00-00-0A-07-03-7B-17-00-00-04-A4-15-00-00-01-07-2A
+  Locals:
+    [0] TextureAtlasBlocks
+    [1] UInt16
+
+=== InitOpaqueConfig ===
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== PatchCustomOpaques ===
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== PatchDiffuse ===
+  IL (19 bytes): 02-14-FE-06-19-00-00-06-73-8D-00-00-0A-28-18-00-00-06-2A
+
+=== PatchNormal ===
+  IL (19 bytes): 02-14-FE-06-1A-00-00-06-73-8D-00-00-0A-28-18-00-00-06-2A
+
+=== PatchSpecular ===
+  IL (19 bytes): 02-14-FE-06-1B-00-00-06-73-8D-00-00-0A-28-18-00-00-06-2A
+
+=== PatchTextureAtlas ===
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== ApplyDiffuseTextures ===
+  IL (44 bytes): 02-03-7E-30-00-00-04-25-2D-17-26-7E-2F-00-00-04-FE-06-6E-00-00-06-73-8F-00-00-0A-25-80-30-00-00-04-72-FD-04-00-70-28-1C-00-00-06-2A
+
+=== ApplyNormalTextures ===
+  IL (44 bytes): 02-03-7E-31-00-00-04-25-2D-17-26-7E-2F-00-00-04-FE-06-6F-00-00-06-73-8F-00-00-0A-25-80-31-00-00-04-72-31-05-00-70-28-1C-00-00-06-2A
+
+=== ApplySpecularTexture ===
+  IL (44 bytes): 02-03-7E-32-00-00-04-25-2D-17-26-7E-2F-00-00-04-FE-06-70-00-00-06-73-8F-00-00-0A-25-80-32-00-00-04-72-63-05-00-70-28-1C-00-00-06-2A
+
+=== ApplyTextures ===
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== PatchTextures ===
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+
+=== OcbCustomTextures.InitMod IL ===
+  IL (95 bytes): 72-01-00-00-70-02-28-11-00-00-0A-6F-12-00-00-0A-28-13-00-00-0A-28-14-00-00-0A-02-28-11-00-00-0A-6F-12-00-00-0A-73-15-00-00-0A-28-16-00-00-0A-6F-17-00-00-0A-03-6F-18-00-00-0A-72-29-00-00-70-28-19-00-00-0A-80-01-00-00-04-03-6F-18-00-00-0A-72-59-00-00-70-28-19-00-00-0A-80-02-00-00-04-2A
+
+Done.

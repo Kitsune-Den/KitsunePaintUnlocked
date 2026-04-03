@@ -1,0 +1,2342 @@
+<configs><append xpath="/paints">
+  <opaque id="paintunlocked_test_test_paint_001" name="txName_paintunlocked_test_test_paint_001" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_001.unity3d?assets/test_paint_001_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_001.unity3d?assets/test_paint_001_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_001.unity3d?assets/test_paint_001_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_002" name="txName_paintunlocked_test_test_paint_002" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_002.unity3d?assets/test_paint_002_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_002.unity3d?assets/test_paint_002_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_002.unity3d?assets/test_paint_002_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_003" name="txName_paintunlocked_test_test_paint_003" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_003.unity3d?assets/test_paint_003_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_003.unity3d?assets/test_paint_003_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_003.unity3d?assets/test_paint_003_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_004" name="txName_paintunlocked_test_test_paint_004" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_004.unity3d?assets/test_paint_004_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_004.unity3d?assets/test_paint_004_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_004.unity3d?assets/test_paint_004_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_005" name="txName_paintunlocked_test_test_paint_005" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_005.unity3d?assets/test_paint_005_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_005.unity3d?assets/test_paint_005_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_005.unity3d?assets/test_paint_005_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_006" name="txName_paintunlocked_test_test_paint_006" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_006.unity3d?assets/test_paint_006_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_006.unity3d?assets/test_paint_006_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_006.unity3d?assets/test_paint_006_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_007" name="txName_paintunlocked_test_test_paint_007" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_007.unity3d?assets/test_paint_007_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_007.unity3d?assets/test_paint_007_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_007.unity3d?assets/test_paint_007_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_008" name="txName_paintunlocked_test_test_paint_008" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_008.unity3d?assets/test_paint_008_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_008.unity3d?assets/test_paint_008_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_008.unity3d?assets/test_paint_008_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_009" name="txName_paintunlocked_test_test_paint_009" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_009.unity3d?assets/test_paint_009_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_009.unity3d?assets/test_paint_009_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_009.unity3d?assets/test_paint_009_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_010" name="txName_paintunlocked_test_test_paint_010" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_010.unity3d?assets/test_paint_010_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_010.unity3d?assets/test_paint_010_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_010.unity3d?assets/test_paint_010_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_011" name="txName_paintunlocked_test_test_paint_011" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_011.unity3d?assets/test_paint_011_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_011.unity3d?assets/test_paint_011_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_011.unity3d?assets/test_paint_011_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_012" name="txName_paintunlocked_test_test_paint_012" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_012.unity3d?assets/test_paint_012_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_012.unity3d?assets/test_paint_012_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_012.unity3d?assets/test_paint_012_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_013" name="txName_paintunlocked_test_test_paint_013" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_013.unity3d?assets/test_paint_013_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_013.unity3d?assets/test_paint_013_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_013.unity3d?assets/test_paint_013_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_014" name="txName_paintunlocked_test_test_paint_014" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_014.unity3d?assets/test_paint_014_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_014.unity3d?assets/test_paint_014_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_014.unity3d?assets/test_paint_014_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_015" name="txName_paintunlocked_test_test_paint_015" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_015.unity3d?assets/test_paint_015_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_015.unity3d?assets/test_paint_015_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_015.unity3d?assets/test_paint_015_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_016" name="txName_paintunlocked_test_test_paint_016" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_016.unity3d?assets/test_paint_016_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_016.unity3d?assets/test_paint_016_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_016.unity3d?assets/test_paint_016_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_017" name="txName_paintunlocked_test_test_paint_017" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_017.unity3d?assets/test_paint_017_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_017.unity3d?assets/test_paint_017_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_017.unity3d?assets/test_paint_017_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_018" name="txName_paintunlocked_test_test_paint_018" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_018.unity3d?assets/test_paint_018_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_018.unity3d?assets/test_paint_018_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_018.unity3d?assets/test_paint_018_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_019" name="txName_paintunlocked_test_test_paint_019" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_019.unity3d?assets/test_paint_019_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_019.unity3d?assets/test_paint_019_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_019.unity3d?assets/test_paint_019_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_020" name="txName_paintunlocked_test_test_paint_020" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_020.unity3d?assets/test_paint_020_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_020.unity3d?assets/test_paint_020_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_020.unity3d?assets/test_paint_020_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_021" name="txName_paintunlocked_test_test_paint_021" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_021.unity3d?assets/test_paint_021_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_021.unity3d?assets/test_paint_021_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_021.unity3d?assets/test_paint_021_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_022" name="txName_paintunlocked_test_test_paint_022" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_022.unity3d?assets/test_paint_022_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_022.unity3d?assets/test_paint_022_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_022.unity3d?assets/test_paint_022_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_023" name="txName_paintunlocked_test_test_paint_023" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_023.unity3d?assets/test_paint_023_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_023.unity3d?assets/test_paint_023_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_023.unity3d?assets/test_paint_023_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_024" name="txName_paintunlocked_test_test_paint_024" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_024.unity3d?assets/test_paint_024_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_024.unity3d?assets/test_paint_024_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_024.unity3d?assets/test_paint_024_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_025" name="txName_paintunlocked_test_test_paint_025" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_025.unity3d?assets/test_paint_025_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_025.unity3d?assets/test_paint_025_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_025.unity3d?assets/test_paint_025_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_026" name="txName_paintunlocked_test_test_paint_026" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_026.unity3d?assets/test_paint_026_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_026.unity3d?assets/test_paint_026_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_026.unity3d?assets/test_paint_026_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_027" name="txName_paintunlocked_test_test_paint_027" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_027.unity3d?assets/test_paint_027_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_027.unity3d?assets/test_paint_027_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_027.unity3d?assets/test_paint_027_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_028" name="txName_paintunlocked_test_test_paint_028" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_028.unity3d?assets/test_paint_028_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_028.unity3d?assets/test_paint_028_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_028.unity3d?assets/test_paint_028_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_029" name="txName_paintunlocked_test_test_paint_029" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_029.unity3d?assets/test_paint_029_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_029.unity3d?assets/test_paint_029_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_029.unity3d?assets/test_paint_029_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_030" name="txName_paintunlocked_test_test_paint_030" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_030.unity3d?assets/test_paint_030_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_030.unity3d?assets/test_paint_030_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_030.unity3d?assets/test_paint_030_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_031" name="txName_paintunlocked_test_test_paint_031" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_031.unity3d?assets/test_paint_031_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_031.unity3d?assets/test_paint_031_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_031.unity3d?assets/test_paint_031_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_032" name="txName_paintunlocked_test_test_paint_032" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_032.unity3d?assets/test_paint_032_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_032.unity3d?assets/test_paint_032_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_032.unity3d?assets/test_paint_032_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_033" name="txName_paintunlocked_test_test_paint_033" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_033.unity3d?assets/test_paint_033_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_033.unity3d?assets/test_paint_033_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_033.unity3d?assets/test_paint_033_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_034" name="txName_paintunlocked_test_test_paint_034" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_034.unity3d?assets/test_paint_034_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_034.unity3d?assets/test_paint_034_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_034.unity3d?assets/test_paint_034_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_035" name="txName_paintunlocked_test_test_paint_035" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_035.unity3d?assets/test_paint_035_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_035.unity3d?assets/test_paint_035_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_035.unity3d?assets/test_paint_035_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_036" name="txName_paintunlocked_test_test_paint_036" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_036.unity3d?assets/test_paint_036_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_036.unity3d?assets/test_paint_036_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_036.unity3d?assets/test_paint_036_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_037" name="txName_paintunlocked_test_test_paint_037" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_037.unity3d?assets/test_paint_037_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_037.unity3d?assets/test_paint_037_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_037.unity3d?assets/test_paint_037_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_038" name="txName_paintunlocked_test_test_paint_038" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_038.unity3d?assets/test_paint_038_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_038.unity3d?assets/test_paint_038_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_038.unity3d?assets/test_paint_038_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_039" name="txName_paintunlocked_test_test_paint_039" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_039.unity3d?assets/test_paint_039_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_039.unity3d?assets/test_paint_039_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_039.unity3d?assets/test_paint_039_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_040" name="txName_paintunlocked_test_test_paint_040" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_040.unity3d?assets/test_paint_040_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_040.unity3d?assets/test_paint_040_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_040.unity3d?assets/test_paint_040_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_041" name="txName_paintunlocked_test_test_paint_041" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_041.unity3d?assets/test_paint_041_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_041.unity3d?assets/test_paint_041_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_041.unity3d?assets/test_paint_041_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_042" name="txName_paintunlocked_test_test_paint_042" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_042.unity3d?assets/test_paint_042_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_042.unity3d?assets/test_paint_042_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_042.unity3d?assets/test_paint_042_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_043" name="txName_paintunlocked_test_test_paint_043" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_043.unity3d?assets/test_paint_043_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_043.unity3d?assets/test_paint_043_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_043.unity3d?assets/test_paint_043_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_044" name="txName_paintunlocked_test_test_paint_044" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_044.unity3d?assets/test_paint_044_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_044.unity3d?assets/test_paint_044_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_044.unity3d?assets/test_paint_044_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_045" name="txName_paintunlocked_test_test_paint_045" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_045.unity3d?assets/test_paint_045_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_045.unity3d?assets/test_paint_045_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_045.unity3d?assets/test_paint_045_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_046" name="txName_paintunlocked_test_test_paint_046" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_046.unity3d?assets/test_paint_046_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_046.unity3d?assets/test_paint_046_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_046.unity3d?assets/test_paint_046_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_047" name="txName_paintunlocked_test_test_paint_047" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_047.unity3d?assets/test_paint_047_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_047.unity3d?assets/test_paint_047_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_047.unity3d?assets/test_paint_047_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_048" name="txName_paintunlocked_test_test_paint_048" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_048.unity3d?assets/test_paint_048_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_048.unity3d?assets/test_paint_048_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_048.unity3d?assets/test_paint_048_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_049" name="txName_paintunlocked_test_test_paint_049" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_049.unity3d?assets/test_paint_049_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_049.unity3d?assets/test_paint_049_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_049.unity3d?assets/test_paint_049_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_050" name="txName_paintunlocked_test_test_paint_050" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_050.unity3d?assets/test_paint_050_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_050.unity3d?assets/test_paint_050_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_050.unity3d?assets/test_paint_050_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_051" name="txName_paintunlocked_test_test_paint_051" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_051.unity3d?assets/test_paint_051_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_051.unity3d?assets/test_paint_051_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_051.unity3d?assets/test_paint_051_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_052" name="txName_paintunlocked_test_test_paint_052" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_052.unity3d?assets/test_paint_052_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_052.unity3d?assets/test_paint_052_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_052.unity3d?assets/test_paint_052_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_053" name="txName_paintunlocked_test_test_paint_053" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_053.unity3d?assets/test_paint_053_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_053.unity3d?assets/test_paint_053_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_053.unity3d?assets/test_paint_053_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_054" name="txName_paintunlocked_test_test_paint_054" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_054.unity3d?assets/test_paint_054_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_054.unity3d?assets/test_paint_054_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_054.unity3d?assets/test_paint_054_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_055" name="txName_paintunlocked_test_test_paint_055" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_055.unity3d?assets/test_paint_055_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_055.unity3d?assets/test_paint_055_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_055.unity3d?assets/test_paint_055_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_056" name="txName_paintunlocked_test_test_paint_056" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_056.unity3d?assets/test_paint_056_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_056.unity3d?assets/test_paint_056_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_056.unity3d?assets/test_paint_056_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_057" name="txName_paintunlocked_test_test_paint_057" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_057.unity3d?assets/test_paint_057_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_057.unity3d?assets/test_paint_057_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_057.unity3d?assets/test_paint_057_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_058" name="txName_paintunlocked_test_test_paint_058" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_058.unity3d?assets/test_paint_058_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_058.unity3d?assets/test_paint_058_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_058.unity3d?assets/test_paint_058_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_059" name="txName_paintunlocked_test_test_paint_059" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_059.unity3d?assets/test_paint_059_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_059.unity3d?assets/test_paint_059_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_059.unity3d?assets/test_paint_059_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_060" name="txName_paintunlocked_test_test_paint_060" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_060.unity3d?assets/test_paint_060_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_060.unity3d?assets/test_paint_060_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_060.unity3d?assets/test_paint_060_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_061" name="txName_paintunlocked_test_test_paint_061" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_061.unity3d?assets/test_paint_061_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_061.unity3d?assets/test_paint_061_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_061.unity3d?assets/test_paint_061_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_062" name="txName_paintunlocked_test_test_paint_062" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_062.unity3d?assets/test_paint_062_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_062.unity3d?assets/test_paint_062_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_062.unity3d?assets/test_paint_062_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_063" name="txName_paintunlocked_test_test_paint_063" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_063.unity3d?assets/test_paint_063_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_063.unity3d?assets/test_paint_063_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_063.unity3d?assets/test_paint_063_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_064" name="txName_paintunlocked_test_test_paint_064" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_064.unity3d?assets/test_paint_064_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_064.unity3d?assets/test_paint_064_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_064.unity3d?assets/test_paint_064_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_065" name="txName_paintunlocked_test_test_paint_065" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_065.unity3d?assets/test_paint_065_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_065.unity3d?assets/test_paint_065_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_065.unity3d?assets/test_paint_065_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_066" name="txName_paintunlocked_test_test_paint_066" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_066.unity3d?assets/test_paint_066_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_066.unity3d?assets/test_paint_066_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_066.unity3d?assets/test_paint_066_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_067" name="txName_paintunlocked_test_test_paint_067" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_067.unity3d?assets/test_paint_067_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_067.unity3d?assets/test_paint_067_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_067.unity3d?assets/test_paint_067_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_068" name="txName_paintunlocked_test_test_paint_068" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_068.unity3d?assets/test_paint_068_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_068.unity3d?assets/test_paint_068_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_068.unity3d?assets/test_paint_068_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_069" name="txName_paintunlocked_test_test_paint_069" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_069.unity3d?assets/test_paint_069_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_069.unity3d?assets/test_paint_069_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_069.unity3d?assets/test_paint_069_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_070" name="txName_paintunlocked_test_test_paint_070" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_070.unity3d?assets/test_paint_070_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_070.unity3d?assets/test_paint_070_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_070.unity3d?assets/test_paint_070_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_071" name="txName_paintunlocked_test_test_paint_071" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_071.unity3d?assets/test_paint_071_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_071.unity3d?assets/test_paint_071_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_071.unity3d?assets/test_paint_071_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_072" name="txName_paintunlocked_test_test_paint_072" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_072.unity3d?assets/test_paint_072_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_072.unity3d?assets/test_paint_072_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_072.unity3d?assets/test_paint_072_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_073" name="txName_paintunlocked_test_test_paint_073" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_073.unity3d?assets/test_paint_073_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_073.unity3d?assets/test_paint_073_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_073.unity3d?assets/test_paint_073_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_074" name="txName_paintunlocked_test_test_paint_074" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_074.unity3d?assets/test_paint_074_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_074.unity3d?assets/test_paint_074_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_074.unity3d?assets/test_paint_074_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_075" name="txName_paintunlocked_test_test_paint_075" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_075.unity3d?assets/test_paint_075_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_075.unity3d?assets/test_paint_075_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_075.unity3d?assets/test_paint_075_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_076" name="txName_paintunlocked_test_test_paint_076" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_076.unity3d?assets/test_paint_076_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_076.unity3d?assets/test_paint_076_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_076.unity3d?assets/test_paint_076_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_077" name="txName_paintunlocked_test_test_paint_077" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_077.unity3d?assets/test_paint_077_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_077.unity3d?assets/test_paint_077_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_077.unity3d?assets/test_paint_077_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_078" name="txName_paintunlocked_test_test_paint_078" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_078.unity3d?assets/test_paint_078_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_078.unity3d?assets/test_paint_078_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_078.unity3d?assets/test_paint_078_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_079" name="txName_paintunlocked_test_test_paint_079" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_079.unity3d?assets/test_paint_079_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_079.unity3d?assets/test_paint_079_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_079.unity3d?assets/test_paint_079_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_080" name="txName_paintunlocked_test_test_paint_080" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_080.unity3d?assets/test_paint_080_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_080.unity3d?assets/test_paint_080_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_080.unity3d?assets/test_paint_080_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_081" name="txName_paintunlocked_test_test_paint_081" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_081.unity3d?assets/test_paint_081_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_081.unity3d?assets/test_paint_081_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_081.unity3d?assets/test_paint_081_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_082" name="txName_paintunlocked_test_test_paint_082" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_082.unity3d?assets/test_paint_082_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_082.unity3d?assets/test_paint_082_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_082.unity3d?assets/test_paint_082_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_083" name="txName_paintunlocked_test_test_paint_083" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_083.unity3d?assets/test_paint_083_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_083.unity3d?assets/test_paint_083_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_083.unity3d?assets/test_paint_083_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_084" name="txName_paintunlocked_test_test_paint_084" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_084.unity3d?assets/test_paint_084_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_084.unity3d?assets/test_paint_084_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_084.unity3d?assets/test_paint_084_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_085" name="txName_paintunlocked_test_test_paint_085" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_085.unity3d?assets/test_paint_085_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_085.unity3d?assets/test_paint_085_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_085.unity3d?assets/test_paint_085_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_086" name="txName_paintunlocked_test_test_paint_086" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_086.unity3d?assets/test_paint_086_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_086.unity3d?assets/test_paint_086_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_086.unity3d?assets/test_paint_086_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_087" name="txName_paintunlocked_test_test_paint_087" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_087.unity3d?assets/test_paint_087_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_087.unity3d?assets/test_paint_087_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_087.unity3d?assets/test_paint_087_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_088" name="txName_paintunlocked_test_test_paint_088" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_088.unity3d?assets/test_paint_088_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_088.unity3d?assets/test_paint_088_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_088.unity3d?assets/test_paint_088_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_089" name="txName_paintunlocked_test_test_paint_089" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_089.unity3d?assets/test_paint_089_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_089.unity3d?assets/test_paint_089_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_089.unity3d?assets/test_paint_089_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_090" name="txName_paintunlocked_test_test_paint_090" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_090.unity3d?assets/test_paint_090_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_090.unity3d?assets/test_paint_090_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_090.unity3d?assets/test_paint_090_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_091" name="txName_paintunlocked_test_test_paint_091" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_091.unity3d?assets/test_paint_091_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_091.unity3d?assets/test_paint_091_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_091.unity3d?assets/test_paint_091_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_092" name="txName_paintunlocked_test_test_paint_092" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_092.unity3d?assets/test_paint_092_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_092.unity3d?assets/test_paint_092_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_092.unity3d?assets/test_paint_092_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_093" name="txName_paintunlocked_test_test_paint_093" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_093.unity3d?assets/test_paint_093_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_093.unity3d?assets/test_paint_093_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_093.unity3d?assets/test_paint_093_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_094" name="txName_paintunlocked_test_test_paint_094" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_094.unity3d?assets/test_paint_094_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_094.unity3d?assets/test_paint_094_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_094.unity3d?assets/test_paint_094_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_095" name="txName_paintunlocked_test_test_paint_095" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_095.unity3d?assets/test_paint_095_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_095.unity3d?assets/test_paint_095_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_095.unity3d?assets/test_paint_095_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_096" name="txName_paintunlocked_test_test_paint_096" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_096.unity3d?assets/test_paint_096_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_096.unity3d?assets/test_paint_096_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_096.unity3d?assets/test_paint_096_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_097" name="txName_paintunlocked_test_test_paint_097" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_097.unity3d?assets/test_paint_097_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_097.unity3d?assets/test_paint_097_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_097.unity3d?assets/test_paint_097_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_098" name="txName_paintunlocked_test_test_paint_098" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_098.unity3d?assets/test_paint_098_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_098.unity3d?assets/test_paint_098_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_098.unity3d?assets/test_paint_098_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_099" name="txName_paintunlocked_test_test_paint_099" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_099.unity3d?assets/test_paint_099_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_099.unity3d?assets/test_paint_099_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_099.unity3d?assets/test_paint_099_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_100" name="txName_paintunlocked_test_test_paint_100" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_100.unity3d?assets/test_paint_100_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_100.unity3d?assets/test_paint_100_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_100.unity3d?assets/test_paint_100_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_101" name="txName_paintunlocked_test_test_paint_101" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_101.unity3d?assets/test_paint_101_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_101.unity3d?assets/test_paint_101_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_101.unity3d?assets/test_paint_101_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_102" name="txName_paintunlocked_test_test_paint_102" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_102.unity3d?assets/test_paint_102_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_102.unity3d?assets/test_paint_102_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_102.unity3d?assets/test_paint_102_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_103" name="txName_paintunlocked_test_test_paint_103" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_103.unity3d?assets/test_paint_103_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_103.unity3d?assets/test_paint_103_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_103.unity3d?assets/test_paint_103_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_104" name="txName_paintunlocked_test_test_paint_104" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_104.unity3d?assets/test_paint_104_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_104.unity3d?assets/test_paint_104_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_104.unity3d?assets/test_paint_104_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_105" name="txName_paintunlocked_test_test_paint_105" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_105.unity3d?assets/test_paint_105_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_105.unity3d?assets/test_paint_105_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_105.unity3d?assets/test_paint_105_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_106" name="txName_paintunlocked_test_test_paint_106" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_106.unity3d?assets/test_paint_106_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_106.unity3d?assets/test_paint_106_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_106.unity3d?assets/test_paint_106_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_107" name="txName_paintunlocked_test_test_paint_107" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_107.unity3d?assets/test_paint_107_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_107.unity3d?assets/test_paint_107_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_107.unity3d?assets/test_paint_107_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_108" name="txName_paintunlocked_test_test_paint_108" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_108.unity3d?assets/test_paint_108_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_108.unity3d?assets/test_paint_108_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_108.unity3d?assets/test_paint_108_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_109" name="txName_paintunlocked_test_test_paint_109" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_109.unity3d?assets/test_paint_109_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_109.unity3d?assets/test_paint_109_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_109.unity3d?assets/test_paint_109_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_110" name="txName_paintunlocked_test_test_paint_110" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_110.unity3d?assets/test_paint_110_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_110.unity3d?assets/test_paint_110_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_110.unity3d?assets/test_paint_110_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_111" name="txName_paintunlocked_test_test_paint_111" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_111.unity3d?assets/test_paint_111_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_111.unity3d?assets/test_paint_111_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_111.unity3d?assets/test_paint_111_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_112" name="txName_paintunlocked_test_test_paint_112" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_112.unity3d?assets/test_paint_112_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_112.unity3d?assets/test_paint_112_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_112.unity3d?assets/test_paint_112_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_113" name="txName_paintunlocked_test_test_paint_113" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_113.unity3d?assets/test_paint_113_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_113.unity3d?assets/test_paint_113_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_113.unity3d?assets/test_paint_113_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_114" name="txName_paintunlocked_test_test_paint_114" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_114.unity3d?assets/test_paint_114_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_114.unity3d?assets/test_paint_114_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_114.unity3d?assets/test_paint_114_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_115" name="txName_paintunlocked_test_test_paint_115" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_115.unity3d?assets/test_paint_115_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_115.unity3d?assets/test_paint_115_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_115.unity3d?assets/test_paint_115_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_116" name="txName_paintunlocked_test_test_paint_116" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_116.unity3d?assets/test_paint_116_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_116.unity3d?assets/test_paint_116_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_116.unity3d?assets/test_paint_116_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_117" name="txName_paintunlocked_test_test_paint_117" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_117.unity3d?assets/test_paint_117_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_117.unity3d?assets/test_paint_117_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_117.unity3d?assets/test_paint_117_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_118" name="txName_paintunlocked_test_test_paint_118" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_118.unity3d?assets/test_paint_118_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_118.unity3d?assets/test_paint_118_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_118.unity3d?assets/test_paint_118_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_119" name="txName_paintunlocked_test_test_paint_119" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_119.unity3d?assets/test_paint_119_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_119.unity3d?assets/test_paint_119_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_119.unity3d?assets/test_paint_119_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_120" name="txName_paintunlocked_test_test_paint_120" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_120.unity3d?assets/test_paint_120_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_120.unity3d?assets/test_paint_120_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_120.unity3d?assets/test_paint_120_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_121" name="txName_paintunlocked_test_test_paint_121" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_121.unity3d?assets/test_paint_121_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_121.unity3d?assets/test_paint_121_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_121.unity3d?assets/test_paint_121_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_122" name="txName_paintunlocked_test_test_paint_122" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_122.unity3d?assets/test_paint_122_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_122.unity3d?assets/test_paint_122_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_122.unity3d?assets/test_paint_122_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_123" name="txName_paintunlocked_test_test_paint_123" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_123.unity3d?assets/test_paint_123_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_123.unity3d?assets/test_paint_123_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_123.unity3d?assets/test_paint_123_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_124" name="txName_paintunlocked_test_test_paint_124" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_124.unity3d?assets/test_paint_124_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_124.unity3d?assets/test_paint_124_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_124.unity3d?assets/test_paint_124_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_125" name="txName_paintunlocked_test_test_paint_125" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_125.unity3d?assets/test_paint_125_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_125.unity3d?assets/test_paint_125_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_125.unity3d?assets/test_paint_125_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_126" name="txName_paintunlocked_test_test_paint_126" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_126.unity3d?assets/test_paint_126_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_126.unity3d?assets/test_paint_126_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_126.unity3d?assets/test_paint_126_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_127" name="txName_paintunlocked_test_test_paint_127" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_127.unity3d?assets/test_paint_127_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_127.unity3d?assets/test_paint_127_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_127.unity3d?assets/test_paint_127_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_128" name="txName_paintunlocked_test_test_paint_128" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_128.unity3d?assets/test_paint_128_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_128.unity3d?assets/test_paint_128_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_128.unity3d?assets/test_paint_128_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_129" name="txName_paintunlocked_test_test_paint_129" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_129.unity3d?assets/test_paint_129_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_129.unity3d?assets/test_paint_129_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_129.unity3d?assets/test_paint_129_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_130" name="txName_paintunlocked_test_test_paint_130" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_130.unity3d?assets/test_paint_130_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_130.unity3d?assets/test_paint_130_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_130.unity3d?assets/test_paint_130_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_131" name="txName_paintunlocked_test_test_paint_131" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_131.unity3d?assets/test_paint_131_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_131.unity3d?assets/test_paint_131_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_131.unity3d?assets/test_paint_131_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_132" name="txName_paintunlocked_test_test_paint_132" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_132.unity3d?assets/test_paint_132_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_132.unity3d?assets/test_paint_132_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_132.unity3d?assets/test_paint_132_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_133" name="txName_paintunlocked_test_test_paint_133" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_133.unity3d?assets/test_paint_133_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_133.unity3d?assets/test_paint_133_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_133.unity3d?assets/test_paint_133_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_134" name="txName_paintunlocked_test_test_paint_134" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_134.unity3d?assets/test_paint_134_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_134.unity3d?assets/test_paint_134_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_134.unity3d?assets/test_paint_134_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_135" name="txName_paintunlocked_test_test_paint_135" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_135.unity3d?assets/test_paint_135_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_135.unity3d?assets/test_paint_135_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_135.unity3d?assets/test_paint_135_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_136" name="txName_paintunlocked_test_test_paint_136" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_136.unity3d?assets/test_paint_136_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_136.unity3d?assets/test_paint_136_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_136.unity3d?assets/test_paint_136_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_137" name="txName_paintunlocked_test_test_paint_137" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_137.unity3d?assets/test_paint_137_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_137.unity3d?assets/test_paint_137_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_137.unity3d?assets/test_paint_137_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_138" name="txName_paintunlocked_test_test_paint_138" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_138.unity3d?assets/test_paint_138_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_138.unity3d?assets/test_paint_138_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_138.unity3d?assets/test_paint_138_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_139" name="txName_paintunlocked_test_test_paint_139" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_139.unity3d?assets/test_paint_139_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_139.unity3d?assets/test_paint_139_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_139.unity3d?assets/test_paint_139_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_140" name="txName_paintunlocked_test_test_paint_140" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_140.unity3d?assets/test_paint_140_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_140.unity3d?assets/test_paint_140_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_140.unity3d?assets/test_paint_140_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_141" name="txName_paintunlocked_test_test_paint_141" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_141.unity3d?assets/test_paint_141_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_141.unity3d?assets/test_paint_141_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_141.unity3d?assets/test_paint_141_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_142" name="txName_paintunlocked_test_test_paint_142" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_142.unity3d?assets/test_paint_142_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_142.unity3d?assets/test_paint_142_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_142.unity3d?assets/test_paint_142_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_143" name="txName_paintunlocked_test_test_paint_143" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_143.unity3d?assets/test_paint_143_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_143.unity3d?assets/test_paint_143_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_143.unity3d?assets/test_paint_143_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_144" name="txName_paintunlocked_test_test_paint_144" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_144.unity3d?assets/test_paint_144_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_144.unity3d?assets/test_paint_144_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_144.unity3d?assets/test_paint_144_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_145" name="txName_paintunlocked_test_test_paint_145" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_145.unity3d?assets/test_paint_145_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_145.unity3d?assets/test_paint_145_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_145.unity3d?assets/test_paint_145_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_146" name="txName_paintunlocked_test_test_paint_146" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_146.unity3d?assets/test_paint_146_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_146.unity3d?assets/test_paint_146_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_146.unity3d?assets/test_paint_146_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_147" name="txName_paintunlocked_test_test_paint_147" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_147.unity3d?assets/test_paint_147_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_147.unity3d?assets/test_paint_147_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_147.unity3d?assets/test_paint_147_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_148" name="txName_paintunlocked_test_test_paint_148" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_148.unity3d?assets/test_paint_148_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_148.unity3d?assets/test_paint_148_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_148.unity3d?assets/test_paint_148_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_149" name="txName_paintunlocked_test_test_paint_149" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_149.unity3d?assets/test_paint_149_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_149.unity3d?assets/test_paint_149_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_149.unity3d?assets/test_paint_149_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_150" name="txName_paintunlocked_test_test_paint_150" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_150.unity3d?assets/test_paint_150_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_150.unity3d?assets/test_paint_150_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_150.unity3d?assets/test_paint_150_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_151" name="txName_paintunlocked_test_test_paint_151" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_151.unity3d?assets/test_paint_151_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_151.unity3d?assets/test_paint_151_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_151.unity3d?assets/test_paint_151_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_152" name="txName_paintunlocked_test_test_paint_152" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_152.unity3d?assets/test_paint_152_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_152.unity3d?assets/test_paint_152_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_152.unity3d?assets/test_paint_152_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_153" name="txName_paintunlocked_test_test_paint_153" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_153.unity3d?assets/test_paint_153_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_153.unity3d?assets/test_paint_153_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_153.unity3d?assets/test_paint_153_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_154" name="txName_paintunlocked_test_test_paint_154" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_154.unity3d?assets/test_paint_154_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_154.unity3d?assets/test_paint_154_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_154.unity3d?assets/test_paint_154_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_155" name="txName_paintunlocked_test_test_paint_155" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_155.unity3d?assets/test_paint_155_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_155.unity3d?assets/test_paint_155_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_155.unity3d?assets/test_paint_155_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_156" name="txName_paintunlocked_test_test_paint_156" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_156.unity3d?assets/test_paint_156_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_156.unity3d?assets/test_paint_156_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_156.unity3d?assets/test_paint_156_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_157" name="txName_paintunlocked_test_test_paint_157" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_157.unity3d?assets/test_paint_157_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_157.unity3d?assets/test_paint_157_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_157.unity3d?assets/test_paint_157_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_158" name="txName_paintunlocked_test_test_paint_158" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_158.unity3d?assets/test_paint_158_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_158.unity3d?assets/test_paint_158_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_158.unity3d?assets/test_paint_158_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_159" name="txName_paintunlocked_test_test_paint_159" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_159.unity3d?assets/test_paint_159_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_159.unity3d?assets/test_paint_159_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_159.unity3d?assets/test_paint_159_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_160" name="txName_paintunlocked_test_test_paint_160" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_160.unity3d?assets/test_paint_160_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_160.unity3d?assets/test_paint_160_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_160.unity3d?assets/test_paint_160_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_161" name="txName_paintunlocked_test_test_paint_161" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_161.unity3d?assets/test_paint_161_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_161.unity3d?assets/test_paint_161_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_161.unity3d?assets/test_paint_161_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_162" name="txName_paintunlocked_test_test_paint_162" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_162.unity3d?assets/test_paint_162_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_162.unity3d?assets/test_paint_162_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_162.unity3d?assets/test_paint_162_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_163" name="txName_paintunlocked_test_test_paint_163" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_163.unity3d?assets/test_paint_163_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_163.unity3d?assets/test_paint_163_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_163.unity3d?assets/test_paint_163_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_164" name="txName_paintunlocked_test_test_paint_164" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_164.unity3d?assets/test_paint_164_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_164.unity3d?assets/test_paint_164_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_164.unity3d?assets/test_paint_164_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_165" name="txName_paintunlocked_test_test_paint_165" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_165.unity3d?assets/test_paint_165_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_165.unity3d?assets/test_paint_165_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_165.unity3d?assets/test_paint_165_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_166" name="txName_paintunlocked_test_test_paint_166" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_166.unity3d?assets/test_paint_166_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_166.unity3d?assets/test_paint_166_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_166.unity3d?assets/test_paint_166_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_167" name="txName_paintunlocked_test_test_paint_167" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_167.unity3d?assets/test_paint_167_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_167.unity3d?assets/test_paint_167_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_167.unity3d?assets/test_paint_167_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_168" name="txName_paintunlocked_test_test_paint_168" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_168.unity3d?assets/test_paint_168_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_168.unity3d?assets/test_paint_168_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_168.unity3d?assets/test_paint_168_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_169" name="txName_paintunlocked_test_test_paint_169" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_169.unity3d?assets/test_paint_169_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_169.unity3d?assets/test_paint_169_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_169.unity3d?assets/test_paint_169_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_170" name="txName_paintunlocked_test_test_paint_170" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_170.unity3d?assets/test_paint_170_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_170.unity3d?assets/test_paint_170_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_170.unity3d?assets/test_paint_170_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_171" name="txName_paintunlocked_test_test_paint_171" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_171.unity3d?assets/test_paint_171_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_171.unity3d?assets/test_paint_171_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_171.unity3d?assets/test_paint_171_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_172" name="txName_paintunlocked_test_test_paint_172" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_172.unity3d?assets/test_paint_172_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_172.unity3d?assets/test_paint_172_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_172.unity3d?assets/test_paint_172_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_173" name="txName_paintunlocked_test_test_paint_173" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_173.unity3d?assets/test_paint_173_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_173.unity3d?assets/test_paint_173_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_173.unity3d?assets/test_paint_173_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_174" name="txName_paintunlocked_test_test_paint_174" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_174.unity3d?assets/test_paint_174_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_174.unity3d?assets/test_paint_174_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_174.unity3d?assets/test_paint_174_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_175" name="txName_paintunlocked_test_test_paint_175" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_175.unity3d?assets/test_paint_175_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_175.unity3d?assets/test_paint_175_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_175.unity3d?assets/test_paint_175_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_176" name="txName_paintunlocked_test_test_paint_176" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_176.unity3d?assets/test_paint_176_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_176.unity3d?assets/test_paint_176_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_176.unity3d?assets/test_paint_176_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_177" name="txName_paintunlocked_test_test_paint_177" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_177.unity3d?assets/test_paint_177_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_177.unity3d?assets/test_paint_177_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_177.unity3d?assets/test_paint_177_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_178" name="txName_paintunlocked_test_test_paint_178" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_178.unity3d?assets/test_paint_178_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_178.unity3d?assets/test_paint_178_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_178.unity3d?assets/test_paint_178_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_179" name="txName_paintunlocked_test_test_paint_179" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_179.unity3d?assets/test_paint_179_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_179.unity3d?assets/test_paint_179_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_179.unity3d?assets/test_paint_179_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_180" name="txName_paintunlocked_test_test_paint_180" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_180.unity3d?assets/test_paint_180_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_180.unity3d?assets/test_paint_180_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_180.unity3d?assets/test_paint_180_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_181" name="txName_paintunlocked_test_test_paint_181" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_181.unity3d?assets/test_paint_181_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_181.unity3d?assets/test_paint_181_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_181.unity3d?assets/test_paint_181_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_182" name="txName_paintunlocked_test_test_paint_182" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_182.unity3d?assets/test_paint_182_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_182.unity3d?assets/test_paint_182_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_182.unity3d?assets/test_paint_182_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_183" name="txName_paintunlocked_test_test_paint_183" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_183.unity3d?assets/test_paint_183_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_183.unity3d?assets/test_paint_183_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_183.unity3d?assets/test_paint_183_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_184" name="txName_paintunlocked_test_test_paint_184" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_184.unity3d?assets/test_paint_184_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_184.unity3d?assets/test_paint_184_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_184.unity3d?assets/test_paint_184_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_185" name="txName_paintunlocked_test_test_paint_185" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_185.unity3d?assets/test_paint_185_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_185.unity3d?assets/test_paint_185_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_185.unity3d?assets/test_paint_185_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_186" name="txName_paintunlocked_test_test_paint_186" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_186.unity3d?assets/test_paint_186_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_186.unity3d?assets/test_paint_186_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_186.unity3d?assets/test_paint_186_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_187" name="txName_paintunlocked_test_test_paint_187" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_187.unity3d?assets/test_paint_187_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_187.unity3d?assets/test_paint_187_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_187.unity3d?assets/test_paint_187_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_188" name="txName_paintunlocked_test_test_paint_188" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_188.unity3d?assets/test_paint_188_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_188.unity3d?assets/test_paint_188_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_188.unity3d?assets/test_paint_188_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_189" name="txName_paintunlocked_test_test_paint_189" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_189.unity3d?assets/test_paint_189_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_189.unity3d?assets/test_paint_189_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_189.unity3d?assets/test_paint_189_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_190" name="txName_paintunlocked_test_test_paint_190" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_190.unity3d?assets/test_paint_190_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_190.unity3d?assets/test_paint_190_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_190.unity3d?assets/test_paint_190_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_191" name="txName_paintunlocked_test_test_paint_191" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_191.unity3d?assets/test_paint_191_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_191.unity3d?assets/test_paint_191_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_191.unity3d?assets/test_paint_191_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_192" name="txName_paintunlocked_test_test_paint_192" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_192.unity3d?assets/test_paint_192_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_192.unity3d?assets/test_paint_192_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_192.unity3d?assets/test_paint_192_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_193" name="txName_paintunlocked_test_test_paint_193" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_193.unity3d?assets/test_paint_193_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_193.unity3d?assets/test_paint_193_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_193.unity3d?assets/test_paint_193_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_194" name="txName_paintunlocked_test_test_paint_194" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_194.unity3d?assets/test_paint_194_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_194.unity3d?assets/test_paint_194_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_194.unity3d?assets/test_paint_194_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_195" name="txName_paintunlocked_test_test_paint_195" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_195.unity3d?assets/test_paint_195_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_195.unity3d?assets/test_paint_195_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_195.unity3d?assets/test_paint_195_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_196" name="txName_paintunlocked_test_test_paint_196" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_196.unity3d?assets/test_paint_196_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_196.unity3d?assets/test_paint_196_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_196.unity3d?assets/test_paint_196_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_197" name="txName_paintunlocked_test_test_paint_197" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_197.unity3d?assets/test_paint_197_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_197.unity3d?assets/test_paint_197_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_197.unity3d?assets/test_paint_197_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_198" name="txName_paintunlocked_test_test_paint_198" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_198.unity3d?assets/test_paint_198_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_198.unity3d?assets/test_paint_198_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_198.unity3d?assets/test_paint_198_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_199" name="txName_paintunlocked_test_test_paint_199" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_199.unity3d?assets/test_paint_199_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_199.unity3d?assets/test_paint_199_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_199.unity3d?assets/test_paint_199_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_200" name="txName_paintunlocked_test_test_paint_200" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_200.unity3d?assets/test_paint_200_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_200.unity3d?assets/test_paint_200_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_200.unity3d?assets/test_paint_200_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_201" name="txName_paintunlocked_test_test_paint_201" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_201.unity3d?assets/test_paint_201_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_201.unity3d?assets/test_paint_201_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_201.unity3d?assets/test_paint_201_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_202" name="txName_paintunlocked_test_test_paint_202" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_202.unity3d?assets/test_paint_202_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_202.unity3d?assets/test_paint_202_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_202.unity3d?assets/test_paint_202_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_203" name="txName_paintunlocked_test_test_paint_203" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_203.unity3d?assets/test_paint_203_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_203.unity3d?assets/test_paint_203_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_203.unity3d?assets/test_paint_203_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_204" name="txName_paintunlocked_test_test_paint_204" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_204.unity3d?assets/test_paint_204_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_204.unity3d?assets/test_paint_204_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_204.unity3d?assets/test_paint_204_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_205" name="txName_paintunlocked_test_test_paint_205" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_205.unity3d?assets/test_paint_205_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_205.unity3d?assets/test_paint_205_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_205.unity3d?assets/test_paint_205_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_206" name="txName_paintunlocked_test_test_paint_206" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_206.unity3d?assets/test_paint_206_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_206.unity3d?assets/test_paint_206_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_206.unity3d?assets/test_paint_206_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_207" name="txName_paintunlocked_test_test_paint_207" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_207.unity3d?assets/test_paint_207_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_207.unity3d?assets/test_paint_207_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_207.unity3d?assets/test_paint_207_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_208" name="txName_paintunlocked_test_test_paint_208" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_208.unity3d?assets/test_paint_208_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_208.unity3d?assets/test_paint_208_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_208.unity3d?assets/test_paint_208_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_209" name="txName_paintunlocked_test_test_paint_209" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_209.unity3d?assets/test_paint_209_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_209.unity3d?assets/test_paint_209_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_209.unity3d?assets/test_paint_209_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_210" name="txName_paintunlocked_test_test_paint_210" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_210.unity3d?assets/test_paint_210_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_210.unity3d?assets/test_paint_210_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_210.unity3d?assets/test_paint_210_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_211" name="txName_paintunlocked_test_test_paint_211" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_211.unity3d?assets/test_paint_211_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_211.unity3d?assets/test_paint_211_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_211.unity3d?assets/test_paint_211_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_212" name="txName_paintunlocked_test_test_paint_212" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_212.unity3d?assets/test_paint_212_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_212.unity3d?assets/test_paint_212_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_212.unity3d?assets/test_paint_212_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_213" name="txName_paintunlocked_test_test_paint_213" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_213.unity3d?assets/test_paint_213_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_213.unity3d?assets/test_paint_213_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_213.unity3d?assets/test_paint_213_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_214" name="txName_paintunlocked_test_test_paint_214" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_214.unity3d?assets/test_paint_214_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_214.unity3d?assets/test_paint_214_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_214.unity3d?assets/test_paint_214_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_215" name="txName_paintunlocked_test_test_paint_215" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_215.unity3d?assets/test_paint_215_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_215.unity3d?assets/test_paint_215_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_215.unity3d?assets/test_paint_215_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_216" name="txName_paintunlocked_test_test_paint_216" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_216.unity3d?assets/test_paint_216_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_216.unity3d?assets/test_paint_216_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_216.unity3d?assets/test_paint_216_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_217" name="txName_paintunlocked_test_test_paint_217" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_217.unity3d?assets/test_paint_217_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_217.unity3d?assets/test_paint_217_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_217.unity3d?assets/test_paint_217_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_218" name="txName_paintunlocked_test_test_paint_218" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_218.unity3d?assets/test_paint_218_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_218.unity3d?assets/test_paint_218_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_218.unity3d?assets/test_paint_218_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_219" name="txName_paintunlocked_test_test_paint_219" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_219.unity3d?assets/test_paint_219_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_219.unity3d?assets/test_paint_219_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_219.unity3d?assets/test_paint_219_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_220" name="txName_paintunlocked_test_test_paint_220" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_220.unity3d?assets/test_paint_220_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_220.unity3d?assets/test_paint_220_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_220.unity3d?assets/test_paint_220_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_221" name="txName_paintunlocked_test_test_paint_221" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_221.unity3d?assets/test_paint_221_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_221.unity3d?assets/test_paint_221_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_221.unity3d?assets/test_paint_221_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_222" name="txName_paintunlocked_test_test_paint_222" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_222.unity3d?assets/test_paint_222_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_222.unity3d?assets/test_paint_222_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_222.unity3d?assets/test_paint_222_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_223" name="txName_paintunlocked_test_test_paint_223" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_223.unity3d?assets/test_paint_223_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_223.unity3d?assets/test_paint_223_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_223.unity3d?assets/test_paint_223_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_224" name="txName_paintunlocked_test_test_paint_224" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_224.unity3d?assets/test_paint_224_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_224.unity3d?assets/test_paint_224_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_224.unity3d?assets/test_paint_224_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_225" name="txName_paintunlocked_test_test_paint_225" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_225.unity3d?assets/test_paint_225_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_225.unity3d?assets/test_paint_225_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_225.unity3d?assets/test_paint_225_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_226" name="txName_paintunlocked_test_test_paint_226" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_226.unity3d?assets/test_paint_226_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_226.unity3d?assets/test_paint_226_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_226.unity3d?assets/test_paint_226_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_227" name="txName_paintunlocked_test_test_paint_227" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_227.unity3d?assets/test_paint_227_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_227.unity3d?assets/test_paint_227_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_227.unity3d?assets/test_paint_227_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_228" name="txName_paintunlocked_test_test_paint_228" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_228.unity3d?assets/test_paint_228_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_228.unity3d?assets/test_paint_228_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_228.unity3d?assets/test_paint_228_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_229" name="txName_paintunlocked_test_test_paint_229" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_229.unity3d?assets/test_paint_229_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_229.unity3d?assets/test_paint_229_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_229.unity3d?assets/test_paint_229_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_230" name="txName_paintunlocked_test_test_paint_230" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_230.unity3d?assets/test_paint_230_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_230.unity3d?assets/test_paint_230_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_230.unity3d?assets/test_paint_230_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_231" name="txName_paintunlocked_test_test_paint_231" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_231.unity3d?assets/test_paint_231_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_231.unity3d?assets/test_paint_231_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_231.unity3d?assets/test_paint_231_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_232" name="txName_paintunlocked_test_test_paint_232" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_232.unity3d?assets/test_paint_232_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_232.unity3d?assets/test_paint_232_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_232.unity3d?assets/test_paint_232_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_233" name="txName_paintunlocked_test_test_paint_233" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_233.unity3d?assets/test_paint_233_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_233.unity3d?assets/test_paint_233_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_233.unity3d?assets/test_paint_233_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_234" name="txName_paintunlocked_test_test_paint_234" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_234.unity3d?assets/test_paint_234_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_234.unity3d?assets/test_paint_234_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_234.unity3d?assets/test_paint_234_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_235" name="txName_paintunlocked_test_test_paint_235" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_235.unity3d?assets/test_paint_235_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_235.unity3d?assets/test_paint_235_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_235.unity3d?assets/test_paint_235_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_236" name="txName_paintunlocked_test_test_paint_236" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_236.unity3d?assets/test_paint_236_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_236.unity3d?assets/test_paint_236_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_236.unity3d?assets/test_paint_236_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_237" name="txName_paintunlocked_test_test_paint_237" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_237.unity3d?assets/test_paint_237_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_237.unity3d?assets/test_paint_237_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_237.unity3d?assets/test_paint_237_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_238" name="txName_paintunlocked_test_test_paint_238" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_238.unity3d?assets/test_paint_238_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_238.unity3d?assets/test_paint_238_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_238.unity3d?assets/test_paint_238_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_239" name="txName_paintunlocked_test_test_paint_239" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_239.unity3d?assets/test_paint_239_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_239.unity3d?assets/test_paint_239_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_239.unity3d?assets/test_paint_239_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_240" name="txName_paintunlocked_test_test_paint_240" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_240.unity3d?assets/test_paint_240_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_240.unity3d?assets/test_paint_240_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_240.unity3d?assets/test_paint_240_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_241" name="txName_paintunlocked_test_test_paint_241" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_241.unity3d?assets/test_paint_241_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_241.unity3d?assets/test_paint_241_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_241.unity3d?assets/test_paint_241_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_242" name="txName_paintunlocked_test_test_paint_242" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_242.unity3d?assets/test_paint_242_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_242.unity3d?assets/test_paint_242_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_242.unity3d?assets/test_paint_242_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_243" name="txName_paintunlocked_test_test_paint_243" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_243.unity3d?assets/test_paint_243_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_243.unity3d?assets/test_paint_243_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_243.unity3d?assets/test_paint_243_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_244" name="txName_paintunlocked_test_test_paint_244" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_244.unity3d?assets/test_paint_244_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_244.unity3d?assets/test_paint_244_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_244.unity3d?assets/test_paint_244_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_245" name="txName_paintunlocked_test_test_paint_245" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_245.unity3d?assets/test_paint_245_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_245.unity3d?assets/test_paint_245_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_245.unity3d?assets/test_paint_245_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_246" name="txName_paintunlocked_test_test_paint_246" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_246.unity3d?assets/test_paint_246_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_246.unity3d?assets/test_paint_246_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_246.unity3d?assets/test_paint_246_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_247" name="txName_paintunlocked_test_test_paint_247" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_247.unity3d?assets/test_paint_247_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_247.unity3d?assets/test_paint_247_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_247.unity3d?assets/test_paint_247_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_248" name="txName_paintunlocked_test_test_paint_248" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_248.unity3d?assets/test_paint_248_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_248.unity3d?assets/test_paint_248_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_248.unity3d?assets/test_paint_248_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_249" name="txName_paintunlocked_test_test_paint_249" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_249.unity3d?assets/test_paint_249_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_249.unity3d?assets/test_paint_249_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_249.unity3d?assets/test_paint_249_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_250" name="txName_paintunlocked_test_test_paint_250" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_250.unity3d?assets/test_paint_250_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_250.unity3d?assets/test_paint_250_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_250.unity3d?assets/test_paint_250_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_251" name="txName_paintunlocked_test_test_paint_251" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_251.unity3d?assets/test_paint_251_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_251.unity3d?assets/test_paint_251_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_251.unity3d?assets/test_paint_251_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_252" name="txName_paintunlocked_test_test_paint_252" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_252.unity3d?assets/test_paint_252_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_252.unity3d?assets/test_paint_252_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_252.unity3d?assets/test_paint_252_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_253" name="txName_paintunlocked_test_test_paint_253" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_253.unity3d?assets/test_paint_253_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_253.unity3d?assets/test_paint_253_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_253.unity3d?assets/test_paint_253_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_254" name="txName_paintunlocked_test_test_paint_254" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_254.unity3d?assets/test_paint_254_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_254.unity3d?assets/test_paint_254_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_254.unity3d?assets/test_paint_254_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_255" name="txName_paintunlocked_test_test_paint_255" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_255.unity3d?assets/test_paint_255_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_255.unity3d?assets/test_paint_255_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_255.unity3d?assets/test_paint_255_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_256" name="txName_paintunlocked_test_test_paint_256" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_256.unity3d?assets/test_paint_256_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_256.unity3d?assets/test_paint_256_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_256.unity3d?assets/test_paint_256_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_257" name="txName_paintunlocked_test_test_paint_257" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_257.unity3d?assets/test_paint_257_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_257.unity3d?assets/test_paint_257_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_257.unity3d?assets/test_paint_257_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_258" name="txName_paintunlocked_test_test_paint_258" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_258.unity3d?assets/test_paint_258_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_258.unity3d?assets/test_paint_258_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_258.unity3d?assets/test_paint_258_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_259" name="txName_paintunlocked_test_test_paint_259" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_259.unity3d?assets/test_paint_259_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_259.unity3d?assets/test_paint_259_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_259.unity3d?assets/test_paint_259_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+  <opaque id="paintunlocked_test_test_paint_260" name="txName_paintunlocked_test_test_paint_260" x="0" y="0" w="1" h="1" blockw="1" blockh="1">
+    <property name="Diffuse"   value="#@modfolder:Resources/Atlas_260.unity3d?assets/test_paint_260_diffuse.png"/>
+    <property name="Normal"    value="#@modfolder:Resources/Atlas_260.unity3d?assets/test_paint_260_normal.png"/>
+    <property name="Specular"  value="#@modfolder:Resources/Atlas_260.unity3d?assets/test_paint_260_specular.png"/>
+    <property name="PaintCost" value="1"/>
+    <property name="Hidden"    value="false"/>
+    <property name="Group"     value="txGroupCustom"/>
+    <property name="SortIndex" value="255"/>
+  </opaque>
+</append></configs>

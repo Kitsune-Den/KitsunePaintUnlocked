@@ -1,0 +1,148 @@
+Dumping ALL methods from ALL types:
+
+
+=== OcbCustomTextures+<>c ===
+  Boolean <ResolveTexture>b__7_0(Char x)  [18b IL: 03-1F-30-32-05-03-1F-39-31-06-03-1F-2C-FE-01-2A-17-2A]
+  Boolean <ResolveTexture>b__7_1(Char x)  [18b IL: 03-1F-30-32-05-03-1F-39-31-06-03-1F-2C-FE-01-2A-17-2A]
+  Boolean <ResolveTextureIDs>b__8_0(Char x)  [18b IL: 03-1F-30-32-05-03-1F-39-31-06-03-1F-2C-FE-01-2A-17-2A]
+
+=== OpaqueTextures+<>c ===
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== HelperGrassTextures+<StartGrassHelper>d__0 ===
+  Void System.IDisposable.Dispose()  [9b IL: 02-1F-FE-7D-33-00-00-04-2A]
+  Boolean MoveNext()  [80b IL: 02-7B-33-00-00-04-0A-06-2C-06-06-17-2E-39-16-2A-02-15-7D-33-00-00-04-02-7B-35-00-00-04-02-7B-36-00-00-04-02-7B-37-00-00-04-28-2C-00-00-06-02-22-00-00-80-3F-73-19-01-00-0A-7D-34-00-00-04-02-17-7D-33-00-00-04-17-2A-02-15-7D-33-00-00-04-2B-C7]
+  Object System.Collections.Generic.IEnumerator<System.Object>.get_Current()  [7b IL: 02-7B-34-00-00-04-2A]
+  Void System.Collections.IEnumerator.Reset()  [6b IL: 73-1A-01-00-0A-7A]
+  Object System.Collections.IEnumerator.get_Current()  [7b IL: 02-7B-34-00-00-04-2A]
+
+=== OpaqueTextures+BlockTexturesFromXMLCreateBlockTexturesHook+<TargetMethods>d__0 ===
+  Void System.IDisposable.Dispose()  [9b IL: 02-1F-FE-7D-3C-00-00-04-2A]
+  Boolean MoveNext()  [74b IL: 02-7B-3C-00-00-04-0A-06-2C-06-06-17-2E-33-16-2A-02-15-7D-3C-00-00-04-02-D0-1B-00-00-01-28-10-01-00-0A-72-6B-11-00-70-14-14-28-22-01-00-0A-28-23-01-00-0A-7D-3D-00-00-04-02-17-7D-3C-00-00-04-17-2A-02-15-7D-3C-00-00-04-16-2A]
+  MethodBase System.Collections.Generic.IEnumerator<System.Reflection.MethodBase>.get_Current()  [7b IL: 02-7B-3D-00-00-04-2A]
+  Void System.Collections.IEnumerator.Reset()  [6b IL: 73-1A-01-00-0A-7A]
+  Object System.Collections.IEnumerator.get_Current()  [7b IL: 02-7B-3D-00-00-04-2A]
+  IEnumerator`1 System.Collections.Generic.IEnumerable<System.Reflection.MethodBase>.GetEnumerator()  [43b IL: 02-7B-3C-00-00-04-1F-FE-33-18-02-7B-3E-00-00-04-28-21-01-00-0A-33-0B-02-16-7D-3C-00-00-04-02-0A-2B-07-16-73-79-00-00-06-0A-06-2A]
+  IEnumerator System.Collections.IEnumerable.GetEnumerator()  [7b IL: 02-28-7F-00-00-06-2A]
+
+=== OpaqueTextures+MeshDescriptionLoadSingleArray+<TargetMethods>d__0 ===
+  Void System.IDisposable.Dispose()  [9b IL: 02-1F-FE-7D-3F-00-00-04-2A]
+  Boolean MoveNext()  [74b IL: 02-7B-3F-00-00-04-0A-06-2C-06-06-17-2E-33-16-2A-02-15-7D-3F-00-00-04-02-D0-11-00-00-01-28-10-01-00-0A-72-93-11-00-70-14-14-28-22-01-00-0A-28-23-01-00-0A-7D-40-00-00-04-02-17-7D-3F-00-00-04-17-2A-02-15-7D-3F-00-00-04-16-2A]
+  MethodBase System.Collections.Generic.IEnumerator<System.Reflection.MethodBase>.get_Current()  [7b IL: 02-7B-40-00-00-04-2A]
+  Void System.Collections.IEnumerator.Reset()  [6b IL: 73-1A-01-00-0A-7A]
+  Object System.Collections.IEnumerator.get_Current()  [7b IL: 02-7B-40-00-00-04-2A]
+  IEnumerator`1 System.Collections.Generic.IEnumerable<System.Reflection.MethodBase>.GetEnumerator()  [43b IL: 02-7B-3F-00-00-04-1F-FE-33-18-02-7B-41-00-00-04-28-21-01-00-0A-33-0B-02-16-7D-3F-00-00-04-02-0A-2B-07-16-73-81-00-00-06-0A-06-2A]
+  IEnumerator System.Collections.IEnumerable.GetEnumerator()  [7b IL: 02-28-87-00-00-06-2A]
+
+=== OcbCustomTextures+BlocksFromXmlCreateBlocksPrefix ===
+  Void Prefix(XmlFile _xmlFile)  [142b IL: 02-2D-01-2A-02-7B-3E-00-00-0A-6F-3F-00-00-0A-0A-06-6F-0C-01-00-0A-2D-01-2A-06-72-99-10-00-70-28-1F-00-00-0A-6F-0D-01-00-0A-6F-1C-00-00-0A-0B-2B-3C-07-6F-1D-00-00-0A-72-8B-00-00-70-28-1F-00-00-0A-6F-0D-01-00-0A-6F-1C-00-00-0A-0C-2B-0B-08-6F-1D-00-00-0A-28-03-00-00-06-08-6F-09-00-00-0A-2D-ED-DE-0A-08-2C-06-08-6F-08-00-00-0A-DC-07-6F-09-00-00-0A-2D-BC-DE-0A-07-2C-06-07-6F-08-00-00-0A-DC-7E-3B-00-00-0A-19-9A-28-0D-00-00-06-2A]
+
+=== OpaqueTextures+BlockTexturesFromXMLCreateBlockTexturesHook ===
+  IEnumerable`1 TargetMethods()  [8b IL: 1F-FE-73-79-00-00-06-2A]
+  IEnumerable`1 Transpiler(IEnumerable`1 instructions)  [43b IL: 02-73-0E-01-00-0A-25-25-6F-0F-01-00-0A-17-59-D0-04-00-00-02-28-10-01-00-0A-72-A5-10-00-70-14-14-28-11-01-00-0A-6F-12-01-00-0A-2A]
+
+=== GrassTextures+BlockTexturesFromXMLCreateBlockTexturesPostfix ===
+  Void Postfix(XmlFile _xmlFile)  [17b IL: 02-7B-3E-00-00-0A-6F-3F-00-00-0A-28-0A-00-00-06-2A]
+
+=== OpaqueTextures+BlockTexturesFromXMLCreateBlockTexturesPrefix ===
+  Void Prefix(XmlFile _xmlFile)  [17b IL: 02-7B-3E-00-00-0A-6F-3F-00-00-0A-28-10-00-00-06-2A]
+
+=== GrassTextures ===
+  Dictionary`2 get_UvMap()  [6b IL: 7E-03-00-00-04-2A]
+  Void ParseGrassConfig(XElement root)  ERR: Could not load file or assembly 'MemoryPack, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
+  Void InitGrassConfig()  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  Int32 GetNextFreeUV(TextureAtlas textureAtlas)  [25b IL: 02-7B-43-00-00-0A-8E-69-0A-02-7C-43-00-00-0A-06-17-58-28-03-00-00-2B-06-2A]
+  Void ExecuteGrassPatching(MeshDescription grass)  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== HarmonyFieldProxy`1 ===
+  T Get(Object instance)  [18b IL: 02-7B-DE-00-00-0A-03-6F-DF-00-00-0A-A5-14-00-00-1B-2A]
+  Void Set(Object instance, T value)  [19b IL: 02-7B-DE-00-00-0A-03-04-8C-14-00-00-1B-6F-E0-00-00-0A-2A]
+
+=== HarmonyPropertyProxy`1 ===
+  T Get(Object instance)  [18b IL: 02-7B-E2-00-00-0A-03-6F-E3-00-00-0A-A5-14-00-00-1B-2A]
+  Void Set(Object instance, T value)  [19b IL: 02-7B-E2-00-00-0A-03-04-8C-14-00-00-1B-6F-E4-00-00-0A-2A]
+
+=== HelperGrassTextures ===
+  IEnumerator StartGrassHelper(String path, Int32 x, Int32 y)  [28b IL: 16-73-71-00-00-06-25-02-7D-35-00-00-04-25-03-7D-36-00-00-04-25-04-7D-37-00-00-04-2A]
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  Void DynamicGrassPatcher(String path, Int32 x, Int32 y)  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  Single Linear2Gamma(Byte g)  [31b IL: 22-00-00-7F-43-02-6B-22-00-00-00-3F-58-22-00-00-7F-43-5B-22-2E-BA-E8-3E-28-B3-00-00-0A-5A-2A]
+  Single Gamma2Linear(Byte g)  [31b IL: 22-00-00-7F-43-02-6B-22-00-00-00-3F-58-22-00-00-7F-43-5B-22-CD-CC-0C-40-28-B3-00-00-0A-5A-2A]
+
+=== OpaqueTextures+MeshDescriptionLoadSingleArray ===
+  IEnumerable`1 TargetMethods()  [8b IL: 1F-FE-73-81-00-00-06-2A]
+  IEnumerable`1 Transpiler(IEnumerable`1 instructions)  [240b IL: 02-73-0E-01-00-0A-0A-16-0B-38-D4-00-00-00-06-07-6F-13-01-00-0A-7B-14-01-00-0A-7E-15-01-00-0A-28-16-01-00-0A-3A-B5-00-00-00-06-07-6F-13-01-00-0A-7B-17-01-00-0A-75-2A-00-00-01-0C-08-39-9D-00-00-00-08-6F-18-01-00-0A-72-C7-10-00-70-28-99-00-00-0A-2C-23-06-07-25-17-58-0B-D0-04-00-00-02-28-10-01-00-0A-72-DD-10-00-70-14-14-28-11-01-00-0A-6F-12-01-00-0A-2B-68-08-6F-18-01-00-0A-72-F7-10-00-70-28-99-00-00-0A-2C-23-06-07-25-17-58-0B-D0-04-00-00-02-28-10-01-00-0A-72-0B-11-00-70-14-14-28-11-01-00-0A-6F-12-01-00-0A-2B-33-08-6F-18-01-00-0A-72-23-11-00-70-28-99-00-00-0A-2C-21-06-07-25-17-58-0B-D0-04-00-00-02-28-10-01-00-0A-72-3B-11-00-70-14-14-28-11-01-00-0A-6F-12-01-00-0A-07-17-58-0B-07-06-6F-0F-01-00-0A-3F-20-FF-FF-FF-06-2A]
+
+=== OcbCustomTextures+MeshDescriptionUnload ===
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== OcbCustomTextures ===
+  Void InitMod(Mod mod)  [95b IL: 72-01-00-00-70-02-28-11-00-00-0A-6F-12-00-00-0A-28-13-00-00-0A-28-14-00-00-0A-02-28-11-00-00-0A-6F-12-00-00-0A-73-15-00-00-0A-28-16-00-00-0A-6F-17-00-00-0A-03-6F-18-00-00-0A-72-29-00-00-70-28-19-00-00-0A-80-01-00-00-04-03-6F-18-00-00-0A-72-59-00-00-70-28-19-00-00-0A-80-02-00-00-04-2A]
+  ERR: Could not load file or assembly 'MemoryPack, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
+  Void ResolveTextureProperties(XElement prop)  [23b IL: 72-9D-00-00-70-02-28-04-00-00-06-72-AD-00-00-70-02-28-04-00-00-06-2A]
+  Void ResolveTexture(String name, XElement prop)  [214b IL: 03-72-D5-00-00-70-28-1F-00-00-0A-28-22-00-00-0A-2D-01-2A-03-72-D5-00-00-70-28-1F-00-00-0A-6F-23-00-00-0A-6F-24-00-00-0A-02-28-25-00-00-0A-2C-01-2A-03-72-DF-00-00-70-28-1F-00-00-0A-28-22-00-00-0A-2D-01-2A-03-72-DF-00-00-70-28-1F-00-00-0A-6F-23-00-00-0A-6F-24-00-00-0A-0A-06-7E-2C-00-00-04-25-2D-17-26-7E-2B-00-00-04-FE-06-61-00-00-06-73-26-00-00-0A-25-80-2C-00-00-04-28-01-00-00-2B-2C-01-2A-06-28-05-00-00-06-0B-03-72-DF-00-00-70-28-1F-00-00-0A-07-6F-28-00-00-0A-07-7E-2D-00-00-04-25-2D-17-26-7E-2B-00-00-04-FE-06-62-00-00-06-73-26-00-00-0A-25-80-2D-00-00-04-28-01-00-00-2B-2D-14-72-EB-00-00-70-17-8D-05-00-00-01-25-16-07-A2-28-29-00-00-0A-2A]
+  String ResolveTextureIDs(String value)  [148b IL: 02-7E-2E-00-00-04-25-2D-17-26-7E-2B-00-00-04-FE-06-63-00-00-06-73-26-00-00-0A-25-80-2E-00-00-04-28-01-00-00-2B-2D-6B-02-72-2F-01-00-70-6F-2A-00-00-0A-2C-47-02-17-8D-41-00-00-01-25-16-1F-2C-9D-6F-2B-00-00-0A-0A-16-0B-2B-1F-7E-03-00-00-04-06-07-9A-12-02-6F-2C-00-00-0A-2C-0A-06-07-12-02-28-2D-00-00-0A-A2-07-17-58-0B-07-06-8E-69-32-DB-72-2F-01-00-70-06-28-2E-00-00-0A-2A-7E-03-00-00-04-02-12-03-6F-2C-00-00-0A-2C-08-12-03-28-2D-00-00-0A-2A-02-2A]
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== OcbTextureDumper ===
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== OcbTextureUtils ===
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  Int32 GetMipMapOffset()  [15b IL: 15-28-04-01-00-0A-0A-06-18-30-02-06-2A-18-2A]
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== OpaqueTextures ===
+  Dictionary`2 get_UvMap()  [6b IL: 7E-03-00-00-04-2A]
+  Void ParseOpaqueConfig(XElement root)  ERR: Could not load file or assembly 'MemoryPack, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
+  Int32 GetFreePaintID()  [40b IL: 16-0A-2B-0F-7E-73-00-00-0A-06-9A-2D-02-06-2A-06-17-58-0A-06-7E-73-00-00-0A-8E-69-32-E7-72-C7-02-00-70-73-74-00-00-0A-7A]
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  Void InitOpaqueConfig()  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  Void PatchCustomOpaques()  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== OcbTextureUtils+ResetQualitySettings ===
+  Void Dispose()  [50b IL: 02-7B-38-00-00-04-28-8A-00-00-0A-02-7B-3A-00-00-04-28-1E-01-00-0A-02-7B-39-00-00-04-28-1F-01-00-0A-72-57-11-00-70-02-7B-3B-00-00-04-28-20-01-00-0A-2A]
+
+=== TextureAssetUrl ===
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+
+=== TilingArea ===
+  Int32 get_Width()  [15b IL: 02-7B-1F-00-00-04-1D-5B-20-00-10-00-00-5A-2A]
+  Int32 get_Height()  [15b IL: 02-7B-20-00-00-04-1D-5B-20-00-10-00-00-5A-2A]
+  ERR: Could not load file or assembly 'netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' or one of its dependencies. The system cannot find the file specified.
+  Void Clear()  [54b IL: 02-7B-1C-00-00-04-6F-DA-00-00-0A-02-16-7D-1D-00-00-04-02-15-7D-1E-00-00-04-02-1D-7D-1F-00-00-04-02-1D-7D-20-00-00-04-02-16-7D-21-00-00-04-02-16-7D-22-00-00-04-2A]
+
+Done.

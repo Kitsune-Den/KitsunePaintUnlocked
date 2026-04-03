@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+  <Name value="PaintUnlocked" />
+  <DisplayName value="Paint Unlocked" />
+  <Version value="1.0.0" />
+  <Description value="Removes the 255 paint texture limit by widening the network packet index from byte to ushort. Requires OCBCustomTextures. Install on server and all clients." />
+  <Author value="AdaInTheLab" />
+  <Website value="https://github.com/AdaInTheLab/PaintUnlocked" />
+</xml>
