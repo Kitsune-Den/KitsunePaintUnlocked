@@ -22,6 +22,10 @@ public class PaintUnlockedMod : IModApi
         var readPrefix = AccessTools.Method(typeof(PaintIndexWidenerPatch), "ReadPrefix");
         harmony.Patch(readMethod, prefix: new HarmonyMethod(readPrefix));
 
+        var processMethod = AccessTools.Method(netPkgType, "ProcessPackage");
+        var processPrefix = AccessTools.Method(typeof(PaintIndexWidenerPatch), "ProcessPackagePrefix");
+        harmony.Patch(processMethod, prefix: new HarmonyMethod(processPrefix));
+
         var getFreePaintID = AccessTools.Method(typeof(OpaqueTextures), "GetFreePaintID");
         var getFreePaintIDPrefix = AccessTools.Method(typeof(OcbPaintLimitPatch), "GetFreePaintIDPrefix");
         harmony.Patch(getFreePaintID, prefix: new HarmonyMethod(getFreePaintIDPrefix));
@@ -49,11 +53,6 @@ public class PaintUnlockedMod : IModApi
         var updateBg = AccessTools.Method(typeof(XUiC_ItemStack), "updateBackgroundTexture");
         var updateBgFinalizer = AccessTools.Method(typeof(UpdateBackgroundTexturePatch), "Finalizer");
         harmony.Patch(updateBg, finalizer: new HarmonyMethod(updateBgFinalizer));
-
-        // Patch NetPackagePersistentPlayerState buffer size (1000 -> 65536)
-        var getPpsLen = AccessTools.Method(typeof(NetPackagePersistentPlayerState), "GetLength");
-        var getPpsLenPostfix = AccessTools.Method(typeof(PersistentPlayerStateLengthPatch), "Postfix");
-        harmony.Patch(getPpsLen, postfix: new HarmonyMethod(getPpsLenPostfix));
 
         Log.Out("[PaintUnlocked] Loaded - paint texture limit removed (byte -> ushort, chunk storage 8-bit -> 10-bit).");
         Log.Warning("[PaintUnlocked] IMPORTANT: This mod uses 10-bit chunk storage. Existing worlds painted with the vanilla 8-bit format will show default textures on previously painted blocks. A fresh world is required for correct operation.");
@@ -121,38 +120,42 @@ public static class PaintIndexWidenerPatch
         StoreIdx(__instance, (ushort)_idx);
     }
 
+    private static void WriteInt32(System.IO.Stream s, int v)
+    {
+        s.WriteByte((byte)(v & 0xFF));
+        s.WriteByte((byte)((v >> 8) & 0xFF));
+        s.WriteByte((byte)((v >> 16) & 0xFF));
+        s.WriteByte((byte)((v >> 24) & 0xFF));
+    }
+
     public static bool WritePrefix(NetPackageSetBlockTexture __instance, PooledBinaryWriter _bw)
     {
         if (!_reflectionValid) return true;
+
+        // Only intercept overflow indices -- let vanilla handle 0-255 natively
+        var idx = LoadIdx(__instance);
+        if (idx <= 255) return true;
 
         try
         {
             var blockPos  = (Vector3i)_fBlockPos.GetValue(__instance);
             var blockFace = (BlockFace)_fBlockFace.GetValue(__instance);
             var playerId  = (int)_fPlayerId.GetValue(__instance);
-            var channel   = (byte)_fChannel.GetValue(__instance);
-            var idx       = LoadIdx(__instance);
 
-            if (idx > 255)
-                Log.Out($"[PaintUnlocked] WritePrefix: idx={idx} pos={blockPos} face={blockFace} -> encoding as overflow");
+            byte channelWire = (byte)(OverflowFlag | ((idx >> 8) & 0x7F));
 
-            _writeInt.Invoke(_bw, new object[] { blockPos.x });
-            _writeInt.Invoke(_bw, new object[] { blockPos.y });
-            _writeInt.Invoke(_bw, new object[] { blockPos.z });
-            _writeByte.Invoke(_bw, new object[] { (byte)blockFace });
-            _writeInt.Invoke(_bw, new object[] { playerId });
+            Log.Out($"[PaintUnlocked] WritePrefix: idx={idx} pos={blockPos} face={blockFace} -> overflow channelWire=0x{channelWire:X2}");
 
-            if (idx > 255)
-            {
-                byte channelWire = (byte)(OverflowFlag | ((idx >> 8) & 0x7F));
-                _writeByte.Invoke(_bw, new object[] { channelWire });
-                _writeByte.Invoke(_bw, new object[] { (byte)(idx & 0xFF) });
-            }
-            else
-            {
-                _writeByte.Invoke(_bw, new object[] { channel });
-                _writeByte.Invoke(_bw, new object[] { (byte)idx });
-            }
+            // Write directly to underlying stream to bypass PooledBinaryWriter
+            // which may use `new` to hide BinaryWriter.Write (not override)
+            var s = _bw.BaseStream;
+            WriteInt32(s, blockPos.x);
+            WriteInt32(s, blockPos.y);
+            WriteInt32(s, blockPos.z);
+            s.WriteByte((byte)blockFace);
+            WriteInt32(s, playerId);
+            s.WriteByte(channelWire);
+            s.WriteByte((byte)(idx & 0xFF));
 
             return false;
         }
@@ -163,37 +166,78 @@ public static class PaintIndexWidenerPatch
         }
     }
 
-    public static bool ReadPrefix(NetPackageSetBlockTexture __instance, PooledBinaryReader _br)
+    /// <summary>
+    /// Runs before ProcessPackage to decode overflow encoding that vanilla read() stored literally.
+    /// This is the reliable server-side decode path -- ReadPrefix may not fire due to virtual dispatch.
+    /// If ReadPrefix already decoded (channel won't have overflow flag), this is a no-op.
+    ///
+    /// For overflow packets, this replaces ProcessPackage entirely (returns false) because the
+    /// vanilla code reads the byte-sized idx field which can only hold 0-255. We must call
+    /// SetBlockFaceTexture ourselves with the full decoded index.
+    /// </summary>
+    public static bool ProcessPackagePrefix(NetPackageSetBlockTexture __instance, World _world)
     {
         if (!_reflectionValid) return true;
 
         try
         {
-            _fBlockPos.SetValue(__instance, new Vector3i(_br.ReadInt32(), _br.ReadInt32(), _br.ReadInt32()));
-            _fBlockFace.SetValue(__instance, (BlockFace)_br.ReadByte());
-            _fPlayerId.SetValue(__instance, _br.ReadInt32());
+            var channel = (byte)_fChannel.GetValue(__instance);
 
-            var channelByte = _br.ReadByte();
-            var idxByte     = _br.ReadByte();
-
-            if ((channelByte & OverflowFlag) != 0)
+            // If ReadPrefix already fired and decoded, channel won't have the flag -- let vanilla run
+            if ((channel & OverflowFlag) == 0)
             {
-                _fChannel.SetValue(__instance, (byte)0);
-                ushort idx = (ushort)(((channelByte & 0x7F) << 8) | idxByte);
-                StoreIdx(__instance, idx);
-            }
-            else
-            {
-                _fChannel.SetValue(__instance, channelByte);
-                StoreIdx(__instance, idxByte);
+                // But check _idxMap in case ReadPrefix decoded an overflow for us
+                var fullIdx = LoadIdx(__instance);
+                if (fullIdx <= 255) return true; // normal packet, let vanilla handle it
+
+                // ReadPrefix decoded it -- we still need to apply it ourselves since idx field is byte
+                var blockPos2  = (Vector3i)_fBlockPos.GetValue(__instance);
+                var blockFace2 = (BlockFace)_fBlockFace.GetValue(__instance);
+                var playerId2  = (int)_fPlayerId.GetValue(__instance);
+
+                Log.Out($"[PaintUnlocked] ProcessPackagePrefix: applying ReadPrefix-decoded idx={fullIdx} at {blockPos2} face={blockFace2}");
+                ApplyTexture(_world, blockPos2, blockFace2, fullIdx, playerId2);
+                return false;
             }
 
-            return false;
+            // Overflow flag still set -- ReadPrefix didn't fire (server virtual dispatch issue)
+            var idxByte = (byte)_fIdx.GetValue(__instance);
+            ushort decodedIdx = (ushort)(((channel & 0x7F) << 8) | idxByte);
+
+            var blockPos  = (Vector3i)_fBlockPos.GetValue(__instance);
+            var blockFace = (BlockFace)_fBlockFace.GetValue(__instance);
+            var playerId  = (int)_fPlayerId.GetValue(__instance);
+
+            Log.Out($"[PaintUnlocked] ProcessPackagePrefix: server-side overflow decode channel=0x{channel:X2} idx=0x{idxByte:X2} -> fullIdx={decodedIdx} at {blockPos} face={blockFace}");
+
+            ApplyTexture(_world, blockPos, blockFace, decodedIdx, playerId);
+            return false; // skip vanilla ProcessPackage
         }
         catch (System.Exception ex)
         {
-            Log.Error($"[PaintUnlocked] ReadPrefix failed: {ex.Message}");
-            return false;
+            Log.Error($"[PaintUnlocked] ProcessPackagePrefix failed: {ex.Message}");
+            return true; // fall through to vanilla on error
         }
+    }
+
+    private static void ApplyTexture(World _world, Vector3i blockPos, BlockFace blockFace, ushort idx, int playerId)
+    {
+        // Mirror what vanilla ProcessPackage does: set the texture on the block face
+        var cc = _world.ChunkClusters[0];
+        if (cc == null) return;
+
+        var chunk = (Chunk)cc.GetChunkFromWorldPos(blockPos);
+        if (chunk == null) return;
+
+        var localPos = World.toBlock(blockPos);
+        chunk.SetBlockFaceTexture(localPos.x, localPos.y, localPos.z, blockFace, idx);
+        chunk.isModified = true;
+    }
+
+    public static bool ReadPrefix(NetPackageSetBlockTexture __instance, PooledBinaryReader _br)
+    {
+        // Let vanilla read() handle the bytes. We decode overflow in ProcessPackagePrefix.
+        // ReadPrefix was unreliable on dedicated server due to virtual dispatch anyway.
+        return true;
     }
 }

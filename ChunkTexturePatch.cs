@@ -62,6 +62,17 @@ public static class ChunkTexturePatch
         IEnumerable<CodeInstruction> instructions, string methodName)
     {
         var codes = new List<CodeInstruction>(instructions);
+
+        // DIAGNOSTIC: Dump full IL before patching
+        Log.Out($"[PaintUnlocked] === IL DUMP: {methodName} ({codes.Count} instructions) ===");
+        for (int i = 0; i < codes.Count; i++)
+        {
+            var c = codes[i];
+            string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
+            Log.Out($"[PaintUnlocked]   IL[{i:D3}] {c.opcode}{operandStr}");
+        }
+        Log.Out($"[PaintUnlocked] === END IL DUMP: {methodName} ===");
+
         int patched = 0;
 
         for (int i = 0; i < codes.Count; i++)
