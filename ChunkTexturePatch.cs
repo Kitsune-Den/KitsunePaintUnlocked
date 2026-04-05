@@ -12,13 +12,13 @@ using System.Reflection.Emit;
 /// - GetBlockFaceTexture: retrieves one face's paint index (10-bit read)
 /// - Value64FullToIndex: extracts face paint index from Int64 for renderer (10-bit read + clamp)
 ///
-/// The clamp on Value64FullToIndex handles backward compatibility with old 8-bit world data:
-/// if the decoded value is out of BlockTextureData.list range, it clamps to 0 (default paint).
+/// Requires ChunkBlockChannel.bytesPerVal to be 8 (64 bits) instead of vanilla's 6 (48 bits).
+/// The bytesPerVal patch is applied via ChunkStorageWidthPatch.
 /// </summary>
 public static class ChunkTexturePatch
 {
-    private const int NewMask = 0xFF;   // 8-bit = vanilla (48-bit storage hard limit)
-    private const int NewShiftMultiplier = 8;  // 6 faces × 8 = 48 bits = ChunkBlockChannel max
+    private const int NewMask = 0x3FF;   // 10-bit = 1023 max
+    private const int NewShiftMultiplier = 10;  // 6 faces × 10 = 60 bits (fits in 64-bit with bytesPerVal=8)
 
     [HarmonyPatch(typeof(Chunk), "SetBlockFaceTexture")]
     [HarmonyTranspiler]
@@ -42,10 +42,8 @@ public static class ChunkTexturePatch
     }
 
     /// <summary>
-    /// Postfix on Value64FullToIndex: clamps result to valid BlockTextureData.list range.
-    /// This handles old world data stored with 8-bit encoding - when read with 10-bit decoder
-    /// the result may be garbage (e.g. 728, 2048). Clamping to list bounds prevents crashes.
-    /// Old paints (0-255) stored correctly will still decode correctly since bits 8-9 were 0.
+    /// Clamps result to valid BlockTextureData.list range.
+    /// Handles old 8-bit world data read with 10-bit decoder (garbage indices).
     /// </summary>
     [HarmonyPatch(typeof(Chunk), "Value64FullToIndex")]
     [HarmonyPostfix]
@@ -54,74 +52,14 @@ public static class ChunkTexturePatch
         var list = BlockTextureData.list;
         if (list != null && (__result < 0 || __result >= list.Length || list[__result] == null))
         {
-            __result = 0; // default to paint 0 (vanilla first paint)
+            __result = 0;
         }
-    }
-
-    public static IEnumerable<CodeInstruction> DumpIL_ChunkCtor(IEnumerable<CodeInstruction> instructions)
-    {
-        var codes = new List<CodeInstruction>(instructions);
-        Log.Out($"[PaintUnlocked] === IL DUMP: Chunk.ctor(int,int) ({codes.Count} instructions) ===");
-        for (int i = 0; i < codes.Count; i++)
-        {
-            var c = codes[i];
-            string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
-            // Flag lines near ChunkBlockChannel constructor calls
-            string marker = "";
-            if (c.opcode == OpCodes.Newobj && c.operand?.ToString()?.Contains("ChunkBlockChannel") == true)
-                marker = " <<<< CBC CONSTRUCTOR";
-            if (c.opcode == OpCodes.Ldc_I4_6) marker = " <<<< POSSIBLE bytesPerVal=6";
-            if (c.opcode == OpCodes.Ldc_I4_S && c.operand is sbyte sb && sb == 6) marker = " <<<< POSSIBLE bytesPerVal=6";
-            Log.Out($"[PaintUnlocked]   IL[{i:D3}] {c.opcode}{operandStr}{marker}");
-        }
-        Log.Out($"[PaintUnlocked] === END IL DUMP: Chunk.ctor ===");
-        return codes;
-    }
-
-    /// <summary>Read-only IL dump transpilers for ChunkBlockChannel methods</summary>
-    public static IEnumerable<CodeInstruction> DumpIL_Get(IEnumerable<CodeInstruction> instructions)
-    {
-        var codes = new List<CodeInstruction>(instructions);
-        Log.Out($"[PaintUnlocked] === IL DUMP: ChunkBlockChannel.Get ({codes.Count} instructions) ===");
-        for (int i = 0; i < codes.Count; i++)
-        {
-            var c = codes[i];
-            string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
-            Log.Out($"[PaintUnlocked]   IL[{i:D3}] {c.opcode}{operandStr}");
-        }
-        Log.Out($"[PaintUnlocked] === END IL DUMP: ChunkBlockChannel.Get ===");
-        return codes; // no modifications
-    }
-
-    public static IEnumerable<CodeInstruction> DumpIL_Set(IEnumerable<CodeInstruction> instructions)
-    {
-        var codes = new List<CodeInstruction>(instructions);
-        Log.Out($"[PaintUnlocked] === IL DUMP: ChunkBlockChannel.Set ({codes.Count} instructions) ===");
-        for (int i = 0; i < codes.Count; i++)
-        {
-            var c = codes[i];
-            string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
-            Log.Out($"[PaintUnlocked]   IL[{i:D3}] {c.opcode}{operandStr}");
-        }
-        Log.Out($"[PaintUnlocked] === END IL DUMP: ChunkBlockChannel.Set ===");
-        return codes; // no modifications
     }
 
     private static IEnumerable<CodeInstruction> PatchMaskAndShift(
         IEnumerable<CodeInstruction> instructions, string methodName)
     {
         var codes = new List<CodeInstruction>(instructions);
-
-        // DIAGNOSTIC: Dump full IL before patching
-        Log.Out($"[PaintUnlocked] === IL DUMP: {methodName} ({codes.Count} instructions) ===");
-        for (int i = 0; i < codes.Count; i++)
-        {
-            var c = codes[i];
-            string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
-            Log.Out($"[PaintUnlocked]   IL[{i:D3}] {c.opcode}{operandStr}");
-        }
-        Log.Out($"[PaintUnlocked] === END IL DUMP: {methodName} ===");
-
         int patched = 0;
 
         for (int i = 0; i < codes.Count; i++)
@@ -144,5 +82,28 @@ public static class ChunkTexturePatch
             Log.Warning($"[PaintUnlocked] {methodName}: no constants patched - check IL");
 
         return codes;
+    }
+}
+
+/// <summary>
+/// Widens ChunkBlockChannel storage from 6 bytes (48 bits) to 8 bytes (64 bits) per block.
+/// This is required for 10-bit face storage (6 faces × 10 bits = 60 bits).
+///
+/// The ChunkBlockChannel.Get/Set methods already use bytesPerVal dynamically —
+/// we just need to change the value from 6 to 8 at construction time.
+/// </summary>
+public static class ChunkStorageWidthPatch
+{
+    /// <summary>
+    /// Prefix on ChunkBlockChannel constructor. Changes bytesPerVal from 6 to 8
+    /// for texture channels, widening storage from 48 to 64 bits per block.
+    /// </summary>
+    public static void CtorPrefix(ref int _bytesPerVal)
+    {
+        if (_bytesPerVal == 6)
+        {
+            _bytesPerVal = 8;
+            Log.Out("[PaintUnlocked] ChunkBlockChannel: bytesPerVal 6 -> 8 (48-bit -> 64-bit storage)");
+        }
     }
 }

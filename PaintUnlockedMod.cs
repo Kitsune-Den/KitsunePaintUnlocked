@@ -8,56 +8,16 @@ public class PaintUnlockedMod : IModApi
     {
         var harmony = new Harmony("com.adainthelab.paintunlocked");
 
-        // DIAGNOSTIC: Find where chnTextures is initialized
-        Log.Out("[PaintUnlocked] DIAGNOSTIC: Searching for chnTextures initialization");
-
-        // Check bytesPerVal at runtime via postfix on Chunk constructor
-        var chunkCtors = typeof(Chunk).GetConstructors();
-        foreach (var ctor in chunkCtors)
+        // === Layer 5: Widen ChunkBlockChannel storage from 48-bit to 64-bit ===
+        // Must be patched BEFORE chunks are created. bytesPerVal=6 → 8.
+        var cbcCtor = typeof(ChunkBlockChannel).GetConstructor(new[] { typeof(long), typeof(int) });
+        if (cbcCtor != null)
         {
-            Log.Out($"[PaintUnlocked] Found Chunk constructor: {ctor}");
+            harmony.Patch(cbcCtor, prefix: new HarmonyMethod(AccessTools.Method(typeof(ChunkStorageWidthPatch), "CtorPrefix")));
         }
+        else Log.Warning("[PaintUnlocked] ChunkBlockChannel constructor not found!");
 
-        // Look for the bytesPerVal value on the texture channel via a method that runs after chunk init
-        // Also dump Chunk.OnLoadedFromDisk or similar init methods
-        var initMethods = typeof(Chunk).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly);
-        foreach (var m in initMethods)
-        {
-            if (m.Name.Contains("nit") || m.Name.Contains("exture") || m.Name.Contains("hnTex"))
-                Log.Out($"[PaintUnlocked] Chunk method: {m.Name}({string.Join(", ", System.Array.ConvertAll(m.GetParameters(), p => p.ParameterType.Name))})");
-        }
-
-        // Check ChunkBlockChannel constructors
-        var cbcCtors = typeof(ChunkBlockChannel).GetConstructors();
-        foreach (var ctor in cbcCtors)
-        {
-            var parms = ctor.GetParameters();
-            Log.Out($"[PaintUnlocked] ChunkBlockChannel ctor: ({string.Join(", ", System.Array.ConvertAll(parms, p => $"{p.ParameterType.Name} {p.Name}"))})");
-        }
-
-        // Dump Chunk constructor IL to find bytesPerVal=6
-        var chunkCtor2 = typeof(Chunk).GetConstructor(System.Type.EmptyTypes);  // default ctor
-        if (chunkCtor2 != null)
-        {
-            harmony.Patch(chunkCtor2, transpiler: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "DumpIL_ChunkCtor")));
-        }
-        else Log.Warning("[PaintUnlocked] Chunk() default ctor not found");
-
-        Log.Out("[PaintUnlocked] DIAGNOSTIC: Dumping ChunkBlockChannel IL");
-        var cbcType = typeof(ChunkBlockChannel);
-        var cbcGet = AccessTools.Method(cbcType, "Get", new[] { typeof(int), typeof(int), typeof(int) });
-        var cbcSet = AccessTools.Method(cbcType, "Set", new[] { typeof(int), typeof(int), typeof(int), typeof(long) });
-        if (cbcGet != null)
-        {
-            harmony.Patch(cbcGet, transpiler: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "DumpIL_Get")));
-        }
-        else Log.Warning("[PaintUnlocked] ChunkBlockChannel.Get not found");
-        if (cbcSet != null)
-        {
-            harmony.Patch(cbcSet, transpiler: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "DumpIL_Set")));
-        }
-        else Log.Warning("[PaintUnlocked] ChunkBlockChannel.Set not found");
-
+        // === Layer 4: Widen chunk face storage from 8-bit to 10-bit ===
         var setBlockFaceTex = AccessTools.Method(typeof(Chunk), "SetBlockFaceTexture");
         harmony.Patch(setBlockFaceTex, transpiler: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "PatchSet")));
 
@@ -70,9 +30,34 @@ public class PaintUnlockedMod : IModApi
             harmony.Patch(v64ToIdx, transpiler: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "PatchValue64ToIndex")));
             harmony.Patch(v64ToIdx, postfix: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "ClampValue64Result")));
         }
+        else Log.Warning("[PaintUnlocked] Value64FullToIndex not found!");
 
-        Log.Out("[PaintUnlocked] Loaded - paint texture limit removed (byte -> ushort, chunk storage 8-bit -> 10-bit).");
-        Log.Warning("[PaintUnlocked] IMPORTANT: This mod uses 10-bit chunk storage. Existing worlds painted with the vanilla 8-bit format will show default textures on previously painted blocks. A fresh world is required for correct operation.");
+        // === Layer 2: Paint ID allocation floor ===
+        var getFreePaintID = AccessTools.Method(typeof(OpaqueTextures), "GetFreePaintID");
+        var getFreePaintIDPrefix = AccessTools.Method(typeof(OcbPaintLimitPatch), "GetFreePaintIDPrefix");
+        harmony.Patch(getFreePaintID, prefix: new HarmonyMethod(getFreePaintIDPrefix));
+
+        // === Layer 1: Network packet encoding for indices > 255 ===
+        var netPkgType = typeof(NetPackageSetBlockTexture);
+
+        var setupMethod = AccessTools.Method(netPkgType, "Setup");
+        harmony.Patch(setupMethod, postfix: new HarmonyMethod(AccessTools.Method(typeof(PaintIndexWidenerPatch), "SetupPostfix")));
+
+        var writeMethod = AccessTools.Method(netPkgType, "write");
+        harmony.Patch(writeMethod, prefix: new HarmonyMethod(AccessTools.Method(typeof(PaintIndexWidenerPatch), "WritePrefix")));
+
+        var readMethod = AccessTools.Method(netPkgType, "read");
+        harmony.Patch(readMethod, prefix: new HarmonyMethod(AccessTools.Method(typeof(PaintIndexWidenerPatch), "ReadPrefix")));
+
+        var processMethod = AccessTools.Method(netPkgType, "ProcessPackage");
+        harmony.Patch(processMethod, prefix: new HarmonyMethod(AccessTools.Method(typeof(PaintIndexWidenerPatch), "ProcessPackagePrefix")));
+
+        // === UI protection ===
+        var updateBg = AccessTools.Method(typeof(XUiC_ItemStack), "updateBackgroundTexture");
+        harmony.Patch(updateBg, finalizer: new HarmonyMethod(AccessTools.Method(typeof(UpdateBackgroundTexturePatch), "Finalizer")));
+
+        Log.Out("[PaintUnlocked] Loaded - paint limit raised to 1023 (10-bit chunk storage, 64-bit ChunkBlockChannel).");
+        Log.Warning("[PaintUnlocked] Fresh world required. Existing 8-bit painted blocks will show default textures.");
     }
 }
 
@@ -97,22 +82,14 @@ public static class PaintIndexWidenerPatch
     private static readonly FieldInfo _fChannel =
         typeof(NetPackageSetBlockTexture).GetField("channel", _fieldFlags);
 
-    private static readonly BindingFlags _methodFlags =
-        BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-    private static readonly MethodInfo _writeInt =
-        typeof(PooledBinaryWriter).GetMethod("Write", _methodFlags, null, new[] { typeof(int) }, null);
-    private static readonly MethodInfo _writeByte =
-        typeof(PooledBinaryWriter).GetMethod("Write", _methodFlags, null, new[] { typeof(byte) }, null);
-
     private static bool _reflectionValid = false;
 
     static PaintIndexWidenerPatch()
     {
         _reflectionValid = _fIdx != null && _fBlockPos != null && _fBlockFace != null
-                        && _fPlayerId != null && _fChannel != null
-                        && _writeInt != null && _writeByte != null;
+                        && _fPlayerId != null && _fChannel != null;
         if (!_reflectionValid)
-            Log.Warning($"[PaintUnlocked] Reflection check FAILED");
+            Log.Warning("[PaintUnlocked] Reflection check FAILED - network patches disabled");
         else
             Log.Out("[PaintUnlocked] Reflection check passed - all fields found.");
     }
@@ -138,11 +115,9 @@ public static class PaintIndexWidenerPatch
     }
 
     /// <summary>
-    /// For overflow indices (256+), modify the channel and idx fields on the instance
-    /// BEFORE vanilla write() runs. Vanilla write() then serializes our values through
-    /// its normal PooledBinaryWriter path -- no bypassing, no stream corruption.
-    ///
-    /// Encoding: channel = OverflowFlag | (idx >> 8), idx = (byte)(idx & 0xFF)
+    /// Field mutation prefix: for overflow indices, modify channel/idx fields on instance
+    /// BEFORE vanilla write() runs. Vanilla serializes our values through PooledBinaryWriter.
+    /// Does NOT skip original — PooledBinaryWriter internal state must be maintained.
     /// </summary>
     public static void WritePrefix(NetPackageSetBlockTexture __instance)
     {
@@ -156,18 +131,11 @@ public static class PaintIndexWidenerPatch
 
         _fChannel.SetValue(__instance, channelWire);
         _fIdx.SetValue(__instance, idxLow);
-
-        Log.Out($"[PaintUnlocked] WritePrefix: idx={idx} -> channel=0x{channelWire:X2} idx=0x{idxLow:X2}");
     }
 
     /// <summary>
-    /// Runs before ProcessPackage to decode overflow encoding that vanilla read() stored literally.
-    /// This is the reliable server-side decode path -- ReadPrefix may not fire due to virtual dispatch.
-    /// If ReadPrefix already decoded (channel won't have overflow flag), this is a no-op.
-    ///
-    /// For overflow packets, this replaces ProcessPackage entirely (returns false) because the
-    /// vanilla code reads the byte-sized idx field which can only hold 0-255. We must call
-    /// SetBlockFaceTexture ourselves with the full decoded index.
+    /// Decodes overflow encoding in ProcessPackage (reliable on both client and server).
+    /// ReadPrefix is unreliable on dedicated server due to virtual method dispatch.
     /// </summary>
     public static bool ProcessPackagePrefix(NetPackageSetBlockTexture __instance, World _world)
     {
@@ -177,24 +145,18 @@ public static class PaintIndexWidenerPatch
         {
             var channel = (byte)_fChannel.GetValue(__instance);
 
-            // If ReadPrefix already fired and decoded, channel won't have the flag -- let vanilla run
             if ((channel & OverflowFlag) == 0)
             {
-                // But check _idxMap in case ReadPrefix decoded an overflow for us
                 var fullIdx = LoadIdx(__instance);
-                if (fullIdx <= 255) return true; // normal packet, let vanilla handle it
+                if (fullIdx <= 255) return true;
 
-                // ReadPrefix decoded it -- we still need to apply it ourselves since idx field is byte
                 var blockPos2  = (Vector3i)_fBlockPos.GetValue(__instance);
                 var blockFace2 = (BlockFace)_fBlockFace.GetValue(__instance);
                 var playerId2  = (int)_fPlayerId.GetValue(__instance);
-
-                Log.Out($"[PaintUnlocked] ProcessPackagePrefix: applying ReadPrefix-decoded idx={fullIdx} at {blockPos2} face={blockFace2}");
                 ApplyTexture(_world, blockPos2, blockFace2, fullIdx, playerId2);
                 return false;
             }
 
-            // Overflow flag still set -- ReadPrefix didn't fire (server virtual dispatch issue)
             var idxByte = (byte)_fIdx.GetValue(__instance);
             ushort decodedIdx = (ushort)(((channel & 0x7F) << 8) | idxByte);
 
@@ -202,21 +164,19 @@ public static class PaintIndexWidenerPatch
             var blockFace = (BlockFace)_fBlockFace.GetValue(__instance);
             var playerId  = (int)_fPlayerId.GetValue(__instance);
 
-            Log.Out($"[PaintUnlocked] ProcessPackagePrefix: server-side overflow decode channel=0x{channel:X2} idx=0x{idxByte:X2} -> fullIdx={decodedIdx} at {blockPos} face={blockFace}");
-
+            Log.Out($"[PaintUnlocked] ProcessPackagePrefix: overflow decode -> fullIdx={decodedIdx} at {blockPos} face={blockFace}");
             ApplyTexture(_world, blockPos, blockFace, decodedIdx, playerId);
-            return false; // skip vanilla ProcessPackage
+            return false;
         }
         catch (System.Exception ex)
         {
             Log.Error($"[PaintUnlocked] ProcessPackagePrefix failed: {ex.Message}");
-            return true; // fall through to vanilla on error
+            return true;
         }
     }
 
     private static void ApplyTexture(World _world, Vector3i blockPos, BlockFace blockFace, ushort idx, int playerId)
     {
-        // Mirror what vanilla ProcessPackage does: set the texture on the block face
         var cc = _world.ChunkClusters[0];
         if (cc == null) return;
 
@@ -230,8 +190,6 @@ public static class PaintIndexWidenerPatch
 
     public static bool ReadPrefix(NetPackageSetBlockTexture __instance, PooledBinaryReader _br)
     {
-        // Let vanilla read() handle the bytes. We decode overflow in ProcessPackagePrefix.
-        // ReadPrefix was unreliable on dedicated server due to virtual dispatch anyway.
-        return true;
+        return true; // passthrough — ProcessPackagePrefix handles decoding
     }
 }
