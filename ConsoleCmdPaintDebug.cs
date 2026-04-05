@@ -13,9 +13,197 @@ public class ConsoleCmdPaintDebug : ConsoleCmdAbstract
 
     public override void Execute(List<string> _params, CommandSenderInfo _senderInfo)
     {
+        if (_params.Count > 0 && _params[0] == "channels")
+        {
+            // Dump chnTextures array info from a nearby chunk
+            var world = GameManager.Instance?.World;
+            if (world == null) { Log.Out("[PaintDebug] No world"); return; }
+            var player = world.GetPrimaryPlayer();
+            if (player == null) { Log.Out("[PaintDebug] No player"); return; }
+            var pos = new Vector3i(player.position);
+            var chunk = (Chunk)world.GetChunkFromWorldPos(pos);
+            if (chunk == null) { Log.Out("[PaintDebug] No chunk at player pos"); return; }
+
+            var field = typeof(Chunk).GetField("chnTextures",
+                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (field == null) { Log.Out("[PaintDebug] chnTextures field not found"); return; }
+            var arr = field.GetValue(chunk) as System.Array;
+            if (arr == null) { Log.Out("[PaintDebug] chnTextures is null"); return; }
+
+            Log.Out($"[PaintDebug] chnTextures.Length = {arr.Length}");
+            Log.Out($"[PaintDebug] chnTextures element type = {arr.GetType().GetElementType()?.Name}");
+            for (int c = 0; c < arr.Length; c++)
+            {
+                var ch = arr.GetValue(c);
+                Log.Out($"[PaintDebug] chnTextures[{c}] = {(ch == null ? "NULL" : ch.GetType().Name)}");
+            }
+            return;
+        }
+
+        if (_params.Count > 0 && _params[0] == "dumppoi")
+        {
+            // Dump IL of methods that write raw Int64 texture data (prefab loading path)
+            var methods = new[] { "SetTextureFull", "GetSetTextureFullArray", "GetTextureFullArray" };
+            foreach (var name in methods)
+            {
+                var method = HarmonyLib.AccessTools.Method(typeof(Chunk), name);
+                if (method == null) { Log.Out($"[PaintDebug] {name} not found"); continue; }
+                var instructions = HarmonyLib.PatchProcessor.GetOriginalInstructions(method);
+                var codes = new List<HarmonyLib.CodeInstruction>(instructions);
+                Log.Out($"[PaintDebug] === IL DUMP: Chunk.{name} ({codes.Count} instructions) ===");
+                for (int i = 0; i < codes.Count; i++)
+                {
+                    var c = codes[i];
+                    string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
+                    Log.Out($"[PaintDebug]   IL[{i:D3}] {c.opcode}{operandStr}");
+                }
+                Log.Out($"[PaintDebug] === END IL DUMP: {name} ===");
+            }
+            return;
+        }
+
+        if (_params.Count > 0 && _params[0] == "dumpsetmat")
+        {
+            // Dump IL of SetMaterials to find how Meta is set
+            var method = HarmonyLib.AccessTools.Method(typeof(XUiC_MaterialStackGrid), "SetMaterials");
+            if (method == null) { Log.Out("[PaintDebug] SetMaterials not found"); return; }
+            var instructions = HarmonyLib.PatchProcessor.GetOriginalInstructions(method);
+            var codes = new List<HarmonyLib.CodeInstruction>(instructions);
+            Log.Out($"[PaintDebug] === IL DUMP: SetMaterials ({codes.Count} instructions) ===");
+            for (int i = 0; i < codes.Count; i++)
+            {
+                var c = codes[i];
+                string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
+                Log.Out($"[PaintDebug]   IL[{i:D3}] {c.opcode}{operandStr}");
+            }
+            Log.Out($"[PaintDebug] === END IL DUMP ===");
+
+            // Also dump SetSelectedTextureForItem if it exists
+            var method2 = HarmonyLib.AccessTools.Method(typeof(XUiC_MaterialStack), "SetSelectedTextureForItem");
+            if (method2 != null)
+            {
+                var codes2 = new List<HarmonyLib.CodeInstruction>(HarmonyLib.PatchProcessor.GetOriginalInstructions(method2));
+                Log.Out($"[PaintDebug] === IL DUMP: SetSelectedTextureForItem ({codes2.Count} instructions) ===");
+                for (int i = 0; i < codes2.Count; i++)
+                {
+                    var c = codes2[i];
+                    string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
+                    Log.Out($"[PaintDebug]   IL[{i:D3}] {c.opcode}{operandStr}");
+                }
+                Log.Out($"[PaintDebug] === END IL DUMP ===");
+            }
+            else Log.Out("[PaintDebug] SetSelectedTextureForItem not found");
+            return;
+        }
+
+        if (_params.Count > 0 && _params[0] == "dumpbg")
+        {
+            // Dump IL of updateBackgroundTexture to find the crash point
+            var method = HarmonyLib.AccessTools.Method(typeof(XUiC_ItemStack), "updateBackgroundTexture");
+            if (method == null) { Log.Out("[PaintDebug] updateBackgroundTexture not found"); return; }
+
+            var instructions = HarmonyLib.PatchProcessor.GetOriginalInstructions(method);
+            var codes = new List<HarmonyLib.CodeInstruction>(instructions);
+            Log.Out($"[PaintDebug] === IL DUMP: updateBackgroundTexture ({codes.Count} instructions) ===");
+            for (int i = 0; i < codes.Count; i++)
+            {
+                var c = codes[i];
+                string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
+                Log.Out($"[PaintDebug]   IL[{i:D3}] {c.opcode}{operandStr}");
+            }
+            Log.Out($"[PaintDebug] === END IL DUMP ===");
+            return;
+        }
+
+        if (_params.Count > 0 && _params[0] == "uimethods")
+        {
+            // Dump methods on paint-related UI types to find the selection path
+            var uiTypes = new[] {
+                typeof(XUiC_MaterialStackGrid),
+                typeof(ItemActionTextureBlock),
+                typeof(XUiC_ItemStack)
+            };
+            foreach (var t in uiTypes)
+            {
+                Log.Out($"[PaintDebug] === {t.Name} ===");
+                var methods = t.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic |
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly);
+                foreach (var m in methods)
+                {
+                    if (m.Name.Contains("aterial") || m.Name.Contains("exture") || m.Name.Contains("aint") ||
+                        m.Name.Contains("ackground") || m.Name.Contains("elected") || m.Name.Contains("serData"))
+                    {
+                        var parms = string.Join(", ", System.Array.ConvertAll(m.GetParameters(), p => $"{p.ParameterType.Name} {p.Name}"));
+                        Log.Out($"[PaintDebug]   {m.ReturnType.Name} {m.Name}({parms})");
+                    }
+                }
+                // Also check fields related to textures/materials
+                var fields = t.GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic |
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly);
+                foreach (var f in fields)
+                {
+                    if (f.Name.Contains("aterial") || f.Name.Contains("exture") || f.Name.Contains("aint") ||
+                        f.Name.Contains("elected") || f.Name.Contains("ackground"))
+                    {
+                        Log.Out($"[PaintDebug]   FIELD: {f.FieldType.Name} {f.Name}");
+                    }
+                }
+            }
+            return;
+        }
+
+        if (_params.Count > 0 && _params[0] == "toolbar")
+        {
+            // Dump current toolbar paint state
+            var player = GameManager.Instance?.World?.GetPrimaryPlayer();
+            if (player == null) { Log.Out("[PaintDebug] No player"); return; }
+            var inv = player.inventory;
+            Log.Out($"[PaintDebug] Held item: {inv.holdingItem?.Name ?? "null"}");
+            // Dump Meta (paint ID stored in toolbelt)
+            var holdingData = inv.holdingItemData;
+            if (holdingData != null)
+            {
+                var iv = holdingData.itemValue;
+                Log.Out($"[PaintDebug] itemValue.Meta = {iv.Meta}");
+                Log.Out($"[PaintDebug] itemValue.type = {iv.type}");
+                // Check if Meta points to valid BlockTextureData
+                var btdList = BlockTextureData.list;
+                if (btdList != null && iv.Meta >= 0 && iv.Meta < btdList.Length)
+                {
+                    var btd = btdList[iv.Meta];
+                    Log.Out($"[PaintDebug] BlockTextureData.list[{iv.Meta}] = {(btd == null ? "NULL" : $"Name={btd.Name} TextureID={btd.TextureID}")}");
+                }
+                else
+                {
+                    Log.Out($"[PaintDebug] Meta {iv.Meta} out of range (list.Length={btdList?.Length ?? 0})");
+                }
+            }
+            var actionData = inv.holdingItemData?.actionData;
+            if (actionData != null)
+            {
+                for (int a = 0; a < actionData.Count; a++)
+                {
+                    var ad = actionData[a];
+                    if (ad == null) continue;
+                    Log.Out($"[PaintDebug] actionData[{a}]: type={ad.GetType().Name}");
+                    // Try to get texture-related fields
+                    var adFields = ad.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    foreach (var f in adFields)
+                    {
+                        if (f.Name.Contains("exture") || f.Name.Contains("aint") || f.Name.Contains("elected") || f.Name.Contains("aterial"))
+                        {
+                            var val = f.GetValue(ad);
+                            Log.Out($"[PaintDebug]   {f.FieldType.Name} {f.Name} = {val}");
+                        }
+                    }
+                }
+            }
+            return;
+        }
+
         if (_params.Count == 0)
         {
-            Log.Out("[PaintDebug] Usage: pu_debug <paintID>");
+            Log.Out("[PaintDebug] Usage: pu_debug <paintID> | pu_debug channels | pu_debug uimethods | pu_debug toolbar");
             return;
         }
 

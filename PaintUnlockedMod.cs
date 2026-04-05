@@ -8,34 +8,22 @@ public class PaintUnlockedMod : IModApi
     {
         var harmony = new Harmony("com.adainthelab.paintunlocked");
 
-        var netPkgType = typeof(NetPackageSetBlockTexture);
+        // === Layer 5: Widen ChunkBlockChannel storage from 48-bit to 64-bit ===
+        // Must be patched BEFORE chunks are created. bytesPerVal=6 → 8.
+        var cbcCtor = typeof(ChunkBlockChannel).GetConstructor(new[] { typeof(long), typeof(int) });
+        if (cbcCtor != null)
+        {
+            harmony.Patch(cbcCtor, prefix: new HarmonyMethod(AccessTools.Method(typeof(ChunkStorageWidthPatch), "CtorPrefix")));
+        }
+        else Log.Warning("[PaintUnlocked] ChunkBlockChannel constructor not found!");
 
-        var setupMethod = AccessTools.Method(netPkgType, "Setup");
-        var setupPostfix = AccessTools.Method(typeof(PaintIndexWidenerPatch), "SetupPostfix");
-        harmony.Patch(setupMethod, postfix: new HarmonyMethod(setupPostfix));
-
-        var writeMethod = AccessTools.Method(netPkgType, "write");
-        var writePrefix = AccessTools.Method(typeof(PaintIndexWidenerPatch), "WritePrefix");
-        harmony.Patch(writeMethod, prefix: new HarmonyMethod(writePrefix));
-
-        var readMethod = AccessTools.Method(netPkgType, "read");
-        var readPrefix = AccessTools.Method(typeof(PaintIndexWidenerPatch), "ReadPrefix");
-        harmony.Patch(readMethod, prefix: new HarmonyMethod(readPrefix));
-
-        var getFreePaintID = AccessTools.Method(typeof(OpaqueTextures), "GetFreePaintID");
-        var getFreePaintIDPrefix = AccessTools.Method(typeof(OcbPaintLimitPatch), "GetFreePaintIDPrefix");
-        harmony.Patch(getFreePaintID, prefix: new HarmonyMethod(getFreePaintIDPrefix));
-
+        // === Layer 4: Widen chunk face storage from 8-bit to 10-bit ===
         var setBlockFaceTex = AccessTools.Method(typeof(Chunk), "SetBlockFaceTexture");
-        var setTranspiler = AccessTools.Method(typeof(ChunkTexturePatch), "PatchSet");
-        harmony.Patch(setBlockFaceTex, transpiler: new HarmonyMethod(setTranspiler));
+        harmony.Patch(setBlockFaceTex, transpiler: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "PatchSet")));
 
         var getBlockFaceTex = AccessTools.Method(typeof(Chunk), "GetBlockFaceTexture");
-        var getTranspiler = AccessTools.Method(typeof(ChunkTexturePatch), "PatchGet");
-        harmony.Patch(getBlockFaceTex, transpiler: new HarmonyMethod(getTranspiler));
+        harmony.Patch(getBlockFaceTex, transpiler: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "PatchGet")));
 
-        // Patch Value64FullToIndex to read 10-bit paint indices
-        // Also add postfix clamp to handle old 8-bit world data gracefully
         var v64ToIdx = typeof(Chunk).GetMethod("Value64FullToIndex", BindingFlags.Public | BindingFlags.Static);
         if (v64ToIdx != null)
         {
@@ -44,18 +32,59 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] Value64FullToIndex not found!");
 
+        // === Prefab/bulk texture re-encoding (8-bit → 10-bit) ===
+        var setTexFull = AccessTools.Method(typeof(Chunk), "SetTextureFull");
+        if (setTexFull != null)
+        {
+            harmony.Patch(setTexFull, prefix: new HarmonyMethod(AccessTools.Method(typeof(TextureFullRepackPatch), "Prefix")));
+            Log.Out("[PaintUnlocked] SetTextureFull: prefix added for 8-bit → 10-bit re-encoding");
+        }
+        else Log.Warning("[PaintUnlocked] SetTextureFull not found!");
 
+        // Also patch GetSetTextureFullArray to check if prefabs go through here
+        var getSetTexFullArr = AccessTools.Method(typeof(Chunk), "GetSetTextureFullArray");
+        if (getSetTexFullArr != null)
+        {
+            harmony.Patch(getSetTexFullArr, prefix: new HarmonyMethod(AccessTools.Method(typeof(TextureFullRepackPatch), "GetSetPrefix")));
+            Log.Out("[PaintUnlocked] GetSetTextureFullArray: diagnostic prefix added");
+        }
 
+        // === Layer 2: Paint ID allocation floor ===
+        var getFreePaintID = AccessTools.Method(typeof(OpaqueTextures), "GetFreePaintID");
+        var getFreePaintIDPrefix = AccessTools.Method(typeof(OcbPaintLimitPatch), "GetFreePaintIDPrefix");
+        harmony.Patch(getFreePaintID, prefix: new HarmonyMethod(getFreePaintIDPrefix));
+
+        // === Layer 1: Network packet encoding for indices > 255 ===
+        var netPkgType = typeof(NetPackageSetBlockTexture);
+
+        var setupMethod = AccessTools.Method(netPkgType, "Setup");
+        harmony.Patch(setupMethod, postfix: new HarmonyMethod(AccessTools.Method(typeof(PaintIndexWidenerPatch), "SetupPostfix")));
+
+        var writeMethod = AccessTools.Method(netPkgType, "write");
+        harmony.Patch(writeMethod, prefix: new HarmonyMethod(AccessTools.Method(typeof(PaintIndexWidenerPatch), "WritePrefix")));
+
+        var readMethod = AccessTools.Method(netPkgType, "read");
+        harmony.Patch(readMethod, prefix: new HarmonyMethod(AccessTools.Method(typeof(PaintIndexWidenerPatch), "ReadPrefix")));
+
+        var processMethod = AccessTools.Method(netPkgType, "ProcessPackage");
+        harmony.Patch(processMethod, prefix: new HarmonyMethod(AccessTools.Method(typeof(PaintIndexWidenerPatch), "ProcessPackagePrefix")));
+
+        // === UI protection ===
         var updateBg = AccessTools.Method(typeof(XUiC_ItemStack), "updateBackgroundTexture");
-        var updateBgFinalizer = AccessTools.Method(typeof(UpdateBackgroundTexturePatch), "Finalizer");
-        harmony.Patch(updateBg, finalizer: new HarmonyMethod(updateBgFinalizer));
+        harmony.Patch(updateBg, finalizer: new HarmonyMethod(AccessTools.Method(typeof(UpdateBackgroundTexturePatch), "Finalizer")));
 
-        // Patch NetPackagePersistentPlayerState buffer size (1000 -> 65536)
-        var getPpsLen = AccessTools.Method(typeof(NetPackagePersistentPlayerState), "GetLength");
-        var getPpsLenPostfix = AccessTools.Method(typeof(PersistentPlayerStateLengthPatch), "Postfix");
-        harmony.Patch(getPpsLen, postfix: new HarmonyMethod(getPpsLenPostfix));
+        // === Fix paint ID byte truncation in SetSelectedTextureForItem ===
+        // The game does conv.u1 (byte cast) on textureData.ID before storing in Meta,
+        // truncating paint IDs above 255. Remove the conv.u1 to preserve full ID.
+        var setSelTex = AccessTools.Method(typeof(XUiC_MaterialStack), "SetSelectedTextureForItem");
+        if (setSelTex != null)
+        {
+            harmony.Patch(setSelTex, transpiler: new HarmonyMethod(AccessTools.Method(typeof(MetaTruncationPatch), "Transpiler")));
+        }
+        else Log.Warning("[PaintUnlocked] SetSelectedTextureForItem not found!");
 
-        Log.Out("[PaintUnlocked] Loaded - paint texture limit removed (byte -> ushort, chunk storage 8-bit -> 10-bit).");
+        Log.Out("[PaintUnlocked] Loaded - paint limit raised to 1023 (10-bit chunk storage, 64-bit ChunkBlockChannel).");
+        Log.Warning("[PaintUnlocked] Fresh world required. Existing 8-bit painted blocks will show default textures.");
     }
 }
 
@@ -80,22 +109,14 @@ public static class PaintIndexWidenerPatch
     private static readonly FieldInfo _fChannel =
         typeof(NetPackageSetBlockTexture).GetField("channel", _fieldFlags);
 
-    private static readonly BindingFlags _methodFlags =
-        BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-    private static readonly MethodInfo _writeInt =
-        typeof(PooledBinaryWriter).GetMethod("Write", _methodFlags, null, new[] { typeof(int) }, null);
-    private static readonly MethodInfo _writeByte =
-        typeof(PooledBinaryWriter).GetMethod("Write", _methodFlags, null, new[] { typeof(byte) }, null);
-
     private static bool _reflectionValid = false;
 
     static PaintIndexWidenerPatch()
     {
         _reflectionValid = _fIdx != null && _fBlockPos != null && _fBlockFace != null
-                        && _fPlayerId != null && _fChannel != null
-                        && _writeInt != null && _writeByte != null;
+                        && _fPlayerId != null && _fChannel != null;
         if (!_reflectionValid)
-            Log.Warning($"[PaintUnlocked] Reflection check FAILED");
+            Log.Warning("[PaintUnlocked] Reflection check FAILED - network patches disabled");
         else
             Log.Out("[PaintUnlocked] Reflection check passed - all fields found.");
     }
@@ -120,84 +141,82 @@ public static class PaintIndexWidenerPatch
         StoreIdx(__instance, (ushort)_idx);
     }
 
-    public static bool WritePrefix(NetPackageSetBlockTexture __instance, PooledBinaryWriter _bw)
+    /// <summary>
+    /// Field mutation prefix: for overflow indices, modify channel/idx fields on instance
+    /// BEFORE vanilla write() runs. Vanilla serializes our values through PooledBinaryWriter.
+    /// Does NOT skip original — PooledBinaryWriter internal state must be maintained.
+    /// </summary>
+    public static void WritePrefix(NetPackageSetBlockTexture __instance)
+    {
+        if (!_reflectionValid) return;
+
+        var idx = LoadIdx(__instance);
+        if (idx <= 255) return;
+
+        byte channelWire = (byte)(OverflowFlag | ((idx >> 8) & 0x7F));
+        byte idxLow = (byte)(idx & 0xFF);
+
+        _fChannel.SetValue(__instance, channelWire);
+        _fIdx.SetValue(__instance, idxLow);
+    }
+
+    /// <summary>
+    /// Decodes overflow encoding in ProcessPackage (reliable on both client and server).
+    /// ReadPrefix is unreliable on dedicated server due to virtual method dispatch.
+    /// </summary>
+    public static bool ProcessPackagePrefix(NetPackageSetBlockTexture __instance, World _world)
     {
         if (!_reflectionValid) return true;
 
         try
         {
+            var channel = (byte)_fChannel.GetValue(__instance);
+
+            if ((channel & OverflowFlag) == 0)
+            {
+                var fullIdx = LoadIdx(__instance);
+                if (fullIdx <= 255) return true;
+
+                var blockPos2  = (Vector3i)_fBlockPos.GetValue(__instance);
+                var blockFace2 = (BlockFace)_fBlockFace.GetValue(__instance);
+                var playerId2  = (int)_fPlayerId.GetValue(__instance);
+                ApplyTexture(_world, blockPos2, blockFace2, fullIdx, playerId2);
+                return false;
+            }
+
+            var idxByte = (byte)_fIdx.GetValue(__instance);
+            ushort decodedIdx = (ushort)(((channel & 0x7F) << 8) | idxByte);
+
             var blockPos  = (Vector3i)_fBlockPos.GetValue(__instance);
             var blockFace = (BlockFace)_fBlockFace.GetValue(__instance);
             var playerId  = (int)_fPlayerId.GetValue(__instance);
-            var channel   = (byte)_fChannel.GetValue(__instance);
-            var idx       = LoadIdx(__instance);
 
-            if (idx > 255)
-                Log.Out($"[PaintUnlocked] WritePrefix: idx={idx} pos={blockPos} face={blockFace} channel={channel} -> encoding as overflow");
-            else
-                Log.Out($"[PaintUnlocked] WritePrefix: idx={idx} pos={blockPos} face={blockFace} channel={channel} -> encoding as byte");
-
-            _writeInt.Invoke(_bw, new object[] { blockPos.x });
-            _writeInt.Invoke(_bw, new object[] { blockPos.y });
-            _writeInt.Invoke(_bw, new object[] { blockPos.z });
-            _writeByte.Invoke(_bw, new object[] { (byte)blockFace });
-            _writeInt.Invoke(_bw, new object[] { playerId });
-
-            if (idx > 255)
-            {
-                byte channelWire = (byte)(OverflowFlag | ((idx >> 8) & 0x7F));
-                _writeByte.Invoke(_bw, new object[] { channelWire });
-                _writeByte.Invoke(_bw, new object[] { (byte)(idx & 0xFF) });
-                Log.Out($"[PaintUnlocked] WritePrefix: channelWire=0x{channelWire:X2} idxByte=0x{(idx & 0xFF):X2}");
-            }
-            else
-            {
-                _writeByte.Invoke(_bw, new object[] { channel });
-                _writeByte.Invoke(_bw, new object[] { (byte)idx });
-            }
-
+            Log.Out($"[PaintUnlocked] ProcessPackagePrefix: overflow decode -> fullIdx={decodedIdx} at {blockPos} face={blockFace}");
+            ApplyTexture(_world, blockPos, blockFace, decodedIdx, playerId);
             return false;
         }
         catch (System.Exception ex)
         {
-            Log.Error($"[PaintUnlocked] WritePrefix failed: {ex.Message}");
+            Log.Error($"[PaintUnlocked] ProcessPackagePrefix failed: {ex.Message}");
             return true;
         }
     }
 
+    private static void ApplyTexture(World _world, Vector3i blockPos, BlockFace blockFace, ushort idx, int playerId)
+    {
+        var cc = _world.ChunkClusters[0];
+        if (cc == null) return;
+
+        var chunk = (Chunk)cc.GetChunkFromWorldPos(blockPos);
+        if (chunk == null) return;
+
+        var localPos = World.toBlock(blockPos);
+        chunk.SetBlockFaceTexture(localPos.x, localPos.y, localPos.z, blockFace, idx);
+        chunk.isModified = true;
+    }
+
     public static bool ReadPrefix(NetPackageSetBlockTexture __instance, PooledBinaryReader _br)
     {
-        if (!_reflectionValid) return true;
-
-        try
-        {
-            _fBlockPos.SetValue(__instance, new Vector3i(_br.ReadInt32(), _br.ReadInt32(), _br.ReadInt32()));
-            _fBlockFace.SetValue(__instance, (BlockFace)_br.ReadByte());
-            _fPlayerId.SetValue(__instance, _br.ReadInt32());
-
-            var channelByte = _br.ReadByte();
-            var idxByte     = _br.ReadByte();
-
-            if ((channelByte & OverflowFlag) != 0)
-            {
-                _fChannel.SetValue(__instance, (byte)0);
-                ushort idx = (ushort)(((channelByte & 0x7F) << 8) | idxByte);
-                Log.Out($"[PaintUnlocked] ReadPrefix: overflow decode channelByte=0x{channelByte:X2} idxByte=0x{idxByte:X2} -> idx={idx}");
-                StoreIdx(__instance, idx);
-            }
-            else
-            {
-                _fChannel.SetValue(__instance, channelByte);
-                Log.Out($"[PaintUnlocked] ReadPrefix: normal decode channelByte={channelByte} idxByte={idxByte}");
-                StoreIdx(__instance, idxByte);
-            }
-
-            return false;
-        }
-        catch (System.Exception ex)
-        {
-            Log.Error($"[PaintUnlocked] ReadPrefix failed: {ex.Message}");
-            return false;
-        }
+        return true; // passthrough — ProcessPackagePrefix handles decoding
     }
 }

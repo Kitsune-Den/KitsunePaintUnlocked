@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs head:*)",
+      "Bash(find /c/Users/darab/IdeaProjects/KitsunePaintUnlocked -maxdepth 3 -type d ! -path */.git*)",
+      "Bash(git rm:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git -C /c/Users/darab/WebstormProjects/OcbCustomTextures status)",
+      "Bash(git -C /c/Users/darab/WebstormProjects/OcbCustomTextures log --oneline -3)",
+      "Bash(git -C /c/Users/darab/WebstormProjects/OcbCustomTextures diff --stat HEAD~1)",
+      "Bash(git -C /c/Users/darab/WebstormProjects/OcbCustomTextures show HEAD:README.md)",
+      "Bash(git -C /c/Users/darab/WebstormProjects/OcbCustomTextures rev-parse --git-dir)",
+      "Bash(git -C /c/Users/darab/WebstormProjects/OcbCustomTextures rev-parse --show-toplevel)",
+      "Bash(git -C /c/Users/darab/IdeaProjects/KitsunePaintUnlocked log --oneline -3)",
+      "Bash(git -C:*)",
+      "Bash(dotnet build:*)",
+      "Bash(PU=\"C:\\\\Users\\\\darab\\\\IdeaProjects\\\\KitsunePaintUnlocked\\\\bin\\\\Release\\\\net48\\\\PaintUnlocked.dll\")",
+      "Bash(for dest:*)",
+      "Bash(do)",
+      "Bash(cp \"$PU\" \"$dest\")",
+      "Bash(echo \"OK: $dest\")",
+      "Bash(xargs grep:*)",
+      "Bash(done)",
+      "Bash(cp \"C:\\\\Users\\\\darab\\\\IdeaProjects\\\\KitsunePaintUnlocked\\\\bin\\\\Release\\\\net48\\\\PaintUnlocked.dll\" \"F:\\\\7D2D\\\\Custom\\\\KitsuneCommand\\\\Mods\\\\0_PaintUnlocked\\\\PaintUnlocked.dll\")",
+      "Bash(cp \"C:\\\\Users\\\\darab\\\\IdeaProjects\\\\KitsunePaintUnlocked\\\\bin\\\\Release\\\\net48\\\\PaintUnlocked.dll\" \"F:\\\\7D2D\\\\Custom\\\\KitsuneCommand\\\\ModConfig\\\\Modlets\\\\0_PaintUnlocked\\\\PaintUnlocked.dll\")",
+      "Bash(cp \"$PU\" \"F:\\\\72D2D-Server\\\\Mods\\\\0_PaintUnlocked\\\\PaintUnlocked.dll\")",
+      "Bash(cp \"$PU\" \"F:\\\\7D2D\\\\Custom\\\\KitsuneCommand\\\\Mods\\\\0_PaintUnlocked\\\\PaintUnlocked.dll\")",
+      "Bash(cp \"$PU\" \"F:\\\\7D2D\\\\Custom\\\\KitsuneCommand\\\\ModConfig\\\\Modlets\\\\0_PaintUnlocked\\\\PaintUnlocked.dll\")",
+      "Bash(find C:/Users/darab/IdeaProjects/KitsunePaintUnlocked -type f \\\\\\(-name *.cs -o -name *.cpp -o -name *.h -o -name *.txt -o -name *.md \\\\\\))",
+      "Bash(grep -r \"Int64\\\\|chnTextures\\\\|48.*bit\\\\|6.*face\" C:/Users/darab/IdeaProjects/KitsunePaintUnlocked --include=*.cs --include=*.md)",
+      "Bash(grep -r \"BlockFace\\\\|EBlockFace\\\\|faces\\\\|channel\" C:/Users/darab/IdeaProjects/KitsunePaintUnlocked --include=*.cs --include=*.md)",
+      "Bash(find C:/Users/darab/WebstormProjects/OcbCustomTextures -type f \\\\\\(-name *.cs -o -name *.md -o -name *.txt \\\\\\))",
+      "Bash(grep -r \"BlockFace\\\\|chnTextures\\\\|texture.*channel\\\\|6.*face\" C:/Users/darab/WebstormProjects/OcbCustomTextures --include=*.cs)"
+    ]
+  }
+}
