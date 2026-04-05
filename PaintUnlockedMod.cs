@@ -41,6 +41,14 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] SetTextureFull not found!");
 
+        // Also patch GetSetTextureFullArray to check if prefabs go through here
+        var getSetTexFullArr = AccessTools.Method(typeof(Chunk), "GetSetTextureFullArray");
+        if (getSetTexFullArr != null)
+        {
+            harmony.Patch(getSetTexFullArr, prefix: new HarmonyMethod(AccessTools.Method(typeof(TextureFullRepackPatch), "GetSetPrefix")));
+            Log.Out("[PaintUnlocked] GetSetTextureFullArray: diagnostic prefix added");
+        }
+
         // === Layer 2: Paint ID allocation floor ===
         var getFreePaintID = AccessTools.Method(typeof(OpaqueTextures), "GetFreePaintID");
         var getFreePaintIDPrefix = AccessTools.Method(typeof(OcbPaintLimitPatch), "GetFreePaintIDPrefix");
