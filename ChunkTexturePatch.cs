@@ -94,6 +94,8 @@ public static class ChunkTexturePatch
 /// </summary>
 public static class ChunkStorageWidthPatch
 {
+    private static bool _logged = false;
+
     /// <summary>
     /// Prefix on ChunkBlockChannel constructor. Changes bytesPerVal from 6 to 8
     /// for texture channels, widening storage from 48 to 64 bits per block.
@@ -103,7 +105,11 @@ public static class ChunkStorageWidthPatch
         if (_bytesPerVal == 6)
         {
             _bytesPerVal = 8;
-            Log.Out("[PaintUnlocked] ChunkBlockChannel: bytesPerVal 6 -> 8 (48-bit -> 64-bit storage)");
+            if (!_logged)
+            {
+                Log.Out("[PaintUnlocked] ChunkBlockChannel: bytesPerVal 6 -> 8 (48-bit -> 64-bit storage)");
+                _logged = true;
+            }
         }
     }
 }
