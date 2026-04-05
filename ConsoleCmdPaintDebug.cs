@@ -40,9 +40,95 @@ public class ConsoleCmdPaintDebug : ConsoleCmdAbstract
             return;
         }
 
+        if (_params.Count > 0 && _params[0] == "dumpbg")
+        {
+            // Dump IL of updateBackgroundTexture to find the crash point
+            var method = HarmonyLib.AccessTools.Method(typeof(XUiC_ItemStack), "updateBackgroundTexture");
+            if (method == null) { Log.Out("[PaintDebug] updateBackgroundTexture not found"); return; }
+
+            var instructions = HarmonyLib.PatchProcessor.GetOriginalInstructions(method);
+            var codes = new List<HarmonyLib.CodeInstruction>(instructions);
+            Log.Out($"[PaintDebug] === IL DUMP: updateBackgroundTexture ({codes.Count} instructions) ===");
+            for (int i = 0; i < codes.Count; i++)
+            {
+                var c = codes[i];
+                string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
+                Log.Out($"[PaintDebug]   IL[{i:D3}] {c.opcode}{operandStr}");
+            }
+            Log.Out($"[PaintDebug] === END IL DUMP ===");
+            return;
+        }
+
+        if (_params.Count > 0 && _params[0] == "uimethods")
+        {
+            // Dump methods on paint-related UI types to find the selection path
+            var uiTypes = new[] {
+                typeof(XUiC_MaterialStackGrid),
+                typeof(ItemActionTextureBlock),
+                typeof(XUiC_ItemStack)
+            };
+            foreach (var t in uiTypes)
+            {
+                Log.Out($"[PaintDebug] === {t.Name} ===");
+                var methods = t.GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic |
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly);
+                foreach (var m in methods)
+                {
+                    if (m.Name.Contains("aterial") || m.Name.Contains("exture") || m.Name.Contains("aint") ||
+                        m.Name.Contains("ackground") || m.Name.Contains("elected") || m.Name.Contains("serData"))
+                    {
+                        var parms = string.Join(", ", System.Array.ConvertAll(m.GetParameters(), p => $"{p.ParameterType.Name} {p.Name}"));
+                        Log.Out($"[PaintDebug]   {m.ReturnType.Name} {m.Name}({parms})");
+                    }
+                }
+                // Also check fields related to textures/materials
+                var fields = t.GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic |
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly);
+                foreach (var f in fields)
+                {
+                    if (f.Name.Contains("aterial") || f.Name.Contains("exture") || f.Name.Contains("aint") ||
+                        f.Name.Contains("elected") || f.Name.Contains("ackground"))
+                    {
+                        Log.Out($"[PaintDebug]   FIELD: {f.FieldType.Name} {f.Name}");
+                    }
+                }
+            }
+            return;
+        }
+
+        if (_params.Count > 0 && _params[0] == "toolbar")
+        {
+            // Dump current toolbar paint state
+            var player = GameManager.Instance?.World?.GetPrimaryPlayer();
+            if (player == null) { Log.Out("[PaintDebug] No player"); return; }
+            var inv = player.inventory;
+            Log.Out($"[PaintDebug] Held item: {inv.holdingItem?.Name ?? "null"}");
+            var actionData = inv.holdingItemData?.actionData;
+            if (actionData != null)
+            {
+                for (int a = 0; a < actionData.Count; a++)
+                {
+                    var ad = actionData[a];
+                    if (ad == null) continue;
+                    Log.Out($"[PaintDebug] actionData[{a}]: type={ad.GetType().Name}");
+                    // Try to get texture-related fields
+                    var adFields = ad.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    foreach (var f in adFields)
+                    {
+                        if (f.Name.Contains("exture") || f.Name.Contains("aint") || f.Name.Contains("elected") || f.Name.Contains("aterial"))
+                        {
+                            var val = f.GetValue(ad);
+                            Log.Out($"[PaintDebug]   {f.FieldType.Name} {f.Name} = {val}");
+                        }
+                    }
+                }
+            }
+            return;
+        }
+
         if (_params.Count == 0)
         {
-            Log.Out("[PaintDebug] Usage: pu_debug <paintID> | pu_debug channels");
+            Log.Out("[PaintDebug] Usage: pu_debug <paintID> | pu_debug channels | pu_debug uimethods | pu_debug toolbar");
             return;
         }
 
