@@ -40,6 +40,40 @@ public class ConsoleCmdPaintDebug : ConsoleCmdAbstract
             return;
         }
 
+        if (_params.Count > 0 && _params[0] == "dumpsetmat")
+        {
+            // Dump IL of SetMaterials to find how Meta is set
+            var method = HarmonyLib.AccessTools.Method(typeof(XUiC_MaterialStackGrid), "SetMaterials");
+            if (method == null) { Log.Out("[PaintDebug] SetMaterials not found"); return; }
+            var instructions = HarmonyLib.PatchProcessor.GetOriginalInstructions(method);
+            var codes = new List<HarmonyLib.CodeInstruction>(instructions);
+            Log.Out($"[PaintDebug] === IL DUMP: SetMaterials ({codes.Count} instructions) ===");
+            for (int i = 0; i < codes.Count; i++)
+            {
+                var c = codes[i];
+                string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
+                Log.Out($"[PaintDebug]   IL[{i:D3}] {c.opcode}{operandStr}");
+            }
+            Log.Out($"[PaintDebug] === END IL DUMP ===");
+
+            // Also dump SetSelectedTextureForItem if it exists
+            var method2 = HarmonyLib.AccessTools.Method(typeof(XUiC_MaterialStack), "SetSelectedTextureForItem");
+            if (method2 != null)
+            {
+                var codes2 = new List<HarmonyLib.CodeInstruction>(HarmonyLib.PatchProcessor.GetOriginalInstructions(method2));
+                Log.Out($"[PaintDebug] === IL DUMP: SetSelectedTextureForItem ({codes2.Count} instructions) ===");
+                for (int i = 0; i < codes2.Count; i++)
+                {
+                    var c = codes2[i];
+                    string operandStr = c.operand != null ? $" {c.operand} ({c.operand.GetType().Name})" : "";
+                    Log.Out($"[PaintDebug]   IL[{i:D3}] {c.opcode}{operandStr}");
+                }
+                Log.Out($"[PaintDebug] === END IL DUMP ===");
+            }
+            else Log.Out("[PaintDebug] SetSelectedTextureForItem not found");
+            return;
+        }
+
         if (_params.Count > 0 && _params[0] == "dumpbg")
         {
             // Dump IL of updateBackgroundTexture to find the crash point
@@ -103,6 +137,25 @@ public class ConsoleCmdPaintDebug : ConsoleCmdAbstract
             if (player == null) { Log.Out("[PaintDebug] No player"); return; }
             var inv = player.inventory;
             Log.Out($"[PaintDebug] Held item: {inv.holdingItem?.Name ?? "null"}");
+            // Dump Meta (paint ID stored in toolbelt)
+            var holdingData = inv.holdingItemData;
+            if (holdingData != null)
+            {
+                var iv = holdingData.itemValue;
+                Log.Out($"[PaintDebug] itemValue.Meta = {iv.Meta}");
+                Log.Out($"[PaintDebug] itemValue.type = {iv.type}");
+                // Check if Meta points to valid BlockTextureData
+                var btdList = BlockTextureData.list;
+                if (btdList != null && iv.Meta >= 0 && iv.Meta < btdList.Length)
+                {
+                    var btd = btdList[iv.Meta];
+                    Log.Out($"[PaintDebug] BlockTextureData.list[{iv.Meta}] = {(btd == null ? "NULL" : $"Name={btd.Name} TextureID={btd.TextureID}")}");
+                }
+                else
+                {
+                    Log.Out($"[PaintDebug] Meta {iv.Meta} out of range (list.Length={btdList?.Length ?? 0})");
+                }
+            }
             var actionData = inv.holdingItemData?.actionData;
             if (actionData != null)
             {

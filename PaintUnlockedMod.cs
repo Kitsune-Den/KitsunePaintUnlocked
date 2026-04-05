@@ -56,6 +56,16 @@ public class PaintUnlockedMod : IModApi
         var updateBg = AccessTools.Method(typeof(XUiC_ItemStack), "updateBackgroundTexture");
         harmony.Patch(updateBg, finalizer: new HarmonyMethod(AccessTools.Method(typeof(UpdateBackgroundTexturePatch), "Finalizer")));
 
+        // === Fix paint ID byte truncation in SetSelectedTextureForItem ===
+        // The game does conv.u1 (byte cast) on textureData.ID before storing in Meta,
+        // truncating paint IDs above 255. Remove the conv.u1 to preserve full ID.
+        var setSelTex = AccessTools.Method(typeof(XUiC_MaterialStack), "SetSelectedTextureForItem");
+        if (setSelTex != null)
+        {
+            harmony.Patch(setSelTex, transpiler: new HarmonyMethod(AccessTools.Method(typeof(MetaTruncationPatch), "Transpiler")));
+        }
+        else Log.Warning("[PaintUnlocked] SetSelectedTextureForItem not found!");
+
         Log.Out("[PaintUnlocked] Loaded - paint limit raised to 1023 (10-bit chunk storage, 64-bit ChunkBlockChannel).");
         Log.Warning("[PaintUnlocked] Fresh world required. Existing 8-bit painted blocks will show default textures.");
     }
