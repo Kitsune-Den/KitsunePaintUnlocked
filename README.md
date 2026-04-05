@@ -2,64 +2,79 @@
 
 **Breaks the hardcoded 255 paint texture limit in 7 Days to Die, raising it to 1023.**
 
-Vanilla 7D2D caps paint textures at 255 across four separate engine layers. PaintUnlocked patches all four simultaneously using Harmony, allowing large paint packs like PyroPaints, CK Textures, and KitsunePaints to run together without conflict.
+Vanilla 7D2D caps paint textures at 255 across five separate engine layers. PaintUnlocked patches all five simultaneously using Harmony, allowing large paint packs like PyroPaints, CK Textures, and KitsunePaints to run together without conflict.
+
+**302 total paints confirmed working** on a dedicated server with KitsunePaints + PyroPaints + CK Textures running simultaneously -- something the community previously accepted as impossible.
 
 ## Requirements
 
 - 7 Days to Die V2.0+
-- [OcbCustomTextures](https://github.com/OCB7D2D/OcbCustomTextures) (PaintUnlocked-compatible fork)
+- [OcbCustomTextures](https://github.com/AdaInTheLab/OcbCustomTextures) (PaintUnlocked-compatible fork, included in release)
 - EAC **disabled** on server and all clients
 
 ## Installation
 
-1. Drop the `PaintUnlocked` folder (containing `PaintUnlocked.dll` and `ModInfo.xml`) into `Mods/` on **both the server and all connecting clients**.
-2. Install the PaintUnlocked-compatible OcbCustomTextures fork on both server and clients.
-3. A **fresh world is required** for correct 10-bit chunk storage. Existing worlds will display paint index 0 on previously painted blocks (cosmetic only, no crashes).
+1. Extract the release zip into your `Mods/` folder on **both the server and all connecting clients**. This adds two folders: `0_PaintUnlocked` and `OcbCustomTextures`.
+2. If you already have OcbCustomTextures installed, replace it with the version from this release. The PaintUnlocked fork is required -- vanilla OcbCustomTextures is not compatible.
+3. Install your paint packs as usual (KitsunePaints, PyroPaints, CK Textures, etc.).
+4. A **fresh world is required**. Existing worlds will display default textures on previously painted blocks.
 
-Unpatched clients can still connect and use paint slots 0-254 normally. Slots 255+ will not render correctly for them.
+Unpatched clients can still connect and use paint slots 0-254 normally.
 
 ## What it patches
 
-### Layer 1: Network packets
+PaintUnlocked modifies five engine layers to break the 255 limit:
 
-`NetPackageSetBlockTexture` sends paint indices as a single `byte` (max 255). The packet is exactly 19 bytes and `GetLength()` is hardcoded -- adding bytes causes stream desync and instant disconnection.
+### Layer 1: Network wire format
 
-PaintUnlocked repurposes the `channel` byte field to carry overflow bits. Bit 7 is an overflow flag: when set, the remaining 7 bits of channel plus the idx byte form a 15-bit index. For indices 0-254, the packet is byte-identical to vanilla.
+`NetPackageSetBlockTexture` sends paint indices as a single `byte` field. The packet is exactly 19 bytes with a hardcoded `GetLength()` -- adding bytes causes stream desync and instant disconnection.
 
-### Layer 2: Chunk storage (10-bit)
+PaintUnlocked uses a **field mutation prefix** on `write()`: for indices above 255, the `channel` byte is repurposed to carry overflow bits (bit 7 = overflow flag). Vanilla `write()` then serializes the modified fields through its normal `PooledBinaryWriter` path. For indices 0-254, the packet is byte-identical to vanilla.
 
-`Chunk.SetBlockFaceTexture`, `Chunk.GetBlockFaceTexture`, and `Chunk.Value64FullToIndex` all use 8-bit masks (`0xFF`) and 8-bit shifts to pack/unpack paint indices into an `Int64` per block. IL transpilers widen these to 10-bit (`0x3FF` mask, 10-bit shifts), supporting up to 1023 indices per face.
+On the receive side, `ProcessPackagePrefix` decodes the overflow from the channel field before vanilla `ProcessPackage` runs. This is reliable on both client and dedicated server, unlike `read()` prefixes which can be bypassed by JIT virtual dispatch.
 
-A postfix clamp on `Value64FullToIndex` prevents array-out-of-bounds crashes when loading old 8-bit world data into the 10-bit decoder.
+### Layer 2: Chunk face storage (10-bit)
 
-### Layer 3: Paint ID allocation
+`Chunk.SetBlockFaceTexture`, `Chunk.GetBlockFaceTexture`, and `Chunk.Value64FullToIndex` use 8-bit masks and shifts to pack/unpack paint indices into an `Int64` per block. IL transpilers widen these to 10-bit (`0x3FF` mask, 10-bit shifts), supporting up to 1023 indices per face.
 
-The server loads fewer vanilla paints than the client (~155 vs ~407), so custom paint IDs diverge unless forced to a common floor. PaintUnlocked seeds `GetFreePaintID` at ID 512 on both sides, ensuring identical allocation regardless of vanilla paint count.
+### Layer 3: Chunk storage width (64-bit)
 
-### Layer 4: Network buffer sizing
+`ChunkBlockChannel` stores `bytesPerVal` bytes per block position. Vanilla uses 6 bytes (48 bits) for textures -- only enough for 8 bits per face. PaintUnlocked patches the `ChunkBlockChannel` constructor to use 8 bytes (64 bits), providing room for 10 bits per face with 4 bits to spare.
 
-`NetPackagePersistentPlayerState.GetLength()` returns 1000 bytes, which overflows with many custom paints and causes `Unknown NetPackage ID` disconnections. PaintUnlocked expands this to 65536 bytes.
+### Layer 4: Paint ID allocation
 
-### UI protection
+The server loads fewer vanilla paints than the client (~155 vs ~407), causing custom paint IDs to diverge. The OcbCustomTextures fork seeds `GetFreePaintID` at ID 512 on both sides, ensuring identical allocation. It also dynamically resizes `BlockTextureData.list` when more paints are registered.
 
-A finalizer on `XUiC_ItemStack.updateBackgroundTexture` catches `NullReferenceException` for paint IDs beyond the texture atlas size, keeping the toolbelt functional.
+### Layer 5: Prefab texture re-encoding
 
-### Debug command
+Prefab placement uses `GetSetTextureFullArray` to write pre-packed Int64 texture values where faces are at 8-bit positions. PaintUnlocked re-encodes these to 10-bit positions before they enter the chunk, preventing custom textures from bleeding onto POI buildings.
 
-`pu_debug <paintID>` -- dumps `BlockTextureData` for a specific paint, including texture atlas mappings and GPU slot assignments. Available in the F1 console.
+### UI fixes
+
+- **Toolbar thumbnails**: The game truncates paint IDs to a byte (`conv.u1`) before storing in `itemValue.Meta`, causing wrong thumbnails for custom paints. A transpiler removes the byte cast so the full paint ID is preserved.
+- **Background texture protection**: A finalizer on `updateBackgroundTexture` catches exceptions for paint IDs beyond the atlas size, keeping the UI functional.
+
+### Debug commands
+
+Available in the F1 console:
+
+- `pu_debug <paintID>` -- dumps BlockTextureData, TextureID, uvMapping, and GPU slot for a paint
+- `pu_debug channels` -- shows ChunkBlockChannel array info for the chunk at the player's position
+- `pu_debug toolbar` -- dumps the current paint tool's Meta value and BlockTextureData lookup
 
 ## Compatibility
 
-- Works with any OcbCustomTextures-based paint pack (KitsunePaints, PyroPaints, CK Textures, etc.)
+- Works with any OcbCustomTextures-based paint pack
 - Backward compatible: indices 0-254 are wire-identical to vanilla
-- Unpatched clients work for vanilla paint range
-- **Not compatible with vanilla OcbCustomTextures** -- requires the PaintUnlocked-compatible fork that handles dynamic array resizing, 512 ID floor, and atlas size calculations
+- Unpatched clients can connect and use the vanilla paint range
+- Compatible with custom POI packs (Fluffy Panda, etc.) -- prefab textures are re-encoded automatically
+- **Requires the PaintUnlocked-compatible OcbCustomTextures fork** (included in release)
 
 ## Known limitations
 
-- `TextureIdxToTextureFullValue64` (paint menu -> block storage) is not yet patched for above-255 indices. Painting from the radial wheel texture picker works correctly as a workaround.
-- Toolbelt thumbnails may be blank for custom paints above the vanilla atlas size. Cosmetic only.
-- Fresh world required for correct 10-bit chunk storage. Old worlds display paint 0 on previously painted blocks.
+- `TextureIdxToTextureFullValue64` (paint-all-faces from menu) is not yet patched with a specialized transpiler. Individual face painting works correctly.
+- Fresh world required -- the 10-bit chunk storage format is not backward compatible with 8-bit worlds.
+- `Graphics.CopyTexture` mip level warnings may appear for paint packs with mismatched texture mip counts. These are cosmetic and come from the paint packs, not PaintUnlocked.
 
 ## Building from source
 
@@ -70,7 +85,7 @@ Copy these from your 7D2D install's `7DaysToDie_Data/Managed/` into `7dtd-binari
 - `UnityEngine.dll`
 - `UnityEngine.CoreModule.dll`
 - `0Harmony.dll`
-- `CustomTextures.dll` (from OcbCustomTextures)
+- `CustomTextures.dll` (from OcbCustomTextures fork)
 - `LogLibrary.dll`
 
 Then:
@@ -83,12 +98,12 @@ Output: `bin/Release/net48/PaintUnlocked.dll`
 
 ## Versioning
 
-PaintUnlocked and the OcbCustomTextures fork ship as a **single release zip** to prevent version mismatches. Both mods must be the same release -- mismatched versions cause silent failures.
+PaintUnlocked and the OcbCustomTextures fork ship as a **single release zip** to prevent version mismatches.
 
 - **PaintUnlocked**: semver (e.g. `1.0.0`), drives the shared version
 - **OcbCustomTextures fork**: `{upstream base}-pu{version}` (e.g. `0.8.0-pu1.0.0`)
 
-Both version numbers live in their respective `ModInfo.xml` files and are bumped together on every release.
+Both version numbers are bumped together on every release.
 
 ## License
 
@@ -97,4 +112,4 @@ MIT -- see [LICENSE](LICENSE).
 ## Credits
 
 - [ocbMaurice](https://github.com/OCB7D2D) for OcbCustomTextures, the foundation this builds on
-- The 7D2D modding community for paint packs that inspired this work
+- The 7D2D modding community for the paint packs that inspired this work
