@@ -8,6 +8,16 @@ public class PaintUnlockedMod : IModApi
     {
         var harmony = new Harmony("com.adainthelab.paintunlocked");
 
+        // === Early safety: ensure BlockTextureData.list can hold 10-bit paint IDs ===
+        // On save reload, the game may access paint IDs 512+ before CreateBlockTextures
+        // fires. Pre-size the list now if it already exists.
+        if (BlockTextureData.list != null && BlockTextureData.list.Length < 1024)
+        {
+            var oldLen = BlockTextureData.list.Length;
+            System.Array.Resize(ref BlockTextureData.list, 1024);
+            Log.Out($"[PaintUnlocked] InitMod: pre-sized BlockTextureData.list {oldLen} -> 1024");
+        }
+
         // === Layer 5: Widen ChunkBlockChannel storage from 48-bit to 64-bit ===
         // Must be patched BEFORE chunks are created. bytesPerVal=6 → 8.
         var cbcCtor = typeof(ChunkBlockChannel).GetConstructor(new[] { typeof(long), typeof(int) });
