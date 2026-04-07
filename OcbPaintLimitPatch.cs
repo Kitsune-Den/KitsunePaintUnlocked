@@ -64,4 +64,18 @@ public static class OcbPaintLimitPatch
             return false;
         }
     }
+
+    /// <summary>
+    /// Resets the sequential counter to a new value.
+    /// Called by PaintIdSyncManager after remapping client IDs to match the server,
+    /// so any further allocations continue from the correct slot.
+    /// </summary>
+    public static void ResetCounterTo(int newNextId)
+    {
+        lock (_lock)
+        {
+            _nextId = newNextId;
+            Log.Out($"[PaintUnlocked] GetFreePaintID counter reset to {newNextId}");
+        }
+    }
 }

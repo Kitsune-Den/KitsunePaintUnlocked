@@ -93,6 +93,25 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] SetSelectedTextureForItem not found!");
 
+        // === Server-authoritative paint ID sync ===
+        // After InitOpaqueConfig: build the server's ID mapping
+        var initOpaqueConfig = AccessTools.Method(typeof(OpaqueTextures), "InitOpaqueConfig");
+        if (initOpaqueConfig != null)
+        {
+            harmony.Patch(initOpaqueConfig, postfix: new HarmonyMethod(AccessTools.Method(typeof(PaintIdSyncManager), "OnInitOpaqueConfigDone")));
+            Log.Out("[PaintUnlocked] InitOpaqueConfig postfix registered for paint ID mapping");
+        }
+        else Log.Warning("[PaintUnlocked] InitOpaqueConfig not found — paint ID sync disabled");
+
+        // On client connect: send the mapping before chunks flow
+        var requestToEnter = AccessTools.Method(typeof(NetPackageRequestToEnterGame), "ProcessPackage");
+        if (requestToEnter != null)
+        {
+            harmony.Patch(requestToEnter, prefix: new HarmonyMethod(AccessTools.Method(typeof(PaintIdSyncManager), "OnRequestToEnterGamePrefix")));
+            Log.Out("[PaintUnlocked] RequestToEnterGame prefix registered for paint ID sync");
+        }
+        else Log.Warning("[PaintUnlocked] NetPackageRequestToEnterGame.ProcessPackage not found — paint ID sync disabled");
+
         Log.Out("[PaintUnlocked] Loaded - paint limit raised to 1023 (10-bit chunk storage, 64-bit ChunkBlockChannel).");
         Log.Warning("[PaintUnlocked] Fresh world required. Existing 8-bit painted blocks will show default textures.");
     }
