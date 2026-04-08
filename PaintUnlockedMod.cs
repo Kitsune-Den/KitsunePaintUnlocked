@@ -43,21 +43,14 @@ public class PaintUnlockedMod : IModApi
         else Log.Warning("[PaintUnlocked] Value64FullToIndex not found!");
 
         // === Prefab/bulk texture re-encoding (8-bit → 10-bit) ===
-        var setTexFull = AccessTools.Method(typeof(Chunk), "SetTextureFull");
-        if (setTexFull != null)
-        {
-            harmony.Patch(setTexFull, prefix: new HarmonyMethod(AccessTools.Method(typeof(TextureFullRepackPatch), "Prefix")));
-            Log.Out("[PaintUnlocked] SetTextureFull: prefix added for 8-bit → 10-bit re-encoding");
-        }
-        else Log.Warning("[PaintUnlocked] SetTextureFull not found!");
-
-        // Also patch GetSetTextureFullArray to check if prefabs go through here
-        var getSetTexFullArr = AccessTools.Method(typeof(Chunk), "GetSetTextureFullArray");
-        if (getSetTexFullArr != null)
-        {
-            harmony.Patch(getSetTexFullArr, prefix: new HarmonyMethod(AccessTools.Method(typeof(TextureFullRepackPatch), "GetSetPrefix")));
-            Log.Out("[PaintUnlocked] GetSetTextureFullArray: diagnostic prefix added");
-        }
+        // DISABLED: The 10-bit transpilers on Set/GetBlockFaceTexture and Value64FullToIndex
+        // already handle the bit-width at the storage level. The repack prefix was corrupting
+        // valid prefab data on fresh worlds (Navezgane, RWG) by re-encoding values that were
+        // already in the correct format. See bugfix/painting-xml-crash.
+        //
+        // var setTexFull = AccessTools.Method(typeof(Chunk), "SetTextureFull");
+        // var getSetTexFullArr = AccessTools.Method(typeof(Chunk), "GetSetTextureFullArray");
+        Log.Out("[PaintUnlocked] TextureFullRepackPatch DISABLED — 10-bit transpilers handle storage directly");
 
         // === Layer 2: Paint ID allocation floor ===
         var getFreePaintID = AccessTools.Method(typeof(OpaqueTextures), "GetFreePaintID");
