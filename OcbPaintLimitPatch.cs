@@ -40,6 +40,16 @@ public static class OcbPaintLimitPatch
         {
             int builtin = (int)_fBuiltinOpaques.GetValue(null);
 
+            // Detect world reload: if BlockTextureData.list was recreated (our entries are gone),
+            // reset the counter so IDs start from 512 again. Without this, quit-to-menu + reload
+            // on listen servers assigns IDs 575+ instead of 512+, causing empty paint menus.
+            if (_nextId >= CustomIdFloor && BlockTextureData.list != null
+                && (_nextId >= BlockTextureData.list.Length || BlockTextureData.list[CustomIdFloor] == null))
+            {
+                Log.Out($"[PaintUnlocked] GetFreePaintID: world reload detected (list[{CustomIdFloor}] is null), resetting counter");
+                _nextId = -1;
+            }
+
             if (_nextId < 0)
             {
                 // Wait until builtinOpaques is set (>= 0, including 0 for dedicated server)
