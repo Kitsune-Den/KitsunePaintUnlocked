@@ -13,7 +13,7 @@ using System.Reflection;
 /// </summary>
 public static class TextureFullRepackPatch
 {
-    private static bool _loggedOnce = false;
+    internal static bool _loggedOnce = false;
 
     /// <summary>
     /// 8-bit packing uses bits 0-47 (6 faces x 8 bits). Bits 48-63 are always zero.

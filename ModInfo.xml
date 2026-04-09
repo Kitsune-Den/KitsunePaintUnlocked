@@ -2,7 +2,7 @@
 <xml>
   <Name value="PaintUnlocked" />
   <DisplayName value="Paint Unlocked" />
-  <Version value="1.0.4" />
+  <Version value="1.0.5" />
   <Description value="Breaks the 255 paint texture limit in 7D2D, raising it to 1023. Patches network packets, chunk storage, paint ID allocation, and buffer sizing. Requires the PaintUnlocked-compatible OcbCustomTextures fork. Install on server and all clients." />
   <Author value="AdaInTheLab" />
   <Website value="https://github.com/AdaInTheLab/PaintUnlocked" />
