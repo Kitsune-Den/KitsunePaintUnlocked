@@ -178,7 +178,7 @@ def generate_modinfo() -> str:
   <Version value="1.0.0"/>
   <Author value="AdaInTheLab"/>
   <Description value="260 solid color test paints for validating PaintUnlocked. Paints 255-260 require PaintUnlocked mod. Requires OCBCustomTextures."/>
-  <Website value="https://github.com/AdaInTheLab/PaintUnlocked"/>
+  <Website value="https://github.com/Kitsune-Den/KitsunePaintUnlocked"/>
 </xml>"""
 
 
