@@ -1,17 +1,17 @@
-# PaintUnlocked
+# KitsunePaintUnlocked
 
-![PaintUnlocked - 302 paints running simultaneously](kitsune-paint-unlocked.png)
+![KitsunePaintUnlocked — 302 paints running simultaneously](kitsune-paint-unlocked.png)
 
 **Breaks the hardcoded 255 paint texture limit in 7 Days to Die, raising it to 1023.**
 
-Vanilla 7D2D caps paint textures at 255 across five separate engine layers. PaintUnlocked patches all five simultaneously using Harmony, allowing large paint packs like PyroPaints, CK Textures, and KitsunePaints to run together without conflict.
+Vanilla 7D2D caps paint textures at 255 across five separate engine layers. KitsunePaintUnlocked patches all five simultaneously using Harmony, allowing large paint packs like PyroPaints, CK Textures, and KitsunePaints to run together without conflict.
 
-**302 total paints confirmed working** on a dedicated server with KitsunePaints + PyroPaints + CK Textures running simultaneously -- something the community previously accepted as impossible.
+**302 total paints confirmed working** on a dedicated server with KitsunePaints + PyroPaints + CK Textures running simultaneously — something the community previously accepted as impossible.
 
 ## Requirements
 
 - 7 Days to Die V2.0+
-- [OcbCustomTextures](https://github.com/AdaInTheLab/OcbCustomTextures) (PaintUnlocked-compatible fork, included in release)
+- [OcbPaintUnlocked](https://github.com/Kitsune-Den/OcbPaintUnlocked) (KitsunePaintUnlocked-compatible fork of OcbCustomTextures, included in release)
 - EAC **disabled** on server and all clients
 
 ## Installation
