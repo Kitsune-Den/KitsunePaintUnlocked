@@ -11,7 +11,7 @@ Vanilla 7D2D caps paint textures at 255 across five separate engine layers. Pain
 ## Requirements
 
 - 7 Days to Die V2.0+
-- [OcbCustomTextures](https://github.com/AdaInTheLab/OcbCustomTextures) (PaintUnlocked-compatible fork, included in release)
+- [OcbCustomTextures](https://github.com/Kitsune-Den/OcbCustomTextures) (PaintUnlocked-compatible fork, included in release)
 - EAC **disabled** on server and all clients
 
 ## Installation

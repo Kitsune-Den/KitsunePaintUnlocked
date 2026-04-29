@@ -91,6 +91,9 @@ public static class ChunkTexturePatch
 ///
 /// The ChunkBlockChannel.Get/Set methods already use bytesPerVal dynamically —
 /// we just need to change the value from 6 to 8 at construction time.
+///
+/// ALWAYS upgrades 6→8, even during migration. ChunkBlockChannelReadPatch handles
+/// temporarily reverting bytesPerVal for legacy disk reads.
 /// </summary>
 public static class ChunkStorageWidthPatch
 {
@@ -99,6 +102,7 @@ public static class ChunkStorageWidthPatch
     /// <summary>
     /// Prefix on ChunkBlockChannel constructor. Changes bytesPerVal from 6 to 8
     /// for texture channels, widening storage from 48 to 64 bits per block.
+    /// Always fires — no bypass needed.
     /// </summary>
     public static void CtorPrefix(ref int _bytesPerVal)
     {

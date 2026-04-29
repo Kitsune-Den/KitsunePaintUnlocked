@@ -27,6 +27,70 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] ChunkBlockChannel constructor not found!");
 
+        // === Legacy world migration: repack 8-bit chunks to 10-bit on load ===
+
+        // Patch ChunkBlockChannel.Read: temporarily revert bytesPerVal 8→6 for legacy
+        // disk reads so Read() consumes the correct number of bytes from width-6 streams.
+        // Try PooledBinaryReader first (7DTD's custom subclass), fall back to BinaryReader
+        var cbcRead = AccessTools.Method(typeof(ChunkBlockChannel), "Read",
+            new[] { typeof(PooledBinaryReader), typeof(uint), typeof(bool) })
+            ?? AccessTools.Method(typeof(ChunkBlockChannel), "Read",
+            new[] { typeof(System.IO.BinaryReader), typeof(uint), typeof(bool) })
+            ?? AccessTools.Method(typeof(ChunkBlockChannel), "Read");
+        if (cbcRead != null)
+        {
+            harmony.Patch(cbcRead,
+                prefix: new HarmonyMethod(AccessTools.Method(typeof(ChunkBlockChannelReadPatch), "ReadPrefix")));
+            Log.Out("[PaintUnlocked] ChunkBlockChannel.Read prefix registered for legacy bytesPerVal override");
+        }
+        else Log.Warning("[PaintUnlocked] ChunkBlockChannel.Read not found — legacy migration will not work correctly");
+
+        // Postfix on Chunk.read: after all channels are deserialized, repack any
+        // that have bytesPerVal==6 (legacy-read) from 8-bit to 10-bit face storage.
+        var chunkRead = AccessTools.Method(typeof(Chunk), "read", new[] { typeof(PooledBinaryReader), typeof(uint), typeof(bool) });
+        if (chunkRead != null)
+        {
+            harmony.Patch(chunkRead,
+                postfix: new HarmonyMethod(AccessTools.Method(typeof(ChunkMigrationPatch), "ReadPostfix")));
+            Log.Out("[PaintUnlocked] Chunk.read postfix registered for legacy world migration");
+        }
+        else Log.Warning("[PaintUnlocked] Chunk.read not found — legacy world migration disabled");
+
+        // Hook world load/save for sentinel file management
+        var worldLoad = AccessTools.Method(typeof(World), "LoadWorld");
+        if (worldLoad != null)
+        {
+            harmony.Patch(worldLoad, prefix: new HarmonyMethod(AccessTools.Method(typeof(WorldLifecyclePatch), "LoadWorldPrefix")));
+        }
+        else Log.Warning("[PaintUnlocked] World.LoadWorld not found — migration sentinel check disabled");
+
+        var worldSave = AccessTools.Method(typeof(World), "Save");
+        if (worldSave != null)
+        {
+            harmony.Patch(worldSave, postfix: new HarmonyMethod(AccessTools.Method(typeof(WorldLifecyclePatch), "SavePostfix")));
+        }
+        else Log.Warning("[PaintUnlocked] World.Save not found — migration sentinel write disabled");
+
+        var worldUnload = AccessTools.Method(typeof(World), "UnloadWorld");
+        if (worldUnload != null)
+        {
+            harmony.Patch(worldUnload, prefix: new HarmonyMethod(AccessTools.Method(typeof(WorldLifecyclePatch), "UnloadWorldPrefix")));
+        }
+
+        // Eager migration: postfix on RegionFileManager constructor to scan all
+        // chunks on disk and migrate them up front, before normal chunk streaming
+        // begins. This avoids the lazy-migration corruption where mid-session
+        // save+reload of a migrated chunk would be re-read at the wrong width.
+        var rfmCtor = typeof(RegionFileManager).GetConstructor(
+            new[] { typeof(string), typeof(string), typeof(int), typeof(bool) });
+        if (rfmCtor != null)
+        {
+            harmony.Patch(rfmCtor,
+                postfix: new HarmonyMethod(AccessTools.Method(typeof(EagerMigrator), "OnRegionFileManagerConstructed")));
+            Log.Out("[PaintUnlocked] RegionFileManager ctor postfix registered for eager migration");
+        }
+        else Log.Warning("[PaintUnlocked] RegionFileManager(string, string, int, bool) ctor not found — eager migration disabled");
+
         // === Layer 4: Widen chunk face storage from 8-bit to 10-bit ===
         var setBlockFaceTex = AccessTools.Method(typeof(Chunk), "SetBlockFaceTexture");
         harmony.Patch(setBlockFaceTex, transpiler: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "PatchSet")));
@@ -108,7 +172,7 @@ public class PaintUnlockedMod : IModApi
         else Log.Warning("[PaintUnlocked] NetPackageRequestToEnterGame.ProcessPackage not found — paint ID sync disabled");
 
         Log.Out("[PaintUnlocked] Loaded - paint limit raised to 1023 (10-bit chunk storage, 64-bit ChunkBlockChannel).");
-        Log.Warning("[PaintUnlocked] Fresh world required. Existing 8-bit painted blocks will show default textures.");
+        Log.Out("[PaintUnlocked] Legacy world migration enabled — pre-PaintUnlocked worlds will be repacked on first load.");
     }
 }
 
