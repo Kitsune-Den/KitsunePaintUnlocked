@@ -21,7 +21,14 @@ Vanilla 7D2D caps paint textures at 255 across five separate engine layers. Kits
 
 ## Installation
 
-1. Extract the release zip into your `Mods/` folder on **both the server and all connecting clients**. This adds two folders: `0_PaintUnlocked` and `OcbCustomTextures`.
+Each release ships three downloads:
+
+- `PaintUnlocked-X.Y.Z.zip` -- the bundle (both mods). Use this for **manual installs**: extract into your `Mods/` folder.
+- `0_PaintUnlocked-X.Y.Z.zip` and `OcbCustomTextures-X.Y.Z.zip` -- single-mod zips for **Vortex / mod manager users**. Install both. Vortex's 7DTD extension nests the bundle into a wrapper folder if you give it the combined zip; the per-mod zips install cleanly.
+
+Steps:
+
+1. Install (manual or via Vortex) on **both the server and all connecting clients**. You should end up with two folders side-by-side under `Mods/`: `0_PaintUnlocked` and `OcbCustomTextures`.
 2. If you already have OcbCustomTextures installed, replace it with the version from this release. The PaintUnlocked fork is required -- vanilla OcbCustomTextures is not compatible.
 3. Install your paint packs as usual (KitsunePaints, PyroPaints, CK Textures, etc.).
 4. A **fresh world is required**. Existing worlds will display default textures on previously painted blocks.
@@ -105,12 +112,22 @@ Output: `bin/Release/net48/PaintUnlocked.dll`
 
 ## Versioning
 
-PaintUnlocked and the OcbCustomTextures fork ship as a **single release zip** to prevent version mismatches.
+PaintUnlocked and the OcbCustomTextures fork are versioned together to prevent version mismatches.
 
 - **PaintUnlocked**: semver (e.g. `1.0.0`), drives the shared version
 - **OcbCustomTextures fork**: `{upstream base}-pu{version}` (e.g. `0.8.0-pu1.0.0`)
 
 Both version numbers are bumped together on every release.
+
+## Packaging a release
+
+Once a build is staged in `PaintUnlocked-X.Y.Z/`, run:
+
+```powershell
+./pack-release.ps1
+```
+
+This auto-detects the highest staged version and produces three zips: the bundle (`PaintUnlocked-X.Y.Z.zip`) plus the two single-mod zips (`0_PaintUnlocked-X.Y.Z.zip`, `OcbCustomTextures-X.Y.Z.zip`) for Vortex installs. Each zip's structure is verified before the script exits. Pass `-BundleOnly` or `-PerModOnly` to regenerate just one set.
 
 ## License
 

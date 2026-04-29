@@ -6,3 +6,9 @@ dist/
 .vs/
 PaintUnlockedTest/
 tools/
+
+# Release artifacts (produced by pack-release.ps1)
+PaintUnlocked-*/
+PaintUnlocked-*.zip
+0_PaintUnlocked-*.zip
+OcbCustomTextures-*.zip
