@@ -43,6 +43,11 @@ public static class PaintIdSyncManager
     /// Called as a postfix on OpaqueTextures.InitOpaqueConfig.
     /// Scans BlockTextureData.list for all custom entries (ID >= 512)
     /// and builds a name -> ID mapping.
+    ///
+    /// NOTE: deterministic-by-sort remap was tried and reverted ~ it breaks
+    /// any world that was saved before the remap existed (chunks reference
+    /// pre-remap IDs that the remap reshuffles to different paints). Need a
+    /// per-world ID mapping migration before re-enabling deterministic IDs.
     /// </summary>
     public static void OnInitOpaqueConfigDone()
     {
