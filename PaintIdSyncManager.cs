@@ -25,6 +25,10 @@ public static class PaintIdSyncManager
     private static string _serverMappingBase64;
     private static bool _mappingReady = false;
 
+    // True once the per-world persistent map has been reconciled this world load.
+    // Reset on world unload so the next world reconciles fresh.
+    private static bool _reconciledForWorld = false;
+
     // Reflection into OpaqueTextures
     private static readonly FieldInfo _fOpaqueConfigs =
         typeof(OpaqueTextures).GetField("OpaqueConfigs",
@@ -51,6 +55,12 @@ public static class PaintIdSyncManager
     /// </summary>
     public static void OnInitOpaqueConfigDone()
     {
+        // Diagnostic: confirm the user has the OCB fork, not stock OCB.
+        // Runs here because InitOpaqueConfig is where the fork resizes
+        // BlockTextureData.list ~ by this postfix the resize has happened
+        // (or not). Purely a log warning; never affects behaviour.
+        OcbForkCheck.Verify();
+
         try
         {
             _serverMapping = BuildMapping();
@@ -63,11 +73,21 @@ public static class PaintIdSyncManager
             Log.Error($"[PaintUnlocked] Failed to build paint ID mapping: {ex.Message}");
             _mappingReady = false;
         }
+
+        // If the world is already loaded (save dir known), reconcile now. Otherwise the
+        // WorldLifecyclePatch.LoadWorld hook will trigger it once the save dir is set.
+        TryReconcilePersistent();
     }
 
     /// <summary>
     /// Scans BlockTextureData.list for entries with ID >= CustomIdFloor.
     /// Returns a dictionary of Name -> ID.
+    ///
+    /// Duplicate names (two paints sharing a Name across packs) cannot be told apart by a
+    /// name-keyed map, so which one "wins" would otherwise depend on iteration order and
+    /// diverge per machine — players then see different textures on the same block. We
+    /// make the winner deterministic (lowest ID, i.e. first registered) and warn. Run
+    /// pu_audit for the full collision list; the real fix is to rename the packs.
     /// </summary>
     private static Dictionary<string, ushort> BuildMapping()
     {
@@ -75,15 +95,145 @@ public static class PaintIdSyncManager
         var list = BlockTextureData.list;
         if (list == null) return mapping;
 
+        int collisions = 0;
         for (int i = CustomIdFloor; i < list.Length; i++)
         {
             var entry = list[i];
             if (entry == null) continue;
             if (string.IsNullOrEmpty(entry.Name)) continue;
-            mapping[entry.Name] = (ushort)entry.ID;
+
+            if (mapping.TryGetValue(entry.Name, out var existingId))
+            {
+                collisions++;
+                ushort keep = existingId <= (ushort)entry.ID ? existingId : (ushort)entry.ID;
+                Log.Warning($"[PaintUnlocked] Duplicate paint name '{entry.Name}' at IDs {existingId} and {entry.ID} — keeping {keep}. Rename one in its pack (run pu_audit for the full list).");
+                mapping[entry.Name] = keep;
+            }
+            else
+            {
+                mapping[entry.Name] = (ushort)entry.ID;
+            }
         }
 
+        if (collisions > 0)
+            Log.Warning($"[PaintUnlocked] {collisions} duplicate paint-name collision(s) — affected paints may render inconsistently until renamed. Run 'pu_audit' for details.");
+
         return mapping;
+    }
+
+    // ----------------------------------------------------------------
+    // Per-world persistent ID reconcile (authoritative side only)
+    // ----------------------------------------------------------------
+
+    /// <summary>
+    /// Reset per-world reconcile state. Called on world unload so the next world starts
+    /// fresh.
+    /// </summary>
+    public static void ResetWorldState()
+    {
+        _reconciledForWorld = false;
+    }
+
+    /// <summary>
+    /// Authoritative-side only. Aligns this session's paint IDs to the per-world
+    /// persistent map (&lt;SaveDir&gt;/paintunlocked.idmap) so painted blocks stay stable
+    /// across restarts.
+    ///
+    /// Runs once per world load, and only after BOTH the baseline mapping is built
+    /// (InitOpaqueConfig done) AND the save dir is known (world loaded) — whichever
+    /// happens second triggers it. Pure clients skip this and get their IDs from the
+    /// server via pu_sync instead.
+    /// </summary>
+    public static void TryReconcilePersistent()
+    {
+        if (_reconciledForWorld) return;
+        if (!_mappingReady) return; // InitOpaqueConfig not done — no custom paints registered yet
+
+        // Pure clients receive IDs from the server (pu_sync); never persist on a client.
+        var cm = ConnectionManager.Instance;
+        bool isAuthoritative = cm == null || cm.IsServer;
+        if (!isAuthoritative) return;
+
+        var saveDir = WorldMigrationState.SaveDir;
+        if (string.IsNullOrEmpty(saveDir)) return; // world not loaded yet
+
+        try
+        {
+            var current = BuildMapping();                 // this session's (deduped) assignment
+
+            // Guard: if no custom paints are loaded yet, do not reconcile — remapping now
+            // would replace every persisted entry with a blank placeholder. Leave
+            // _reconciledForWorld false so a later trigger retries once paints are present.
+            if (current.Count == 0)
+            {
+                Log.Out("[PaintUnlocked] TryReconcilePersistent: no custom paints registered yet — deferring reconcile.");
+                return;
+            }
+
+            var persisted = PaintIdPersistence.Load(saveDir);
+            bool firstRun = persisted.Count == 0;
+
+            // Persisted IDs are authoritative for names we've seen before. Brand-new names
+            // keep their natural session ID when free, otherwise get the next free slot —
+            // never an ID already claimed by a persisted (possibly painted) name.
+            var merged = new Dictionary<string, ushort>(persisted);
+            var usedIds = new HashSet<ushort>(merged.Values);
+
+            ushort nextFree = CustomIdFloor;
+            foreach (var id in usedIds)
+                if (id >= nextFree) nextFree = (ushort)(id + 1);
+
+            var newNames = new List<KeyValuePair<string, ushort>>();
+            foreach (var kv in current)
+                if (!merged.ContainsKey(kv.Key)) newNames.Add(kv);
+            // Deterministic ordering so additions land on the same IDs on every peer.
+            newNames.Sort((a, b) =>
+                a.Value != b.Value ? a.Value.CompareTo(b.Value) : string.CompareOrdinal(a.Key, b.Key));
+
+            int added = 0;
+            foreach (var kv in newNames)
+            {
+                ushort want = kv.Value;
+                ushort assign;
+                if (want >= CustomIdFloor && !usedIds.Contains(want))
+                {
+                    assign = want; // first run: snapshot the existing world's IDs unchanged
+                }
+                else
+                {
+                    while (usedIds.Contains(nextFree)) nextFree = (ushort)(nextFree + 1);
+                    assign = nextFree;
+                }
+                merged[kv.Key] = assign;
+                usedIds.Add(assign);
+                if (assign >= nextFree) nextFree = (ushort)(assign + 1);
+                added++;
+            }
+
+            if (firstRun)
+                Log.Out($"[PaintUnlocked] No persistent paint map for this world — snapshotting current {merged.Count} IDs as the baseline (existing paint is NOT reshuffled).");
+            else
+                Log.Out($"[PaintUnlocked] Reconciled with persistent paint map: {persisted.Count} persisted, {added} new paint(s) appended.");
+
+            // Align this session's live BlockTextureData.list to the merged map so the
+            // server itself reads and writes chunk data using the stable IDs. Reuses the
+            // same remap the client runs when it receives the server's mapping.
+            RemapBlockTextureData(merged);
+
+            if (firstRun || added > 0)
+                PaintIdPersistence.Save(saveDir, merged);
+
+            // This merged map is now what we sync to connecting clients.
+            _serverMapping = merged;
+            _serverMappingBase64 = SerializeMapping(merged);
+            _reconciledForWorld = true;
+
+            Log.Out($"[PaintUnlocked] Persistent paint ID reconcile complete — {merged.Count} stable IDs for this world.");
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"[PaintUnlocked] TryReconcilePersistent failed: {ex.Message}\n{ex.StackTrace}");
+        }
     }
 
     // ----------------------------------------------------------------
