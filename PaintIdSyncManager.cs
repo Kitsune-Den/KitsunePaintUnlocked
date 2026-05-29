@@ -175,40 +175,10 @@ public static class PaintIdSyncManager
 
             // Persisted IDs are authoritative for names we've seen before. Brand-new names
             // keep their natural session ID when free, otherwise get the next free slot —
-            // never an ID already claimed by a persisted (possibly painted) name.
-            var merged = new Dictionary<string, ushort>(persisted);
-            var usedIds = new HashSet<ushort>(merged.Values);
-
-            ushort nextFree = CustomIdFloor;
-            foreach (var id in usedIds)
-                if (id >= nextFree) nextFree = (ushort)(id + 1);
-
-            var newNames = new List<KeyValuePair<string, ushort>>();
-            foreach (var kv in current)
-                if (!merged.ContainsKey(kv.Key)) newNames.Add(kv);
-            // Deterministic ordering so additions land on the same IDs on every peer.
-            newNames.Sort((a, b) =>
-                a.Value != b.Value ? a.Value.CompareTo(b.Value) : string.CompareOrdinal(a.Key, b.Key));
-
-            int added = 0;
-            foreach (var kv in newNames)
-            {
-                ushort want = kv.Value;
-                ushort assign;
-                if (want >= CustomIdFloor && !usedIds.Contains(want))
-                {
-                    assign = want; // first run: snapshot the existing world's IDs unchanged
-                }
-                else
-                {
-                    while (usedIds.Contains(nextFree)) nextFree = (ushort)(nextFree + 1);
-                    assign = nextFree;
-                }
-                merged[kv.Key] = assign;
-                usedIds.Add(assign);
-                if (assign >= nextFree) nextFree = (ushort)(assign + 1);
-                added++;
-            }
+            // never an ID already claimed by a persisted (possibly painted) name. The merge
+            // math lives in PaintIdMerge (pure, unit-tested in PaintIdMerge.Tests).
+            int added;
+            var merged = PaintIdMerge.Merge(persisted, current, CustomIdFloor, out added);
 
             if (firstRun)
                 Log.Out($"[PaintUnlocked] No persistent paint map for this world — snapshotting current {merged.Count} IDs as the baseline (existing paint is NOT reshuffled).");

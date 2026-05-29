@@ -12,6 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- The test project (net8) links PaintIdMerge.cs directly; keep its sources out of the net48 mod build. -->
+    <Compile Remove="tests\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>7dtd-binaries\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
