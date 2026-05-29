@@ -4,6 +4,7 @@ obj/
 dist/
 *.user
 .vs/
+.claude/
 PaintUnlockedTest/
 tools/
 
