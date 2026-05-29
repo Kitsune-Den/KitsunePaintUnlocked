@@ -35,7 +35,7 @@ except ImportError:
 PACK_NAME       = "PaintUnlockedTest"
 PAINT_COUNT     = 260
 OUTPUT_DIR      = Path(__file__).parent / PACK_NAME
-TEMPLATE_PATH   = Path("C:/Users/darab/WebstormProjects/KitsunePaint/scripts/Atlas.template.unity3d")
+TEMPLATE_PATH   = Path.home() / "IdeaProjects/KitsunePaint/scripts/Atlas.template.unity3d"
 TARGET_SIZE     = (512, 512)
 MIP_COUNT       = 10
 FMT_DXT1        = 10

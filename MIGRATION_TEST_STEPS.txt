@@ -1,0 +1,140 @@
+====================================================================
+  PaintUnlocked Legacy World Migration Test — Step by Step
+====================================================================
+
+SERVER MODS DIR:  F:\72D2D-Server\Mods\
+CLIENT MODS DIR:  F:\7D2D\Custom\TestingDen\Mods\
+
+Mods to toggle (same list for BOTH server and client):
+  - 0_PaintUnlocked
+  - OcbCustomTextures
+  - KitsunePaints
+  - PyroPaints
+  - ZZZ CK Textures N Paints
+
+====================================================================
+  PHASE 1: Create a vanilla (legacy) save
+====================================================================
+
+1. STOP the dedicated server completely (check Task Manager — kill it if needed)
+
+2. CLOSE the game client completely
+
+3. DISABLE mods on SERVER — move these folders:
+     F:\72D2D-Server\Mods\0_PaintUnlocked        → F:\72D2D-Server\Mods\_disabled\0_PaintUnlocked
+     F:\72D2D-Server\Mods\OcbCustomTextures       → F:\72D2D-Server\Mods\_disabled\OcbCustomTextures
+     F:\72D2D-Server\Mods\KitsunePaints           → F:\72D2D-Server\Mods\_disabled\KitsunePaints
+     F:\72D2D-Server\Mods\PyroPaints              → F:\72D2D-Server\Mods\_disabled\PyroPaints
+     F:\72D2D-Server\Mods\ZZZ CK Textures N Paints → F:\72D2D-Server\Mods\_disabled\ZZZ CK Textures N Paints
+
+4. DISABLE mods on CLIENT — move these folders:
+     F:\7D2D\Custom\TestingDen\Mods\0_PaintUnlocked        → F:\7D2D\Custom\TestingDen\Mods\_disabled\0_PaintUnlocked
+     F:\7D2D\Custom\TestingDen\Mods\OcbCustomTextures       → F:\7D2D\Custom\TestingDen\Mods\_disabled\OcbCustomTextures
+     F:\7D2D\Custom\TestingDen\Mods\KitsunePaints           → F:\7D2D\Custom\TestingDen\Mods\_disabled\KitsunePaints
+     F:\7D2D\Custom\TestingDen\Mods\PyroPaints              → F:\7D2D\Custom\TestingDen\Mods\_disabled\PyroPaints
+     F:\7D2D\Custom\TestingDen\Mods\ZZZ CK Textures N Paints → F:\7D2D\Custom\TestingDen\Mods\_disabled\ZZZ CK Textures N Paints
+
+5. Edit serverconfig.xml to set a NEW world name:
+     F:\72D2D-Server\serverconfig.xml
+     Change:  <property name="GameName" value="LegacyTest01" />
+     To:      <property name="GameName" value="MigrationTest01" />
+
+6. START the server
+
+7. START the client, connect to the server
+
+8. Paint a wall with 3-4 different vanilla textures (concrete, wood, brick, etc.)
+   Make it obvious so you can tell later if textures survived migration.
+
+9. Save & exit:
+   - Server console: type "saveworld" then "shutdown"
+   - OR just exit the client and stop the server cleanly
+
+10. OPTIONAL BUT RECOMMENDED: Zip the save as a backup/rewind point
+    Save is at: %APPDATA%\7DaysToDie\Saves\<WorldName>\MigrationTest01\
+    (WorldName depends on what GameWorld generated — check the server log for "createWorld: X, MigrationTest01")
+
+>>> Phase 1 done. You now have a guaranteed width-6 legacy save. <<<
+
+
+====================================================================
+  PHASE 2: Run migration with PaintUnlocked enabled
+====================================================================
+
+1. STOP the server and CLOSE the client
+
+2. ENABLE mods on SERVER — move them back:
+     F:\72D2D-Server\Mods\_disabled\0_PaintUnlocked        → F:\72D2D-Server\Mods\0_PaintUnlocked
+     F:\72D2D-Server\Mods\_disabled\OcbCustomTextures       → F:\72D2D-Server\Mods\OcbCustomTextures
+     F:\72D2D-Server\Mods\_disabled\KitsunePaints           → F:\72D2D-Server\Mods\KitsunePaints
+     F:\72D2D-Server\Mods\_disabled\PyroPaints              → F:\72D2D-Server\Mods\PyroPaints
+     F:\72D2D-Server\Mods\_disabled\ZZZ CK Textures N Paints → F:\72D2D-Server\Mods\ZZZ CK Textures N Paints
+
+3. ENABLE mods on CLIENT — move them back:
+     F:\7D2D\Custom\TestingDen\Mods\_disabled\0_PaintUnlocked        → F:\7D2D\Custom\TestingDen\Mods\0_PaintUnlocked
+     F:\7D2D\Custom\TestingDen\Mods\_disabled\OcbCustomTextures       → F:\7D2D\Custom\TestingDen\Mods\OcbCustomTextures
+     F:\7D2D\Custom\TestingDen\Mods\_disabled\KitsunePaints           → F:\7D2D\Custom\TestingDen\Mods\KitsunePaints
+     F:\7D2D\Custom\TestingDen\Mods\_disabled\PyroPaints              → F:\7D2D\Custom\TestingDen\Mods\PyroPaints
+     F:\7D2D\Custom\TestingDen\Mods\_disabled\ZZZ CK Textures N Paints → F:\7D2D\Custom\TestingDen\Mods\ZZZ CK Textures N Paints
+
+4. DO NOT change serverconfig.xml — keep GameName as MigrationTest01
+
+5. START the server
+
+6. CHECK the server log for these lines (confirms new DLL loaded):
+     [PaintUnlocked] Chunk.read postfix registered for legacy world migration
+     [PaintUnlocked] Legacy world migration enabled
+   Server log: F:\72D2D-Server\logs\7d2d-server.log
+
+   >>> If those lines are MISSING, stop. The old DLL is still loaded. <<<
+
+7. START the client, connect to the server
+
+8. Walk to your painted wall. Watch for:
+   ✓ No disconnect                     → width fix works
+   ✓ Painted textures still visible    → Repack8to10 works
+   ✗ If you DC, grab the client log IMMEDIATELY (don't relaunch):
+     F:\7D2D\Custom\TestingDen\output_log.txt
+
+9. If everything looks good, save the world:
+   - Server console: type "saveworld"
+   - Wait a few seconds
+
+10. Check for the sentinel file:
+    %APPDATA%\7DaysToDie\Saves\<WorldName>\MigrationTest01\paintunlocked.migrated
+
+>>> Phase 2 done. Migration succeeded and sentinel was written. <<<
+
+
+====================================================================
+  PHASE 3: Verify sentinel prevents re-migration
+====================================================================
+
+1. STOP the server, CLOSE the client
+
+2. DO NOT touch any mods or config — everything stays enabled
+
+3. START the server
+
+4. CHECK server log for:
+     [PaintUnlocked] LoadWorld — migration sentinel found, skipping migration
+   (or similar wording — the key is it should NOT say "needs migration")
+
+5. START client, connect, walk to painted wall
+   ✓ Still renders correctly
+   ✓ No DC
+   ✓ Server log does NOT show "Migrated chunk #N" lines (no re-migration)
+
+>>> Phase 3 done. Full migration lifecycle verified. <<<
+
+
+====================================================================
+  IF SOMETHING GOES WRONG
+====================================================================
+
+- Client DC'd → grab F:\7D2D\Custom\TestingDen\output_log.txt BEFORE relaunching
+- Server errors → grab F:\72D2D-Server\logs\7d2d-server.log
+- Save corrupted → restore from the zip you made in Phase 1 step 10
+- Wrong DLL loaded → verify hash:
+    powershell: Get-FileHash F:\72D2D-Server\Mods\0_PaintUnlocked\PaintUnlocked.dll
+    Expected hash starts with: 20735AC6D05E

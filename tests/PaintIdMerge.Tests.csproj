@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>PaintIdMerge.Tests</AssemblyName>
+    <RootNamespace>PaintUnlocked.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Link the pure merge logic from the mod project (no game DLLs needed). -->
+    <Compile Include="..\PaintIdMerge.cs" Link="PaintIdMerge.cs" />
+  </ItemGroup>
+</Project>

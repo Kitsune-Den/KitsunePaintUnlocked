@@ -29,6 +29,7 @@ public static class WorldLifecyclePatch
                 WorldMigrationState.Reset();
                 ChunkMigrationPatch.ResetCounters();
                 EagerMigrator.Reset();
+                PaintIdSyncManager.ResetWorldState(); // client gets IDs from server via pu_sync
                 return;
             }
 
@@ -37,6 +38,12 @@ public static class WorldLifecyclePatch
             WorldMigrationState.LoadFlag(saveDir);
             ChunkMigrationPatch.ResetCounters();
             EagerMigrator.Reset();
+
+            // Now that the save dir is known, lock this world's paint IDs to the persistent
+            // map (no-op until InitOpaqueConfig has registered the custom paints — that
+            // postfix re-triggers it if it runs after this point).
+            PaintIdSyncManager.ResetWorldState();
+            PaintIdSyncManager.TryReconcilePersistent();
         }
         catch (System.Exception ex)
         {
@@ -77,6 +84,7 @@ public static class WorldLifecyclePatch
             WorldMigrationState.Reset();
             ChunkMigrationPatch.ResetCounters();
             EagerMigrator.Reset();
+            PaintIdSyncManager.ResetWorldState();
         }
         catch (System.Exception ex)
         {
