@@ -12,7 +12,7 @@
 /// </summary>
 public static class WorldLifecyclePatch
 {
-    public static void LoadWorldPrefix(string _sWorldName)
+    public static void LoadWorldPrefix(string _levelName)
     {
         try
         {
@@ -25,7 +25,7 @@ public static class WorldLifecyclePatch
             bool isAuthoritative = cm == null || cm.IsServer;
             if (!isAuthoritative)
             {
-                Log.Out($"[PaintUnlocked] LoadWorld('{_sWorldName}') — pure client, skipping migration (network chunks use current width).");
+                Log.Out($"[PaintUnlocked] LoadWorld('{_levelName}') — pure client, skipping migration (network chunks use current width).");
                 WorldMigrationState.Reset();
                 ChunkMigrationPatch.ResetCounters();
                 EagerMigrator.Reset();
@@ -34,7 +34,7 @@ public static class WorldLifecyclePatch
             }
 
             var saveDir = GameIO.GetSaveGameDir();
-            Log.Out($"[PaintUnlocked] LoadWorld('{_sWorldName}') — checking migration sentinel at {saveDir}");
+            Log.Out($"[PaintUnlocked] LoadWorld('{_levelName}') — checking migration sentinel at {saveDir}");
             WorldMigrationState.LoadFlag(saveDir);
             ChunkMigrationPatch.ResetCounters();
             EagerMigrator.Reset();
