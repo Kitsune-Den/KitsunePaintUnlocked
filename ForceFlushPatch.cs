@@ -26,35 +26,28 @@ public static class ForceFlushPatch
     private static int _flushCount = 0;
 
     /// <summary>
-    /// Prefix on World.Save. Iterate every chunk cluster, every loaded chunk
-    /// in each, and force isModified = true so the save pass writes them all.
+    /// Prefix on World.Save. Iterate every loaded chunk and force
+    /// isModified = true so the save pass writes them all.
+    ///
+    /// v3.0 removed World.ChunkClusters / ChunkClusterList (and ChunkCluster
+    /// lost GetChunkArrayCopySync). Loaded chunks are now enumerated via
+    /// ChunkManager.GetActiveChunkSet() — chunk keys — each resolved to a Chunk
+    /// through World.GetChunkSync(long), which returns the IChunk for that key.
     /// </summary>
     public static void WorldSavePrefix(World __instance)
     {
         if (__instance == null) return;
-        var clusters = __instance.ChunkClusters;
-        if (clusters == null) return;
+        var chunkManager = __instance.m_ChunkManager;
+        if (chunkManager == null) return;
 
         int chunksMarked = 0;
-        for (int i = 0; i < clusters.Count; i++)
+        foreach (long key in chunkManager.GetActiveChunkSet())
         {
-            var cluster = clusters[i];
-            if (cluster == null) continue;
-
-            List<Chunk> chunks = null;
-            try { chunks = cluster.GetChunkArrayCopySync(); }
-            catch { chunks = null; }
-            if (chunks == null) continue;
-
-            for (int j = 0; j < chunks.Count; j++)
+            if (!(__instance.GetChunkSync(key) is Chunk ch)) continue;
+            if (!ch.isModified)
             {
-                var ch = chunks[j];
-                if (ch == null) continue;
-                if (!ch.isModified)
-                {
-                    ch.isModified = true;
-                    chunksMarked++;
-                }
+                ch.isModified = true;
+                chunksMarked++;
             }
         }
 
