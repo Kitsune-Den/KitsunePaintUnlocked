@@ -2,7 +2,7 @@
 <xml>
   <Name value="PaintUnlocked" />
   <DisplayName value="Paint Unlocked" />
-  <Version value="1.3.0" />
+  <Version value="1.4.0" />
   <Description value="Breaks the 255 paint texture limit in 7D2D, raising it to 1023. Patches network packets, chunk storage, paint ID allocation, and buffer sizing. Keeps custom paint IDs stable across server restarts and consistent across players via a per-world ID map, with a pu_audit command to flag duplicate paint names. Migrates existing pre-PaintUnlocked worlds automatically on first load. Requires the PaintUnlocked-compatible OcbCustomTextures fork. Install on server and all clients." />
   <Author value="AdaInTheLab" />
   <Website value="https://github.com/Kitsune-Den/PaintUnlocked" />
