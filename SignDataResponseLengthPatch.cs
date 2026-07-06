@@ -1,0 +1,55 @@
+using System.Reflection;
+
+/// <summary>
+/// Fixes NetPackageSignDataResponse.GetLength() -- vanilla hardcodes it to
+/// always return 0, regardless of the package's real payload. write() emits
+/// 5 + data.Length bytes (1 byte isLastBatch + 4 byte int length + the data),
+/// so any caller that trusts GetLength() to budget buffer space sees this
+/// package as free.
+///
+/// NetConnectionSimple.WriteToStream's soft pre-write capacity check is
+/// exactly that caller: `position + package.GetLength() >= preCompressMaxBufferSize`
+/// gates whether to gracefully requeue a package for the next flush instead of
+/// writing it now. Because GetLength() always says 0, a SignDataResponse can
+/// slip through this check no matter how full the stream already is, and the
+/// actual write() call then overflows the fixed-capacity MemoryStream, throwing
+/// "Memory stream is not expandable" -- which corrupts the send queue for
+/// whatever's written right after it (in our case, one of PaintUnlocked's own
+/// GetSetTextureFullArray-driven packages), desyncing the client and
+/// disconnecting it.
+///
+/// This is a genuine pre-existing vanilla bug, unrelated to paint. PaintUnlocked
+/// just makes it far more likely to bite: its NetPackageDecoUpdate payloads are
+/// large (500KB+ per prefab), so the shared reliable stream is often already
+/// most of the way to its 2MB cap by the time a sign-data batch needs to go
+/// out alongside it. Fixing GetLength() to report the truth lets the existing
+/// soft check do its job -- requeue for the next flush instead of overflowing.
+/// </summary>
+public static class SignDataResponseLengthPatch
+{
+    private static FieldInfo _fData;
+    private static bool _reflectionValid;
+
+    static SignDataResponseLengthPatch()
+    {
+        _fData = typeof(NetPackageSignDataResponse).GetField("data",
+            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        _reflectionValid = _fData != null;
+
+        if (_reflectionValid)
+            Log.Out("[PaintUnlocked] NetPackageSignDataResponse.data field found for GetLength() fix");
+        else
+            Log.Warning("[PaintUnlocked] NetPackageSignDataResponse.data field NOT found -- GetLength() fix disabled");
+    }
+
+    /// <summary>
+    /// Postfix on NetPackageSignDataResponse.GetLength(): overwrite the
+    /// hardcoded 0 with the real serialized size write() will actually emit.
+    /// </summary>
+    public static void Postfix(NetPackageSignDataResponse __instance, ref int __result)
+    {
+        if (!_reflectionValid) return;
+        var data = (byte[])_fData.GetValue(__instance);
+        __result = 5 + (data?.Length ?? 0);
+    }
+}

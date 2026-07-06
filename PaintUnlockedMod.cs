@@ -27,6 +27,36 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] ChunkBlockChannel constructor not found!");
 
+        // === Widen NetConnectionSimple's channel-0 send/receive buffers ===
+        // The 48→64-bit chunk storage widening above makes every chunk-texture
+        // network payload ~33% bigger, which can overrun vanilla's fixed 32KB
+        // "not full" connection buffer during the spawn/decoration burst and
+        // desync the client. See NetStreamBufferSizePatch for the full writeup.
+        var initStreams = AccessTools.Method(typeof(NetConnectionSimple), "InitStreams", new[] { typeof(bool) });
+        if (initStreams != null)
+        {
+            harmony.Patch(initStreams, prefix: new HarmonyMethod(AccessTools.Method(typeof(NetStreamBufferSizePatch), "Prefix")));
+            Log.Out("[PaintUnlocked] NetConnectionSimple.InitStreams: channel-0 buffer widening enabled");
+        }
+        else Log.Warning("[PaintUnlocked] NetConnectionSimple.InitStreams not found — channel-0 buffer widening disabled");
+
+        // === Fix NetPackageSignDataResponse.GetLength() always returning 0 ===
+        // Genuine vanilla bug (unrelated to paint): the soft capacity check in
+        // NetConnectionSimple.WriteToStream trusts GetLength() to decide whether a
+        // package fits in the remaining buffer before writing it; since this
+        // package always reports 0, it can slip through no matter how full the
+        // buffer already is, and the real write() then overflows the fixed-size
+        // stream. PaintUnlocked's large NetPackageDecoUpdate payloads (500KB+ per
+        // prefab) make the buffer far more likely to already be near full when a
+        // sign-data batch needs to go out too. See SignDataResponseLengthPatch.
+        var signDataLength = AccessTools.Method(typeof(NetPackageSignDataResponse), "GetLength");
+        if (signDataLength != null)
+        {
+            harmony.Patch(signDataLength, postfix: new HarmonyMethod(AccessTools.Method(typeof(SignDataResponseLengthPatch), "Postfix")));
+            Log.Out("[PaintUnlocked] NetPackageSignDataResponse.GetLength() fix enabled");
+        }
+        else Log.Warning("[PaintUnlocked] NetPackageSignDataResponse.GetLength not found — length fix disabled");
+
         // === Legacy world migration: repack 8-bit chunks to 10-bit on load ===
 
         // Patch ChunkBlockChannel.Read: temporarily revert bytesPerVal 8→6 for legacy
