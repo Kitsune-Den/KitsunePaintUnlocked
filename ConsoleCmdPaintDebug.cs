@@ -13,6 +13,14 @@ public class ConsoleCmdPaintDebug : ConsoleCmdAbstract
 
     public override void Execute(List<string> _params, CommandSenderInfo _senderInfo)
     {
+        if (_params.Count > 0 && _params[0] == "verbose")
+        {
+            PaintVerbose.Enabled = !PaintVerbose.Enabled;
+            Log.Out($"[PaintDebug] Per-block verbose logging is now {(PaintVerbose.Enabled ? "ON" : "OFF")}. " +
+                "Leave OFF on live servers; per-block logging during mass painting can lag the server into client timeouts.");
+            return;
+        }
+
         if (_params.Count > 0 && _params[0] == "channels")
         {
             // Dump chnTextures array info from a nearby chunk

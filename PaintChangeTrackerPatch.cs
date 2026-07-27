@@ -33,6 +33,7 @@ public static class PaintChangeTrackerPatch
         int channel, out int __state)
     {
         __state = 0;
+        if (!PaintVerbose.Enabled) return;
         if (__instance == null) return;
         try
         {
@@ -50,6 +51,7 @@ public static class PaintChangeTrackerPatch
     public static void TrackPostfix(Chunk __instance, int _x, int _y, int _z, BlockFace _face,
         int _texture, int channel, int __state)
     {
+        if (!PaintVerbose.Enabled) return;
         if (__instance == null) return;
         if (_limitReached) return;
 
