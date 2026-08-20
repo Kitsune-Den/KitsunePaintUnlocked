@@ -24,6 +24,18 @@ using System.Reflection;
 /// most of the way to its 2MB cap by the time a sign-data batch needs to go
 /// out alongside it. Fixing GetLength() to report the truth lets the existing
 /// soft check do its job -- requeue for the next flush instead of overflowing.
+///
+/// 7D2D 3.1 fixed this bug upstream: GetLength() now returns
+/// `7 + (data?.Length ?? 0)` instead of the hardcoded 0. The postfix therefore
+/// only substitutes a value when vanilla still reports 0, so on 3.1+ the game's
+/// own (correct) figure is left alone and this patch self-disables. Overwriting
+/// it there would have replaced 7+len with a smaller 5+len -- under-reporting is
+/// the one direction that breaks a capacity check.
+///
+/// The 7 vs 5: write() emits isLastBatch (1) + an int length (4) + the data,
+/// and the base NetPackage.write() emits the 2-byte package id ahead of that.
+/// TFP's 7 counts the package id; we match it so both paths agree, and because
+/// over-reporting by 2 is the safe direction for a pre-write capacity check.
 /// </summary>
 public static class SignDataResponseLengthPatch
 {
@@ -43,13 +55,16 @@ public static class SignDataResponseLengthPatch
     }
 
     /// <summary>
-    /// Postfix on NetPackageSignDataResponse.GetLength(): overwrite the
-    /// hardcoded 0 with the real serialized size write() will actually emit.
+    /// Postfix on NetPackageSignDataResponse.GetLength(): on game versions that
+    /// still return the hardcoded 0, substitute the real serialized size write()
+    /// will actually emit. On 3.1+, where vanilla computes a real length itself,
+    /// leave the result untouched.
     /// </summary>
     public static void Postfix(NetPackageSignDataResponse __instance, ref int __result)
     {
         if (!_reflectionValid) return;
+        if (__result != 0) return;   // 3.1+ reports a real length -- don't clobber it
         var data = (byte[])_fData.GetValue(__instance);
-        __result = 5 + (data?.Length ?? 0);
+        __result = 7 + (data?.Length ?? 0);
     }
 }
