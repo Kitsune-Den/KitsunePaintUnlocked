@@ -215,6 +215,23 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] SetSelectedTextureForItem not found!");
 
+        // === Paint menu guard: stale selected-paint index pointing at an empty slot ===
+        // XUiC_MaterialStackGrid.SetMaterials does BlockTextureData.list[newSelectedMaterial]
+        // and immediately reads .Hidden, with neither a bounds nor a null check (verified
+        // against 3.1: ldelem.ref at IL_00e1, ldfld Hidden at IL_00ed). The index comes from
+        // the player's held paint tool and persists in save data, so an index left over from
+        // a paint pack that no longer registers lands on a null slot and throws on every XUi
+        // frame, which also stops IsDirty clearing and wedges the menu. See
+        // MaterialStackGridGuardPatch.
+        var setMaterials = AccessTools.Method(typeof(XUiC_MaterialStackGrid), "SetMaterials");
+        if (setMaterials != null)
+        {
+            harmony.Patch(setMaterials,
+                prefix: new HarmonyMethod(AccessTools.Method(typeof(MaterialStackGridGuardPatch), "SetMaterialsPrefix")));
+            Log.Out("[PaintUnlocked] MaterialStackGrid.SetMaterials guard registered (stale paint selection)");
+        }
+        else Log.Warning("[PaintUnlocked] XUiC_MaterialStackGrid.SetMaterials not found — stale paint selection guard disabled");
+
         // === Server-authoritative paint ID sync ===
         // After InitOpaqueConfig: build the server's ID mapping
         var initOpaqueConfig = AccessTools.Method(typeof(OpaqueTextures), "InitOpaqueConfig");
