@@ -27,6 +27,36 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] ChunkBlockChannel constructor not found!");
 
+        // === Widen NetConnectionSimple's channel-0 send/receive buffers ===
+        // The 48→64-bit chunk storage widening above makes every chunk-texture
+        // network payload ~33% bigger, which can overrun vanilla's fixed 32KB
+        // "not full" connection buffer during the spawn/decoration burst and
+        // desync the client. See NetStreamBufferSizePatch for the full writeup.
+        var initStreams = AccessTools.Method(typeof(NetConnectionSimple), "InitStreams", new[] { typeof(bool) });
+        if (initStreams != null)
+        {
+            harmony.Patch(initStreams, prefix: new HarmonyMethod(AccessTools.Method(typeof(NetStreamBufferSizePatch), "Prefix")));
+            Log.Out("[PaintUnlocked] NetConnectionSimple.InitStreams: channel-0 buffer widening enabled");
+        }
+        else Log.Warning("[PaintUnlocked] NetConnectionSimple.InitStreams not found — channel-0 buffer widening disabled");
+
+        // === Fix NetPackageSignDataResponse.GetLength() always returning 0 ===
+        // Genuine vanilla bug (unrelated to paint): the soft capacity check in
+        // NetConnectionSimple.WriteToStream trusts GetLength() to decide whether a
+        // package fits in the remaining buffer before writing it; since this
+        // package always reports 0, it can slip through no matter how full the
+        // buffer already is, and the real write() then overflows the fixed-size
+        // stream. PaintUnlocked's large NetPackageDecoUpdate payloads (500KB+ per
+        // prefab) make the buffer far more likely to already be near full when a
+        // sign-data batch needs to go out too. See SignDataResponseLengthPatch.
+        var signDataLength = AccessTools.Method(typeof(NetPackageSignDataResponse), "GetLength");
+        if (signDataLength != null)
+        {
+            harmony.Patch(signDataLength, postfix: new HarmonyMethod(AccessTools.Method(typeof(SignDataResponseLengthPatch), "Postfix")));
+            Log.Out("[PaintUnlocked] NetPackageSignDataResponse.GetLength() fix enabled");
+        }
+        else Log.Warning("[PaintUnlocked] NetPackageSignDataResponse.GetLength not found — length fix disabled");
+
         // === Legacy world migration: repack 8-bit chunks to 10-bit on load ===
 
         // Patch ChunkBlockChannel.Read: temporarily revert bytesPerVal 8→6 for legacy
@@ -185,6 +215,23 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] SetSelectedTextureForItem not found!");
 
+        // === Paint menu guard: stale selected-paint index pointing at an empty slot ===
+        // XUiC_MaterialStackGrid.SetMaterials does BlockTextureData.list[newSelectedMaterial]
+        // and immediately reads .Hidden, with neither a bounds nor a null check (verified
+        // against 3.1: ldelem.ref at IL_00e1, ldfld Hidden at IL_00ed). The index comes from
+        // the player's held paint tool and persists in save data, so an index left over from
+        // a paint pack that no longer registers lands on a null slot and throws on every XUi
+        // frame, which also stops IsDirty clearing and wedges the menu. See
+        // MaterialStackGridGuardPatch.
+        var setMaterials = AccessTools.Method(typeof(XUiC_MaterialStackGrid), "SetMaterials");
+        if (setMaterials != null)
+        {
+            harmony.Patch(setMaterials,
+                prefix: new HarmonyMethod(AccessTools.Method(typeof(MaterialStackGridGuardPatch), "SetMaterialsPrefix")));
+            Log.Out("[PaintUnlocked] MaterialStackGrid.SetMaterials guard registered (stale paint selection)");
+        }
+        else Log.Warning("[PaintUnlocked] XUiC_MaterialStackGrid.SetMaterials not found — stale paint selection guard disabled");
+
         // === Server-authoritative paint ID sync ===
         // After InitOpaqueConfig: build the server's ID mapping
         var initOpaqueConfig = AccessTools.Method(typeof(OpaqueTextures), "InitOpaqueConfig");
@@ -211,7 +258,35 @@ public class PaintUnlockedMod : IModApi
 
 public static class PaintIndexWidenerPatch
 {
-    private const byte OverflowFlag = 0x80;
+    // === Overflow encoding in the `channel` byte ===
+    //
+    // NetPackageSetBlockTexture.GetLength() is a hardcoded 19, so we cannot add
+    // bytes to the wire format. The paint index is widened by borrowing the high
+    // bits of the `channel` byte.
+    //
+    // IMPORTANT (fixed 2026-07-27): the marker must NOT be a bare "bit 7 set"
+    // test. Vanilla uses 0xFF as a live sentinel value for `channel`:
+    //
+    //     GameManager.SetBlockTextureServer(..., byte _channel = byte.MaxValue)
+    //     GameManager.SetBlockTextureClient: if (_channel == byte.MaxValue) -> all channels
+    //
+    // and the paint-strip-on-downgrade paths (Block.OnBlockDamaged /
+    // BlockTriggerDowngrade, RemovePaintOnDowngrade) all call it with that
+    // default. A bit-7 test decoded those packets as an overflow index of
+    // ((0xFF & 0x7F) << 8) | 0x00 == 32512, which then got written into chunk
+    // storage and re-broadcast — the "encoded overflow fullIdx=32512" spam.
+    //
+    // Chunk face storage is 10-bit (max 1023), so only TWO high bits are ever
+    // needed. Restricting the marker to 0x80..0x83 keeps 0xFF (and every other
+    // vanilla channel value) unambiguously outside our encoding space.
+    private const byte OverflowMarker = 0x80;   // 1000 00xx
+    private const byte OverflowMask   = 0xFC;   // bits we test for the marker
+    private const int  MaxPaintIndex  = 1023;   // 10-bit chunk face storage
+
+    private static bool IsOverflowChannel(byte channel)
+    {
+        return (channel & OverflowMask) == OverflowMarker;
+    }
 
     private static readonly Dictionary<int, ushort> _idxMap = new Dictionary<int, ushort>();
     private static readonly object _idxLock = new object();
@@ -256,6 +331,25 @@ public static class PaintIndexWidenerPatch
         return _fIdx != null ? (byte)_fIdx.GetValue(instance) : (byte)0;
     }
 
+    /// <summary>
+    /// Drops any cached full index for a pooled instance.
+    ///
+    /// NetPackageSetBlockTexture instances come from a 500-entry memory pool and
+    /// Reset()/Cleanup() are both no-ops. An instance that was last used to SEND
+    /// an overflow paint still had its full index sitting in _idxMap when the
+    /// pool handed it back out for a RECEIVE — and read() never calls Setup(), so
+    /// nothing refreshed it. The stale value then won the LoadIdx lookup in
+    /// ProcessPackagePrefix and got painted instead of the index actually on the
+    /// wire. Once one bad value (e.g. 32512) entered the pool it kept re-seeding
+    /// itself through the re-broadcast path, poisoning more instances over time —
+    /// which is why painting degraded gradually instead of failing outright.
+    /// </summary>
+    private static void ForgetIdx(NetPackageSetBlockTexture instance)
+    {
+        var key = System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(instance);
+        lock (_idxLock) { _idxMap.Remove(key); }
+    }
+
     public static void SetupPostfix(NetPackageSetBlockTexture __instance, int _idx)
     {
         if (!_reflectionValid) return;
@@ -274,13 +368,23 @@ public static class PaintIndexWidenerPatch
         var idx = LoadIdx(__instance);
         if (idx <= 255) return;
 
-        byte channelWire = (byte)(OverflowFlag | ((idx >> 8) & 0x7F));
+        if (idx > MaxPaintIndex)
+        {
+            // Cannot be represented in 10-bit chunk storage or in the 2-bit
+            // overflow marker. Send it as-is rather than silently encoding a
+            // value the receiver would decode as something else.
+            Log.Warning($"[PaintUnlocked] WritePrefix: paint index {idx} exceeds max {MaxPaintIndex}, not encoding overflow");
+            return;
+        }
+
+        byte channelWire = (byte)(OverflowMarker | ((idx >> 8) & 0x03));
         byte idxLow = (byte)(idx & 0xFF);
 
         _fChannel.SetValue(__instance, channelWire);
         _fIdx.SetValue(__instance, idxLow);
 
-        Log.Out($"[PaintUnlocked] WritePrefix: encoded overflow fullIdx={idx} -> channel=0x{channelWire:X2} idx=0x{idxLow:X2}");
+        if (PaintVerbose.Enabled)
+            Log.Out($"[PaintUnlocked] WritePrefix: encoded overflow fullIdx={idx} -> channel=0x{channelWire:X2} idx=0x{idxLow:X2}");
     }
 
     /// <summary>
@@ -299,23 +403,26 @@ public static class PaintIndexWidenerPatch
         try
         {
             var channel = (byte)_fChannel.GetValue(__instance);
+
+            // Not one of our encoded packets — hand it straight to vanilla.
+            //
+            // We deliberately do NOT consult _idxMap here. On the receive side
+            // read() populated the fields from the wire and Setup() was never
+            // called, so any cached entry belongs to a previous send on the same
+            // pooled instance. Trusting it is what turned one bad packet into
+            // "no paints stick at all". Everything vanilla can represent
+            // (idx <= 255, including the 0xFF all-channels sentinel) is handled
+            // correctly by the original method.
+            if (!IsOverflowChannel(channel)) return true;
+
             var blockPos  = (Vector3i)_fBlockPos.GetValue(__instance);
             var blockFace = (BlockFace)_fBlockFace.GetValue(__instance);
             var playerId  = (int)_fPlayerId.GetValue(__instance);
 
-            ushort fullIdx;
-
-            if ((channel & OverflowFlag) == 0)
-            {
-                fullIdx = LoadIdx(__instance);
-                if (fullIdx <= 255) return true; // vanilla path, let original handle it
-            }
-            else
-            {
-                var idxByte = (byte)_fIdx.GetValue(__instance);
-                fullIdx = (ushort)(((channel & 0x7F) << 8) | idxByte);
+            var idxByte = (byte)_fIdx.GetValue(__instance);
+            ushort fullIdx = (ushort)(((channel & 0x03) << 8) | idxByte);
+            if (PaintVerbose.Enabled)
                 Log.Out($"[PaintUnlocked] ProcessPackagePrefix: overflow decode -> fullIdx={fullIdx} at {blockPos} face={blockFace}");
-            }
 
             // Apply locally on this peer (server or client)
             ApplyTexture(_world, blockPos, blockFace, fullIdx, playerId);
@@ -358,7 +465,8 @@ public static class PaintIndexWidenerPatch
         // on the receive side we pass the real channel (always 0 for paint ops).
         if (GameManager.Instance != null)
         {
-            Log.Out($"[PaintUnlocked] ApplyTexture: SetBlockTextureClient pos={blockPos} face={blockFace} idx={idx}");
+            if (PaintVerbose.Enabled)
+                Log.Out($"[PaintUnlocked] ApplyTexture: SetBlockTextureClient pos={blockPos} face={blockFace} idx={idx}");
             GameManager.Instance.SetBlockTextureClient(blockPos, blockFace, idx, 0);
         }
         else
@@ -367,8 +475,15 @@ public static class PaintIndexWidenerPatch
         }
     }
 
+    /// <summary>
+    /// Passthrough — ProcessPackagePrefix does the decoding. The one thing we do
+    /// here is evict this pooled instance's cached full index, so a value left
+    /// over from a previous send can never leak into the packet we're about to
+    /// read off the wire. See ForgetIdx.
+    /// </summary>
     public static bool ReadPrefix(NetPackageSetBlockTexture __instance, PooledBinaryReader _br)
     {
-        return true; // passthrough — ProcessPackagePrefix handles decoding
+        if (_reflectionValid) ForgetIdx(__instance);
+        return true;
     }
 }
