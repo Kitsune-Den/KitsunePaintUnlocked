@@ -3,7 +3,7 @@
 ![KitsunePaintUnlocked — 302 paints running simultaneously](kitsune-paint-unlocked.png)
 
 [![Download on Nexus Mods](https://img.shields.io/badge/Download-Nexus_Mods-da8e35?style=flat&logo=nexusmods&logoColor=white)](https://www.nexusmods.com/7daystodie/mods/10059)
-[![7 Days to Die V3.0](https://img.shields.io/badge/7_Days_to_Die-V3.0_Dead_Hot_Summer-8b0000?style=flat)](https://7daystodie.com)
+[![7 Days to Die V3.0-V3.1](https://img.shields.io/badge/7_Days_to_Die-V3.0_%E2%80%93_V3.1-8b0000?style=flat)](https://7daystodie.com)
 [![License](https://img.shields.io/github/license/Kitsune-Den/KitsunePaintUnlocked?style=flat)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/Kitsune-Den/KitsunePaintUnlocked?style=flat&logo=github)](https://github.com/Kitsune-Den/KitsunePaintUnlocked/stargazers)
 
@@ -15,7 +15,7 @@ Vanilla 7D2D caps paint textures at 255 across five separate engine layers. Kits
 
 ## Requirements
 
-- 7 Days to Die V3.0 (Dead Hot Summer)
+- 7 Days to Die V3.0 (Dead Hot Summer) or V3.1
 - [OcbPaintUnlocked](https://github.com/Kitsune-Den/OcbPaintUnlocked) (KitsunePaintUnlocked-compatible fork of OcbCustomTextures, included in release)
 - EAC **disabled** on server and all clients
 
