@@ -145,9 +145,20 @@ Output: `bin/Release/net48/PaintUnlocked.dll`
 PaintUnlocked and the OcbCustomTextures fork are versioned together to prevent version mismatches.
 
 - **PaintUnlocked**: semver (e.g. `1.0.0`), drives the shared version
-- **OcbCustomTextures fork**: `{upstream base}-pu{version}` (e.g. `0.8.0-pu1.0.0`)
+- **OcbCustomTextures fork**: `{upstream base}.{pu build}` (e.g. `0.8.1.10402` =
+  upstream 0.8.1 carrying PaintUnlocked 1.4.2), where the fourth part encodes the
+  PaintUnlocked version as `major*10000 + minor*100 + patch`
 
 Both version numbers are bumped together on every release.
+
+The fork's fourth part exists so the fork is identifiable from the log line
+`Loaded Mod: OcbCustomTextures (...)` alone -- stock upstream reports a bare
+three-part version, and PaintUnlocked's incompatible-OCB diagnostic prints
+whatever it finds. Earlier releases used a `-pu{version}` suffix instead
+(`0.8.0-pu1.0.1`); that was dropped because `Mod.ParseModInfo` runs the string
+through `Version.TryParse`, which rejects a non-numeric suffix, leaving
+`Mod.Version` null and logging "does not define a valid Version" on every boot.
+A four-part number parses cleanly and stays just as distinguishable.
 
 ## Packaging a release
 
