@@ -84,6 +84,36 @@ Available in the F1 console:
 - Compatible with custom POI packs (Fluffy Panda, etc.) -- prefab textures are re-encoded automatically
 - **Requires the PaintUnlocked-compatible OcbCustomTextures fork** (included in release)
 
+## Troubleshooting
+
+### `Failed initializing ModAPI instance on mod 'PaintUnlocked'`
+
+Accompanied by one of:
+
+```
+IL Compile Error (unknown location) ---> Unexpected null in
+  DMD<OpaqueTextures::InitOpaqueConfig> @ IL_0132:
+  call System.String Localization::Get(System.String,System.Boolean)
+```
+```
+MissingMethodException: Method not found: string .Localization.Get(string,bool)
+```
+
+Your `OcbCustomTextures` is an old build made for 7 Days to Die V2.x. V3.0
+replaced `Localization.Get(string, bool)` with `Get(string, bool, string)`, so
+that build calls a method the game no longer has -- it cannot register custom
+paints on V3.x with or without PaintUnlocked.
+
+Fix: delete the `OcbCustomTextures` folder from `Mods/` and replace it with the
+`OcbCustomTextures-X.Y.Z.zip` from this release. Installing
+`0_PaintUnlocked-X.Y.Z.zip` on its own (the usual Vortex path) leaves whatever
+OcbCustomTextures you already had in place -- install **both** per-mod zips.
+
+Since v1.4.2 this no longer aborts mod load: PaintUnlocked logs an
+`INCOMPATIBLE OcbCustomTextures` block naming the folder it found, and the rest
+of the mod still installs. Custom paints above 255 stay unavailable until OCB
+is updated.
+
 ## Known limitations
 
 - `TextureIdxToTextureFullValue64` (paint-all-faces from menu) is not yet patched with a specialized transpiler. Individual face painting works correctly.
