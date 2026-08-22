@@ -29,10 +29,11 @@ public static class PaintIdSyncManager
     // Reset on world unload so the next world reconciles fresh.
     private static bool _reconciledForWorld = false;
 
-    // Reflection into OpaqueTextures
-    private static readonly FieldInfo _fOpaqueConfigs =
-        typeof(OpaqueTextures).GetField("OpaqueConfigs",
-            BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+    // NOTE: no static reference to OpaqueTextures here on purpose. A static
+    // field initializer touching an OcbCustomTextures type would run this
+    // class's cctor against CustomTextures.dll on first use (e.g. from
+    // WorldLifecyclePatch), which turns a missing OCB into a TypeLoadException
+    // far from the cause. OCB-dependent work lives in OcbIntegration.
 
     // Reflection into NetPackageRequestToEnterGame to get the sender
     private static readonly FieldInfo _fSenderId =

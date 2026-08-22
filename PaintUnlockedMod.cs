@@ -181,10 +181,11 @@ public class PaintUnlockedMod : IModApi
             Log.Out("[PaintUnlocked] GetSetTextureFullArray: re-encoding prefix + dirty-flag postfix enabled");
         }
 
-        // === Layer 2: Paint ID allocation floor ===
-        var getFreePaintID = AccessTools.Method(typeof(OpaqueTextures), "GetFreePaintID");
-        var getFreePaintIDPrefix = AccessTools.Method(typeof(OcbPaintLimitPatch), "GetFreePaintIDPrefix");
-        harmony.Patch(getFreePaintID, prefix: new HarmonyMethod(getFreePaintIDPrefix));
+        // === Layer 2 + paint ID sync (everything that touches OcbCustomTextures) ===
+        // Isolated behind OcbIntegration so an outdated or missing
+        // CustomTextures.dll can no longer abort the whole of InitMod. See
+        // OcbIntegration for the failure mode this guards against.
+        OcbIntegration.TryRegister(harmony);
 
         // === Layer 1: Network packet encoding for indices > 255 ===
         var netPkgType = typeof(NetPackageSetBlockTexture);
@@ -231,25 +232,6 @@ public class PaintUnlockedMod : IModApi
             Log.Out("[PaintUnlocked] MaterialStackGrid.SetMaterials guard registered (stale paint selection)");
         }
         else Log.Warning("[PaintUnlocked] XUiC_MaterialStackGrid.SetMaterials not found — stale paint selection guard disabled");
-
-        // === Server-authoritative paint ID sync ===
-        // After InitOpaqueConfig: build the server's ID mapping
-        var initOpaqueConfig = AccessTools.Method(typeof(OpaqueTextures), "InitOpaqueConfig");
-        if (initOpaqueConfig != null)
-        {
-            harmony.Patch(initOpaqueConfig, postfix: new HarmonyMethod(AccessTools.Method(typeof(PaintIdSyncManager), "OnInitOpaqueConfigDone")));
-            Log.Out("[PaintUnlocked] InitOpaqueConfig postfix registered for paint ID mapping");
-        }
-        else Log.Warning("[PaintUnlocked] InitOpaqueConfig not found — paint ID sync disabled");
-
-        // On client connect: send the mapping before chunks flow
-        var requestToEnter = AccessTools.Method(typeof(NetPackageRequestToEnterGame), "ProcessPackage");
-        if (requestToEnter != null)
-        {
-            harmony.Patch(requestToEnter, prefix: new HarmonyMethod(AccessTools.Method(typeof(PaintIdSyncManager), "OnRequestToEnterGamePrefix")));
-            Log.Out("[PaintUnlocked] RequestToEnterGame prefix registered for paint ID sync");
-        }
-        else Log.Warning("[PaintUnlocked] NetPackageRequestToEnterGame.ProcessPackage not found — paint ID sync disabled");
 
         Log.Out("[PaintUnlocked] Loaded - paint limit raised to 1023 (10-bit chunk storage, 64-bit ChunkBlockChannel).");
         Log.Out("[PaintUnlocked] Legacy world migration enabled — pre-PaintUnlocked worlds will be repacked on first load.");
