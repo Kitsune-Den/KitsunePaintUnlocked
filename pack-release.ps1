@@ -48,6 +48,46 @@ foreach ($m in $mods) {
   }
 }
 
+# Both mods are versioned together (see README "Versioning"). A mismatch here
+# ships a fork whose in-game version line lies about which PaintUnlocked it
+# pairs with, which is exactly what the INCOMPATIBLE-OCB diagnostic reads back
+# to the user. Catch it before the zips exist.
+function Get-ModInfoVersion {
+  param([string]$ModName)
+  $path = Join-Path (Join-Path $staging $ModName) 'ModInfo.xml'
+  $node = ([xml](Get-Content $path -Raw)).xml.Version
+  if (-not $node) { throw "$ModName/ModInfo.xml has no <Version> element" }
+  $node.value
+}
+
+$puVersion = Get-ModInfoVersion '0_PaintUnlocked'
+if ($puVersion -ne $Version) {
+  throw "0_PaintUnlocked/ModInfo.xml says '$puVersion' but the release is '$Version' - bump ModInfo.xml"
+}
+
+# Fork scheme: {upstream base}.{encoded PaintUnlocked version}, four numeric
+# components, e.g. 0.8.1.10402 = upstream 0.8.1 + PaintUnlocked 1.4.2. The
+# fourth component is major*10000 + minor*100 + patch. It stays numeric so
+# System.Version.TryParse succeeds: a non-numeric suffix like -pu1.4.2 loads
+# fine but leaves Mod.Version null, which logs a warning on every boot and
+# makes the mod_version() XML-patch condition read the fork as 0.0.
+if ($Version -notmatch '^(?<maj>\d+)\.(?<min>\d+)\.(?<pat>\d+)$') {
+  throw "Release version '$Version' is not X.Y.Z - cannot encode it into the fork version"
+}
+if ([int]$Matches['min'] -gt 99 -or [int]$Matches['pat'] -gt 99) {
+  throw "Release version '$Version' has a minor or patch component above 99 - the fork version encoding (major*10000 + minor*100 + patch) would be ambiguous"
+}
+$encoded = [int]$Matches['maj'] * 10000 + [int]$Matches['min'] * 100 + [int]$Matches['pat']
+
+$ocbVersion = Get-ModInfoVersion 'OcbCustomTextures'
+if ($ocbVersion -notmatch '^(?<base>\d+\.\d+\.\d+)\.(?<enc>\d+)$') {
+  throw "OcbCustomTextures/ModInfo.xml says '$ocbVersion' - expected four numeric components, '{upstream}.$encoded' (e.g. 0.8.1.$encoded)"
+}
+if ([int]$Matches['enc'] -ne $encoded) {
+  throw "OcbCustomTextures/ModInfo.xml says '$ocbVersion' but the release is '$Version' - expected '$($Matches['base']).$encoded'"
+}
+Write-Host "Versions OK: PaintUnlocked $puVersion / OcbCustomTextures $ocbVersion"
+
 function New-ZipFromFolder {
   param([string]$Source, [string]$Destination, [string]$TopFolderName)
   if (Test-Path $Destination) { Remove-Item $Destination -Force }
