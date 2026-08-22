@@ -157,8 +157,15 @@ three-part version, and PaintUnlocked's incompatible-OCB diagnostic prints
 whatever it finds. Earlier releases used a `-pu{version}` suffix instead
 (`0.8.0-pu1.0.1`); that was dropped because `Mod.ParseModInfo` runs the string
 through `Version.TryParse`, which rejects a non-numeric suffix, leaving
-`Mod.Version` null and logging "does not define a valid Version" on every boot.
-A four-part number parses cleanly and stays just as distinguishable.
+`Mod.Version` null. A null `Mod.Version` logs "does not define a valid Version"
+on every boot **and** makes the `mod_version()` XML-patch condition read the
+fork as `0.0`, so any paint pack gating on it sees the wrong number. A four-part
+number parses cleanly and stays just as distinguishable.
+
+The encoding is only reversible while minor and patch each stay below 100 --
+`major*10000 + minor*100 + patch` collides above that. `pack-release.ps1`
+enforces this, along with both ModInfo versions matching the release, before it
+writes any zip.
 
 ## Packaging a release
 
