@@ -6,7 +6,9 @@ dist/
 .vs/
 .claude/
 PaintUnlockedTest/
-tools/
+tools/*
+!tools/verify-game-version/
+tools/verify-game-version/_work/
 
 # Release artifacts (produced by pack-release.ps1)
 PaintUnlocked-*/
