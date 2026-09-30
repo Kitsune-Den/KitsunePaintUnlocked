@@ -50,7 +50,10 @@ public class PaintUnlockedMod : IModApi
         // stream. PaintUnlocked's large NetPackageDecoUpdate payloads (500KB+ per
         // prefab) make the buffer far more likely to already be near full when a
         // sign-data batch needs to go out too. See SignDataResponseLengthPatch.
-        var signDataLength = AccessTools.Method(typeof(NetPackageSignDataResponse), "GetLength");
+        // Plain reflection, not AccessTools.Method/DeclaredMethod: both log a Harmony
+        // WRN on a miss, and on 3.3 a miss is the expected outcome.
+        var signDataLength = typeof(NetPackageSignDataResponse).GetMethod("GetLength",
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, System.Type.EmptyTypes, null);
         if (signDataLength != null)
         {
             harmony.Patch(signDataLength, postfix: new HarmonyMethod(AccessTools.Method(typeof(SignDataResponseLengthPatch), "Postfix")));
