@@ -124,11 +124,30 @@ Since v1.4.2 this no longer aborts mod load: PaintUnlocked logs an
 of the mod still installs. Custom paints above 255 stay unavailable until OCB
 is updated.
 
+### `Loading and parsing 'painting.xml' failed` / `Index was outside the bounds of the array`
+
+The CustomTextures.dll PaintUnlocked hooked into is **stock** OcbCustomTextures,
+not the fork. Stock OCB keeps the paint list at 256 slots, so the first custom
+paint at ID 512 overflows it. When the only OCB folder is the one from the zip,
+the stock copy usually comes from another mod that bundles it, either in a
+folder that sorts before `OcbCustomTextures` (the game skips the later one with
+the same mod name) or under a different mod name.
+
+Fix: search `Mods/` for `CustomTextures.dll` and delete every OCB copy except
+the `OcbCustomTextures` folder from this release. See the
+[FAQ](FAQ.md#paintingxml-index-was-outside-the-bounds-of-the-array).
+
+PaintUnlocked checks for this at startup. It logs
+`NON-FORKED OcbCustomTextures DETECTED` (or `MORE THAN ONE OcbCustomTextures
+INSTALLED`) followed by the path of every copy it found. On stock OCB it skips
+its OCB patches, so the game loads with custom paints capped at 255 instead of
+failing on painting.xml.
+
 ## Known limitations
 
 - `TextureIdxToTextureFullValue64` (paint-all-faces from menu) is not yet patched with a specialized transpiler. Individual face painting works correctly.
 - Migration is one-way: once a world has been converted to the 10-bit chunk format, it needs PaintUnlocked to load. Back up saves before the first load.
-- Custom paints from packs you had installed *before* PaintUnlocked may need to be re-applied after migration: their IDs move from the 154-255 range to 512+, and blocks painted earlier still reference the old IDs. Vanilla paints survive intact. See the [FAQ](FAQ.md).
+- Custom paints from packs you had installed *before* PaintUnlocked may need to be re-applied after migration: their IDs move from below 256 to 512+, and blocks painted earlier still reference the old IDs. Vanilla paints survive intact. See the [FAQ](FAQ.md).
 - V3.3 is an experimental game branch; v1.4.3 was verified against V3.3 b17 on a dedicated server, but not yet with a 3.3 client joining.
 - `Graphics.CopyTexture` mip level warnings may appear for paint packs with mismatched texture mip counts. These are cosmetic and come from the paint packs, not PaintUnlocked.
 

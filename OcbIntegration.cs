@@ -88,6 +88,24 @@ public static class OcbIntegration
     }
 
     /// <summary>
+    /// The CustomTextures assembly that PaintUnlocked's own references to
+    /// <c>OpaqueTextures</c> resolve to, i.e. the one its patches would land on.
+    /// Differs from <see cref="TryGetOcbAssembly"/> when more than one copy is
+    /// loaded. Null if OCB is missing or its types can't be loaded.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    internal static Assembly TryGetBoundOcbAssembly()
+    {
+        try { return ResolveBound(); }
+        catch (Exception) { return null; }
+    }
+
+    // Separate so a missing CustomTextures.dll throws when this is jitted,
+    // inside the caller's try, rather than when the caller is.
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static Assembly ResolveBound() => typeof(OpaqueTextures).Assembly;
+
+    /// <summary>
     /// The loaded CustomTextures assembly, or null if OcbCustomTextures is not
     /// installed. Deliberately reflection-only: if the OCB types cannot be
     /// loaded at all there is nothing to report but the absence.
