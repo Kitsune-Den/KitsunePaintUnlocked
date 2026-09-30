@@ -17,15 +17,147 @@
 /// That directly measures the thing that actually matters (did the list get
 /// resized) rather than trusting a ModInfo string.
 ///
-/// It NEVER changes state, blocks load, or alters behaviour. It only writes
-/// an actionable warning to the log. Worst case if something is off, the
-/// check silently no-ops ~ it can't make anything worse.
+/// <see cref="Verify"/> NEVER changes state, blocks load, or alters behaviour.
+/// It only writes an actionable warning to the log. Worst case if something
+/// is off, the check silently no-ops ~ it can't make anything worse.
+///
+/// <see cref="CheckBoundOcbIsFork"/> is the one exception: it runs at mod
+/// load, and its verdict decides whether the OCB patches get registered at
+/// all, because on stock OCB those patches are what crash painting.xml.
 /// </summary>
 public static class OcbForkCheck
 {
     // Run the check once per game session. Repeating it on every world load
     // would just spam the log with the same line.
     private static bool _done = false;
+
+    private const string OcbAssemblyName = "CustomTextures";
+    private const string OcbModName = "OcbCustomTextures";
+
+    /// <summary>
+    /// Mod-load-time check that the CustomTextures.dll PaintUnlocked binds to is
+    /// the fork. Returns false when it is stock OCB, in which case the caller
+    /// must NOT register the OCB-dependent patches.
+    ///
+    /// Why this can't wait for <see cref="Verify"/>: with stock OCB, the ID-512
+    /// floor hands stock InitOpaqueConfig a paint ID that its 256-slot
+    /// BlockTextureData.list can't hold, so painting.xml dies with
+    /// "Index was outside the bounds of the array" INSIDE InitOpaqueConfig ~
+    /// the postfix that runs Verify never fires and the user gets no hint.
+    /// Players hit this when another mod quietly bundles its own stock copy
+    /// of OCB: it either loads first and shadows the fork ("Mod with same
+    /// name ... ignoring"), or sits in a differently named folder and loads
+    /// a second CustomTextures.dll side by side.
+    ///
+    /// Skipping the floor on stock OCB turns the crash into a working game
+    /// with custom paints capped at 255, plus an error that names the folder.
+    /// All mods' assemblies are loaded before any InitMod runs, so everything
+    /// this inspects is already in place.
+    /// </summary>
+    public static bool CheckBoundOcbIsFork()
+    {
+        try
+        {
+            var bound = OcbIntegration.TryGetBoundOcbAssembly();
+            if (bound == null) return true; // OCB missing: TryRegister reports that
+
+            var copies = new System.Collections.Generic.List<System.Reflection.Assembly>();
+            foreach (var asm in System.AppDomain.CurrentDomain.GetAssemblies())
+                if (asm.GetName().Name == OcbAssemblyName) copies.Add(asm);
+
+            var ignored = new System.Collections.Generic.List<string>();
+            foreach (var mod in ModManager.GetFailedMods(Mod.EModLoadState.DuplicateModName))
+                if (mod != null && mod.Name == OcbModName) ignored.Add(mod.Path);
+
+            bool boundIsFork = IsFork(bound);
+            if (boundIsFork && copies.Count <= 1 && ignored.Count == 0)
+            {
+                Log.Out($"[PaintUnlocked] OCB fork detected at {Describe(bound)}.");
+                return true;
+            }
+
+            Log.Error("[PaintUnlocked] ================================================");
+            if (!boundIsFork)
+            {
+                Log.Error("[PaintUnlocked] NON-FORKED OcbCustomTextures DETECTED");
+                Log.Error("[PaintUnlocked]");
+                Log.Error("[PaintUnlocked] You're using a non-forked OcbCustomTextures. PaintUnlocked");
+                Log.Error("[PaintUnlocked] needs the OCB fork that ships in its own zip; the stock");
+                Log.Error("[PaintUnlocked] one crashes painting.xml with 'Index was outside the");
+                Log.Error("[PaintUnlocked] bounds of the array' as soon as custom paints load.");
+                Log.Error("[PaintUnlocked]");
+                Log.Error($"[PaintUnlocked] Stock OCB in use: {Describe(bound)}");
+            }
+            else
+            {
+                Log.Error("[PaintUnlocked] MORE THAN ONE OcbCustomTextures INSTALLED");
+                Log.Error("[PaintUnlocked]");
+                Log.Error("[PaintUnlocked] Every loaded copy registers the same custom paints, so");
+                Log.Error("[PaintUnlocked] painting.xml can fail (e.g. 'No more free Paint IDs')");
+                Log.Error("[PaintUnlocked] until only the fork is left.");
+                Log.Error("[PaintUnlocked]");
+                Log.Error($"[PaintUnlocked] Fork in use: {Describe(bound)}");
+            }
+
+            foreach (var asm in copies)
+                if (asm != bound)
+                    Log.Error($"[PaintUnlocked] Also loaded ({(IsFork(asm) ? "fork" : "stock")}): {Describe(asm)}");
+            foreach (var path in ignored)
+                Log.Error($"[PaintUnlocked] Ignored by the game (same mod name, loaded later): {path}");
+
+            Log.Error("[PaintUnlocked]");
+            Log.Error("[PaintUnlocked] Another mod probably bundles its own copy of OCB. Search");
+            Log.Error("[PaintUnlocked] your Mods folder for CustomTextures.dll: there must be");
+            Log.Error("[PaintUnlocked] exactly one, inside the OcbCustomTextures folder from the");
+            Log.Error("[PaintUnlocked] PaintUnlocked zip. Delete every other OCB copy; the paints");
+            Log.Error("[PaintUnlocked] from those mods still load through the fork.");
+            if (!boundIsFork)
+            {
+                Log.Error("[PaintUnlocked]");
+                Log.Error("[PaintUnlocked] Until then PaintUnlocked leaves stock OCB alone so the");
+                Log.Error("[PaintUnlocked] game still loads, but custom paints stay capped at 255");
+                Log.Error("[PaintUnlocked] and paint ID sync is off.");
+            }
+            Log.Error("[PaintUnlocked] ================================================");
+
+            _done = true; // Verify's list-length check would only repeat this
+            return boundIsFork;
+        }
+        catch (System.Exception ex)
+        {
+            // A diagnostic must never break anything. Fall back to the old
+            // behaviour (register the patches) and move on.
+            Log.Warning($"[PaintUnlocked] OCB fork check skipped ({ex.Message}).");
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// Every fork build since 1.0.1 carries these two members on OpaqueTextures
+    /// (the BlockTextureData.list grow logic); stock OCB has neither.
+    /// </summary>
+    private static bool IsFork(System.Reflection.Assembly asm)
+    {
+        const System.Reflection.BindingFlags any =
+            System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic |
+            System.Reflection.BindingFlags.Static;
+        var opaque = asm.GetType("OpaqueTextures", false);
+        if (opaque == null) return false;
+        return opaque.GetNestedType("BlockTextureDataInitPatch", any) != null
+            || opaque.GetMethod("EarlyResizeBlockTextureList", any) != null;
+    }
+
+    private static string Describe(System.Reflection.Assembly asm)
+    {
+        try
+        {
+            var mod = ModManager.GetModForAssembly(asm);
+            if (mod != null)
+                return string.IsNullOrEmpty(mod.VersionString) ? mod.Path : $"{mod.Path} (v{mod.VersionString})";
+        }
+        catch (System.Exception) { /* fall through to the assembly name */ }
+        return asm.FullName;
+    }
 
     /// <summary>
     /// Called once, as part of the InitOpaqueConfig postfix. By this point

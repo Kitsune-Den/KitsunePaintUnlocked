@@ -188,7 +188,10 @@ public class PaintUnlockedMod : IModApi
         // Isolated behind OcbIntegration so an outdated or missing
         // CustomTextures.dll can no longer abort the whole of InitMod. See
         // OcbIntegration for the failure mode this guards against.
-        OcbIntegration.TryRegister(harmony);
+        // Stock OCB crashes painting.xml once the ID-512 floor is applied, so
+        // on stock the OCB patches are skipped entirely (see OcbForkCheck).
+        if (OcbForkCheck.CheckBoundOcbIsFork())
+            OcbIntegration.TryRegister(harmony);
 
         // === Layer 1: Network packet encoding for indices > 255 ===
         var netPkgType = typeof(NetPackageSetBlockTexture);
