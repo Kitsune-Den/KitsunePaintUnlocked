@@ -16,6 +16,21 @@ steamcmd +force_install_dir C:\path\7d2d-vX.Y-ref +login anonymous +app_update 2
 findstr /i "buildid BetaKey" C:\path\7d2d-vX.Y-ref\steamapps\appmanifest_294420.acf
 ```
 
+### Or let the watcher notice it
+
+```
+.\watch-builds.ps1
+```
+
+Compares the Steam branch table against the last run (`_work\build-watch.json`; the first run
+only records a baseline). When `public`, `latest_experimental` or a `vX.Y` branch moves, it pulls
+the build into `E:\7d2d-refs\7d2d-<buildid>` (unless an install of that build is already known),
+builds origin/main the README way from a clean export outside the repo, and runs step 1 against
+both the newest shipped bundle and that fresh build, with the branch's previous build as the
+IL-diff baseline. It writes `_work\build-watch-<date>.md`. A daily scheduled task
+(`7dtd-build-watch` in the Claude app) runs it and sends a notification only when something
+moved. Steps 2 and 3 stay manual, since they boot a server.
+
 ## 1. Static audit (Mono.Cecil)
 
 ```
