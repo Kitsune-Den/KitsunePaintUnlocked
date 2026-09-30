@@ -14,6 +14,8 @@
   <ItemGroup>
     <!-- The test project (net8) links PaintIdMerge.cs directly; keep its sources out of the net48 mod build. -->
     <Compile Remove="tests\**\*.cs" />
+    <!-- tools\verify-game-version\_work holds source copies built against other game versions. -->
+    <Compile Remove="tools\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>

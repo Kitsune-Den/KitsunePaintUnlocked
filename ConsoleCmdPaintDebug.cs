@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 
 /// <summary>
 /// Debug console command to dump BlockTextureData for a specific paint ID.
@@ -172,18 +173,19 @@ public class ConsoleCmdPaintDebug : ConsoleCmdAbstract
             if (holdingData != null)
             {
                 var iv = holdingData.itemValue;
-                Log.Out($"[PaintDebug] itemValue.Meta = {iv.Meta}");
-                Log.Out($"[PaintDebug] itemValue.type = {iv.type}");
+                int meta = ReadIntMember(iv, "Meta");
+                Log.Out($"[PaintDebug] itemValue.Meta = {meta}");
+                Log.Out($"[PaintDebug] itemValue.type = {ReadIntMember(iv, "type")}");
                 // Check if Meta points to valid BlockTextureData
                 var btdList = BlockTextureData.list;
-                if (btdList != null && iv.Meta >= 0 && iv.Meta < btdList.Length)
+                if (btdList != null && meta >= 0 && meta < btdList.Length)
                 {
-                    var btd = btdList[iv.Meta];
-                    Log.Out($"[PaintDebug] BlockTextureData.list[{iv.Meta}] = {(btd == null ? "NULL" : $"Name={btd.Name} TextureID={btd.TextureID}")}");
+                    var btd = btdList[meta];
+                    Log.Out($"[PaintDebug] BlockTextureData.list[{meta}] = {(btd == null ? "NULL" : $"Name={btd.Name} TextureID={btd.TextureID}")}");
                 }
                 else
                 {
-                    Log.Out($"[PaintDebug] Meta {iv.Meta} out of range (list.Length={btdList?.Length ?? 0})");
+                    Log.Out($"[PaintDebug] Meta {meta} out of range (list.Length={btdList?.Length ?? 0})");
                 }
             }
             var actionData = inv.holdingItemData?.actionData;
@@ -263,5 +265,18 @@ public class ConsoleCmdPaintDebug : ConsoleCmdAbstract
             Log.Out($"[PaintDebug] atlas diffuse: name={diff.name} depth={diff.depth}");
         else
             Log.Out($"[PaintDebug] atlas diffuse: not a Texture2DArray (type={opaque.TexDiffuse?.GetType().Name ?? "null"})");
+    }
+
+    // ItemValue.Meta and .type are fields up to 3.2 and properties from 3.3; a direct
+    // access compiles to one or the other and throws MissingFieldException on the other.
+    private static int ReadIntMember(object obj, string name)
+    {
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        var type = obj.GetType();
+        var field = type.GetField(name, flags);
+        if (field != null) return System.Convert.ToInt32(field.GetValue(obj));
+        var prop = type.GetProperty(name, flags);
+        if (prop != null) return System.Convert.ToInt32(prop.GetValue(obj, null));
+        return -1;
     }
 }
