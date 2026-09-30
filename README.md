@@ -28,12 +28,11 @@ Each release ships three downloads:
 
 Steps:
 
-1. Install (manual or via Vortex) on **both the server and all connecting clients**. You should end up with two folders side-by-side under `Mods/`: `0_PaintUnlocked` and `OcbCustomTextures`.
-2. If you already have OcbCustomTextures installed, replace it with the version from this release. The PaintUnlocked fork is required -- vanilla OcbCustomTextures is not compatible.
-3. Install your paint packs as usual (KitsunePaints, PyroPaints, CK Textures, etc.).
-4. A **fresh world is required**. Existing worlds will display default textures on previously painted blocks.
-
-Unpatched clients can still connect and use paint slots 0-254 normally.
+1. **Back up your saves.** Existing worlds are migrated to the new chunk format on first load, and that is one-way: a migrated world needs PaintUnlocked to load. To revert, restore the backup.
+2. If you already have an `OcbCustomTextures` folder in `Mods/`, delete it entirely. The PaintUnlocked fork replaces it -- vanilla OcbCustomTextures is not compatible, and overwriting in place can leave stale files behind.
+3. Install (manual or via Vortex) on **both the server and all connecting clients**. You should end up with two folders side-by-side under `Mods/`: `0_PaintUnlocked` and `OcbCustomTextures`. Mismatched installs cause disconnects.
+4. Install your paint packs as usual (KitsunePaints, PyroPaints, CK Textures, etc.).
+5. Load your world. A pre-PaintUnlocked world pauses briefly on first load while every chunk on disk is repacked (the log shows `[PaintUnlocked] EagerMigrator` lines); a `paintunlocked.migrated` marker is then written and later loads skip the scan. See the [FAQ](FAQ.md#do-i-need-a-new-world) for what happens to paints from packs installed before PaintUnlocked.
 
 ## What it patches
 
@@ -41,9 +40,9 @@ PaintUnlocked modifies five engine layers to break the 255 limit:
 
 ### Layer 1: Network wire format
 
-`NetPackageSetBlockTexture` sends paint indices as a single `byte` field. The packet is exactly 19 bytes with a hardcoded `GetLength()` -- adding bytes causes stream desync and instant disconnection.
+`NetPackageSetBlockTexture` sends paint indices as a single `byte` field, in a fixed 19-byte layout that both ends must agree on (up to V3.2 `GetLength()` is hardcoded to match) -- adding bytes causes stream desync and instant disconnection.
 
-PaintUnlocked uses a **field mutation prefix** on `write()`: for indices above 255, the `channel` byte is repurposed to carry overflow bits (bit 7 = overflow flag). Vanilla `write()` then serializes the modified fields through its normal `PooledBinaryWriter` path. For indices 0-254, the packet is byte-identical to vanilla.
+PaintUnlocked uses a **field mutation prefix** on `write()`: for indices above 255, the `channel` byte is repurposed to carry the overflow. It is set to a marker in the range `0x80`-`0x83`, whose low two bits are bits 8-9 of the index, and the `idx` byte carries bits 0-7. The marker range deliberately excludes `0xFF`, which vanilla uses as its own "all channels" sentinel. Vanilla `write()` then serializes the modified fields through its normal `PooledBinaryWriter` path. For indices 0-254, the packet is byte-identical to vanilla.
 
 On the receive side, `ProcessPackagePrefix` decodes the overflow from the channel field before vanilla `ProcessPackage` runs. This is reliable on both client and dedicated server, unlike `read()` prefixes which can be bypassed by JIT virtual dispatch.
 
@@ -63,15 +62,25 @@ The server loads fewer vanilla paints than the client (~155 vs ~407), causing cu
 
 Prefab placement uses `GetSetTextureFullArray` to write pre-packed Int64 texture values where faces are at 8-bit positions. PaintUnlocked re-encodes these to 10-bit positions before they enter the chunk, preventing custom textures from bleeding onto POI buildings.
 
+### Stable paint IDs across restarts and players
+
+Custom paint IDs are assigned in load order, so adding or removing a paint pack would otherwise shift them and repaint existing blocks with the wrong texture. PaintUnlocked records each world's custom paint IDs by name in `paintunlocked.idmap` in the save folder and reuses them on every load, and the server sends its mapping to each client on connect so every player agrees on which ID is which paint.
+
+### Network buffers
+
+The wider chunk storage makes every chunk-texture network payload about a third larger, which can overrun vanilla's fixed 32 KiB per-player connection buffers during the join burst. PaintUnlocked widens them to 256 KiB after vanilla sets them up (on V3.3 this includes the new package staging buffer).
+
 ### UI fixes
 
-- **Toolbar thumbnails**: The game truncates paint IDs to a byte (`conv.u1`) before storing in `itemValue.Meta`, causing wrong thumbnails for custom paints. A transpiler removes the byte cast so the full paint ID is preserved.
+- **Toolbar thumbnails**: The game truncates paint IDs to a byte (`conv.u1`) before storing in `itemValue.Meta`, causing wrong thumbnails for custom paints. A transpiler removes the byte cast so the full paint ID is preserved (handles both the pre-V3.3 field and the V3.3 property).
 - **Background texture protection**: A finalizer on `updateBackgroundTexture` catches exceptions for paint IDs beyond the atlas size, keeping the UI functional.
+- **Stale paint selection**: A paint tool can remember a paint from a pack that is no longer installed. A guard on `XUiC_MaterialStackGrid.SetMaterials` keeps that from throwing every frame and wedging the paint menu.
 
-### Debug commands
+### Console commands
 
 Available in the F1 console:
 
+- `pu_audit` -- lists custom paints that share a name (duplicate names across packs make paint sync ambiguous), and shows whether this world's paint ID map is present
 - `pu_debug <paintID>` -- dumps BlockTextureData, TextureID, uvMapping, and GPU slot for a paint
 - `pu_debug channels` -- shows ChunkBlockChannel array info for the chunk at the player's position
 - `pu_debug toolbar` -- dumps the current paint tool's Meta value and BlockTextureData lookup
@@ -80,8 +89,9 @@ Available in the F1 console:
 
 - Works with any OcbCustomTextures-based paint pack
 - Backward compatible: indices 0-254 are wire-identical to vanilla
-- Unpatched clients can connect and use the vanilla paint range
 - Compatible with custom POI packs (Fluffy Panda, etc.) -- prefab textures are re-encoded automatically
+- Existing worlds are migrated automatically on first load (v1.1.0+)
+- **Required on the server and every client** -- see the [FAQ](FAQ.md#does-the-server-and-client-need-it)
 - **Requires the PaintUnlocked-compatible OcbCustomTextures fork** (included in release)
 
 ## Troubleshooting
@@ -117,7 +127,9 @@ is updated.
 ## Known limitations
 
 - `TextureIdxToTextureFullValue64` (paint-all-faces from menu) is not yet patched with a specialized transpiler. Individual face painting works correctly.
-- Fresh world required -- the 10-bit chunk storage format is not backward compatible with 8-bit worlds.
+- Migration is one-way: once a world has been converted to the 10-bit chunk format, it needs PaintUnlocked to load. Back up saves before the first load.
+- Custom paints from packs you had installed *before* PaintUnlocked may need to be re-applied after migration: their IDs move from the 154-255 range to 512+, and blocks painted earlier still reference the old IDs. Vanilla paints survive intact. See the [FAQ](FAQ.md).
+- V3.3 is an experimental game branch; v1.4.3 was verified against V3.3 b17 on a dedicated server, but not yet with a 3.3 client joining.
 - `Graphics.CopyTexture` mip level warnings may appear for paint packs with mismatched texture mip counts. These are cosmetic and come from the paint packs, not PaintUnlocked.
 
 ## Building from source
