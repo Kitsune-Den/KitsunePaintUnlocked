@@ -31,11 +31,12 @@ public class PaintUnlockedMod : IModApi
         // The 48→64-bit chunk storage widening above makes every chunk-texture
         // network payload ~33% bigger, which can overrun vanilla's fixed 32KB
         // "not full" connection buffer during the spawn/decoration burst and
-        // desync the client. See NetStreamBufferSizePatch for the full writeup.
+        // desync the client. A postfix (not a replacement prefix) so 3.3's new
+        // package staging stream still gets created. See NetStreamBufferSizePatch.
         var initStreams = AccessTools.Method(typeof(NetConnectionSimple), "InitStreams", new[] { typeof(bool) });
         if (initStreams != null)
         {
-            harmony.Patch(initStreams, prefix: new HarmonyMethod(AccessTools.Method(typeof(NetStreamBufferSizePatch), "Prefix")));
+            harmony.Patch(initStreams, postfix: new HarmonyMethod(AccessTools.Method(typeof(NetStreamBufferSizePatch), "Postfix")));
             Log.Out("[PaintUnlocked] NetConnectionSimple.InitStreams: channel-0 buffer widening enabled");
         }
         else Log.Warning("[PaintUnlocked] NetConnectionSimple.InitStreams not found — channel-0 buffer widening disabled");
@@ -55,7 +56,9 @@ public class PaintUnlockedMod : IModApi
             harmony.Patch(signDataLength, postfix: new HarmonyMethod(AccessTools.Method(typeof(SignDataResponseLengthPatch), "Postfix")));
             Log.Out("[PaintUnlocked] NetPackageSignDataResponse.GetLength() fix enabled");
         }
-        else Log.Warning("[PaintUnlocked] NetPackageSignDataResponse.GetLength not found — length fix disabled");
+        // 3.3 removed GetLength() from every NetPackage: packages are serialized to a
+        // staging stream and measured, so there is no length to get wrong any more.
+        else Log.Out("[PaintUnlocked] NetPackageSignDataResponse.GetLength not present (3.3+ measures packages itself) — length fix not needed");
 
         // === Legacy world migration: repack 8-bit chunks to 10-bit on load ===
 
@@ -209,6 +212,7 @@ public class PaintUnlockedMod : IModApi
         // === Fix paint ID byte truncation in SetSelectedTextureForItem ===
         // The game does conv.u1 (byte cast) on textureData.ID before storing in Meta,
         // truncating paint IDs above 255. Remove the conv.u1 to preserve full ID.
+        // (Meta is a field up to 3.2 and a property from 3.3; the transpiler handles both.)
         var setSelTex = AccessTools.Method(typeof(XUiC_MaterialStack), "SetSelectedTextureForItem");
         if (setSelTex != null)
         {

@@ -32,6 +32,10 @@ using System.Reflection;
 /// it there would have replaced 7+len with a smaller 5+len -- under-reporting is
 /// the one direction that breaks a capacity check.
 ///
+/// 7D2D 3.3 removed GetLength() from NetPackage altogether (packages are now
+/// serialized into a staging stream and measured), so this patch has no target
+/// there and InitMod skips registering it.
+///
 /// The 7 vs 5: write() emits isLastBatch (1) + an int length (4) + the data,
 /// and the base NetPackage.write() emits the 2-byte package id ahead of that.
 /// TFP's 7 counts the package id; we match it so both paths agree, and because

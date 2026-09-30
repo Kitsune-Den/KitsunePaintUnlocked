@@ -5,11 +5,18 @@
 #
 #   .\audit-game-version.ps1 -Managed <install>\7DaysToDieServer_Data\Managed
 #
+# Finally it resolves every game member the mod DLLs reference against the new assembly, which
+# catches binary breaks the source-level checks miss (3.3 turned ItemValue.Meta from a field
+# into a property: same C#, different IL, MissingFieldException at JIT time). By default that
+# scans the newest shipped bundle - what users actually have installed; pass -ModDlls to scan
+# a fresh build instead.
+#
 # Exit code = number of failures. Needs Mono.Cecil in the NuGet cache (any project that
 # restored it, e.g. tools\OcbDiagnostic, puts it there).
 param(
     [Parameter(Mandatory)][string]$Managed,
-    [string]$Baseline = (Join-Path $PSScriptRoot '..\..\7dtd-binaries\Assembly-CSharp.dll')
+    [string]$Baseline = (Join-Path $PSScriptRoot '..\..\7dtd-binaries\Assembly-CSharp.dll'),
+    [string[]]$ModDlls
 )
 $cecil = Get-ChildItem "$env:USERPROFILE\.nuget\packages\mono.cecil\*\lib\net40\Mono.Cecil.dll" | Sort-Object FullName | Select-Object -Last 1
 if (-not $cecil) { throw "Mono.Cecil.dll not found in the NuGet cache - run 'dotnet restore' in tools\OcbDiagnostic first" }
@@ -70,7 +77,8 @@ $methods = @(
     @{ t='ChunkBlockChannel'; m='.ctor'; p=@('Int64','Int32'); names=@('_bytesPerVal') },
     @{ t='ChunkBlockChannel'; m='Read'; names=@('_bNetworkRead') },
     @{ t='NetConnectionSimple'; m='InitStreams'; p=@('Boolean') },
-    @{ t='NetPackageSignDataResponse'; m='GetLength' },
+    # GetLength was removed from every NetPackage in 3.3 (packages are measured via a staging stream)
+    @{ t='NetPackageSignDataResponse'; m='GetLength'; optional=$true },
     @{ t='Chunk'; m='save'; p=@('PooledBinaryWriter') },
     @{ t='Chunk'; m='read'; p=@('PooledBinaryReader','UInt32','Boolean'); names=@('_bNetworkRead') },
     @{ t='World'; m='LoadWorld'; names=@('_levelName') },
@@ -86,7 +94,7 @@ $methods = @(
     @{ t='NetPackageSetBlockTexture'; m='write' },
     @{ t='NetPackageSetBlockTexture'; m='read'; names=@('_br') },
     @{ t='NetPackageSetBlockTexture'; m='ProcessPackage'; names=@('_world') },
-    @{ t='NetPackageSetBlockTexture'; m='GetLength' },
+    @{ t='NetPackageSetBlockTexture'; m='GetLength'; optional=$true },
     @{ t='NetPackageRequestToEnterGame'; m='ProcessPackage' },
     @{ t='XUiC_ItemStack'; m='updateBackgroundTexture' },
     @{ t='XUiC_MaterialStack'; m='SetSelectedTextureForItem'; convu1meta=$true },
@@ -104,7 +112,10 @@ foreach ($c in $methods) {
     if (-not $type) { BAD "type $($c.t) missing"; continue }
     $found = FindMethod $type $c.m $c.p
     $label = "$($c.t).$($c.m)" + $(if ($c.p) { "(" + ($c.p -join ',') + ")" } else { '' })
-    if ($found.Count -eq 0) { BAD "$label not found"; continue }
+    if ($found.Count -eq 0) {
+        if ($c.optional) { INFO "$label not present (optional - its patch self-disables)" } else { BAD "$label not found" }
+        continue
+    }
     if ($found.Count -gt 1 -and -not $c.names) { INFO "$label has $($found.Count) overloads" }
     $meth = $found[0]
     if ($c.static -and -not $meth.IsStatic) { BAD "$label is not static"; continue }
@@ -120,8 +131,14 @@ foreach ($c in $methods) {
     }
     if ($c.convu1meta) {
         $ins = $meth.Body.Instructions; $hit = 0
-        for ($i=0; $i -lt $ins.Count-1; $i++) { if ($ins[$i].OpCode.Code -eq 'Conv_U1' -and $ins[$i+1].OpCode.Code -eq 'Stfld' -and "$($ins[$i+1].Operand)".Contains('Meta')) { $hit++ } }
-        if ($hit -ge 1) { OK "  conv.u1 to stfld Meta present ($hit)" } else { BAD "  conv.u1 to stfld Meta NOT found (MetaTruncation transpiler would no-op)" }
+        # Meta is a field up to 3.2 (stfld Meta) and a property from 3.3 (callvirt set_Meta)
+        for ($i=0; $i -lt $ins.Count-1; $i++) {
+            $next = $ins[$i+1]
+            $store = ($next.OpCode.Code -eq 'Stfld' -and "$($next.Operand)".Contains('Meta')) -or
+                     (($next.OpCode.Code -eq 'Callvirt' -or $next.OpCode.Code -eq 'Call') -and $next.Operand.Name -eq 'set_Meta')
+            if ($ins[$i].OpCode.Code -eq 'Conv_U1' -and $store) { $hit++; $how = $next.OpCode.Name }
+        }
+        if ($hit -ge 1) { OK "  conv.u1 before Meta store present ($hit, via $how)" } else { BAD "  conv.u1 before Meta store NOT found (MetaTruncation transpiler would no-op)" }
     }
     if ($c.hidden) {
         $ins = $meth.Body.Instructions; $hit = $false
@@ -160,6 +177,11 @@ foreach ($f in $fields) {
     $fd = FindField $type $f[1]
     if ($fd) { OK "$($f[0]).$($f[1]) : $($fd.FieldType.Name) (declared on $($fd.DeclaringType.Name))" } else { BAD "$($f[0]).$($f[1]) MISSING" }
 }
+# 3.3+ only: NetStreamBufferSizePatch widens these too when present
+foreach ($n in 'packageStagingStream','packageStagingStreamWriter') {
+    $fd = FindField (GetType $mod 'NetConnectionSimple') $n
+    if ($fd) { INFO "NetConnectionSimple.$n : $($fd.FieldType.Name) (3.3+ staging stream, widened by the buffer patch)" } else { INFO "NetConnectionSimple.$n not present (pre-3.3)" }
+}
 
 # ---- IL diff vs baseline for every type the mods touch
 $types = @('Chunk','ChunkBlockChannel','NetConnectionSimple','NetConnectionAbs','NetPackageSetBlockTexture','NetPackageSignDataResponse',
@@ -186,5 +208,36 @@ foreach ($tn in $types) {
         $fdiff   | % { Write-Host "          field $($_.SideIndicator) $($_.InputObject)" }
     }
 }
+# ---- Binary compatibility: resolve every game member the mod DLLs reference
+if (-not $ModDlls) {
+    $bundle = Get-ChildItem (Join-Path $PSScriptRoot '..\..') -Directory -Filter 'PaintUnlocked-*' |
+        Where-Object { $_.Name -match '^PaintUnlocked-\d+(\.\d+)+$' } |
+        Sort-Object { [version]($_.Name -replace '^PaintUnlocked-', '') } | Select-Object -Last 1
+    if ($bundle) { $ModDlls = @(Get-ChildItem $bundle.FullName -Recurse -Filter *.dll | ForEach-Object FullName) }
+}
+Write-Host "`n== Binary compatibility (mod DLL references vs this build) =="
+foreach ($dll in $ModDlls) {
+    $r = New-Object Mono.Cecil.DefaultAssemblyResolver
+    $r.AddSearchDirectory($Managed)
+    foreach ($d in $ModDlls) { $r.AddSearchDirectory((Split-Path $d)) }
+    $rp = New-Object Mono.Cecil.ReaderParameters
+    $rp.AssemblyResolver = $r
+    $m = [Mono.Cecil.AssemblyDefinition]::ReadAssembly($dll, $rp).MainModule
+    $unresolved = @()
+    foreach ($ref in $m.GetMemberReferences()) {
+        if ($ref.DeclaringType.Scope.Name -notmatch '^(Assembly-CSharp|Assembly-CSharp-firstpass|LogLibrary)$') { continue }
+        $res = $null; try { $res = $ref.Resolve() } catch {}
+        if (-not $res) { $unresolved += $ref.FullName }
+    }
+    foreach ($ref in $m.GetTypeReferences()) {
+        if ($ref.Scope.Name -notmatch '^(Assembly-CSharp|Assembly-CSharp-firstpass)$') { continue }
+        $res = $null; try { $res = $ref.Resolve() } catch {}
+        if (-not $res) { $unresolved += "type $($ref.FullName)" }
+    }
+    $name = Split-Path $dll -Leaf
+    if ($unresolved.Count -eq 0) { OK "$name : every game reference resolves" }
+    else { $unresolved | Sort-Object -Unique | ForEach-Object { BAD "$name : unresolved $_" } }
+}
+
 Write-Host "`n== Result: $script:pass pass, $script:fail fail =="
 exit $script:fail

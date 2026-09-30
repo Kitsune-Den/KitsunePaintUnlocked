@@ -1,0 +1,21 @@
+<!--
+  Throwaway verification mod - never shipped. Build after build-against-refs.ps1 has populated
+  _work\refs with the target version's game assemblies:
+    dotnet build PUStreamSelfTest.csproj -c Release -o ..\_work\selftest\zz_PUStreamSelfTest
+  then copy ModInfo.xml next to the DLL and pass that folder to smoke-test.ps1 with
+  -Commands pu_selftest_streams,pu_audit
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>PUStreamSelfTest</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp"><HintPath>..\_work\refs\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="LogLibrary"><HintPath>..\_work\refs\LogLibrary.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>..\_work\refs\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

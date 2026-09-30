@@ -1,5 +1,6 @@
 using HarmonyLib;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
 
 /// <summary>
@@ -11,6 +12,9 @@ using System.Reflection.Emit;
 /// The toolbar then reads BlockTextureData.list[truncated_id] and shows the wrong texture.
 ///
 /// Fix: replace conv.u1 with nop. Meta is Int32, no byte conversion needed.
+///
+/// Up to 3.2 Meta is a field (conv.u1 -> stfld Meta); 3.3 made it a property
+/// (conv.u1 -> callvirt set_Meta) but kept the truncation, so both are matched.
 /// </summary>
 public static class MetaTruncationPatch
 {
@@ -21,12 +25,11 @@ public static class MetaTruncationPatch
 
         for (int i = 0; i < codes.Count; i++)
         {
-            // Look for: ldfld ID → conv.u1 → stfld Meta
+            // Look for: ldfld ID → conv.u1 → stfld Meta / callvirt set_Meta
             // Replace conv.u1 with nop
             if (codes[i].opcode == OpCodes.Conv_U1
                 && i + 1 < codes.Count
-                && codes[i + 1].opcode == OpCodes.Stfld
-                && codes[i + 1].operand?.ToString()?.Contains("Meta") == true)
+                && IsMetaStore(codes[i + 1]))
             {
                 codes[i] = new CodeInstruction(OpCodes.Nop);
                 patched++;
@@ -38,5 +41,14 @@ public static class MetaTruncationPatch
             Log.Warning("[PaintUnlocked] SetSelectedTextureForItem: conv.u1 before Meta not found - check IL");
 
         return codes;
+    }
+
+    private static bool IsMetaStore(CodeInstruction code)
+    {
+        if (code.opcode == OpCodes.Stfld)
+            return code.operand?.ToString()?.Contains("Meta") == true;
+        if (code.opcode == OpCodes.Callvirt || code.opcode == OpCodes.Call)
+            return code.operand is MethodInfo m && m.Name == "set_Meta";
+        return false;
     }
 }

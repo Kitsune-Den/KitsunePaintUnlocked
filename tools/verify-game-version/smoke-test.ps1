@@ -16,7 +16,8 @@ param(
     [string]$Tag = 'run1',
     [int]$Port = 26950,
     [int]$Telnet = 8099,
-    [int]$WaitForWorldSec = 600
+    [int]$WaitForWorldSec = 600,
+    [string[]]$Commands = @('pu_audit')   # console commands to run before 'shutdown'
 )
 $ErrorActionPreference = 'Stop'
 $scratch = Join-Path $PSScriptRoot '_work'
@@ -90,8 +91,8 @@ function Telnet-Send([string[]]$cmds) {
     try { while ($s.DataAvailable) { Write-Host ("  telnet> " + $r.ReadLine()) } } catch {}
     $c.Close()
 }
-Write-Host "Running pu_audit + shutdown over telnet"
-Telnet-Send @('pu_audit')
+Write-Host "Running $($Commands -join ', ') + shutdown over telnet"
+Telnet-Send $Commands
 Start-Sleep -Seconds 3
 Telnet-Send @('shutdown')
 if (-not $p.WaitForExit(180000)) { Write-Host "Shutdown timed out, killing"; $p.Kill() }
