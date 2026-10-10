@@ -73,7 +73,9 @@ while ((Get-Date) -lt $deadline) {
     if ($p.HasExited) { Write-Host "Server exited early (code $($p.ExitCode))"; break }
     if (Test-Path $log) {
         $tail = Get-Content $log -Tail 200 -ErrorAction SilentlyContinue
-        if ($tail -match 'StartGame done|GameServer.Init successful|Dedicated server only build') { $ready = $true; break }
+        # Only 'StartGame done' means telnet is listening. 'Dedicated server only build' is
+        # logged a few seconds into boot (3.3), long before the world loads.
+        if ($tail -match 'StartGame done') { $ready = $true; break }
     }
 }
 if (-not $ready) { Write-Host "World did not come up in time"; if (-not $p.HasExited) { $p.Kill() }; Cleanup; exit 2 }
