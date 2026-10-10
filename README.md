@@ -3,7 +3,7 @@
 ![KitsunePaintUnlocked — 302 paints running simultaneously](kitsune-paint-unlocked.png)
 
 [![Download on Nexus Mods](https://img.shields.io/badge/Download-Nexus_Mods-da8e35?style=flat&logo=nexusmods&logoColor=white)](https://www.nexusmods.com/7daystodie/mods/10059)
-[![7 Days to Die V3.0-V3.3](https://img.shields.io/badge/7_Days_to_Die-V3.0_%E2%80%93_V3.3_exp-8b0000?style=flat)](https://7daystodie.com)
+[![7 Days to Die V3.0-V3.3](https://img.shields.io/badge/7_Days_to_Die-V3.0_%E2%80%93_V3.3-8b0000?style=flat)](https://7daystodie.com)
 [![License](https://img.shields.io/github/license/Kitsune-Den/KitsunePaintUnlocked?style=flat)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/Kitsune-Den/KitsunePaintUnlocked?style=flat&logo=github)](https://github.com/Kitsune-Den/KitsunePaintUnlocked/stargazers)
 
@@ -15,7 +15,7 @@ Vanilla 7D2D caps paint textures at 255 across five separate engine layers. Kits
 
 ## Requirements
 
-- 7 Days to Die V3.0 (Dead Hot Summer), V3.1, V3.2, or the V3.3 experimental branch (PaintUnlocked 1.4.3+)
+- 7 Days to Die V3.0 (Dead Hot Summer), V3.1, V3.2 or V3.3 (V3.3 needs PaintUnlocked 1.4.3+)
 - [OcbPaintUnlocked](https://github.com/Kitsune-Den/OcbPaintUnlocked) (KitsunePaintUnlocked-compatible fork of OcbCustomTextures, included in release)
 - EAC **disabled** on server and all clients
 
@@ -148,7 +148,7 @@ failing on painting.xml.
 - `TextureIdxToTextureFullValue64` (paint-all-faces from menu) is not yet patched with a specialized transpiler. Individual face painting works correctly.
 - Migration is one-way: once a world has been converted to the 10-bit chunk format, it needs PaintUnlocked to load. Back up saves before the first load.
 - Custom paints from packs you had installed *before* PaintUnlocked may need to be re-applied after migration: their IDs move from below 256 to 512+, and blocks painted earlier still reference the old IDs. Vanilla paints survive intact. See the [FAQ](FAQ.md).
-- V3.3 is an experimental game branch; v1.4.3 was verified against V3.3 b17 on a dedicated server, but not yet with a 3.3 client joining.
+- V3.3: v1.4.3 was verified against the V3.3 b17 experimental dedicated server, and a V3.3.0 (b18) client has since joined a V3.3.0 (b18) dedicated server running it with no PaintUnlocked errors. Picking and placing paints above 255 from a 3.3 client has not been exercised yet.
 - `Graphics.CopyTexture` mip level warnings may appear for paint packs with mismatched texture mip counts. These are cosmetic and come from the paint packs, not PaintUnlocked.
 
 ## Building from source
