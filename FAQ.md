@@ -71,9 +71,19 @@ The first time you load a pre-PaintUnlocked world with the mod installed, you'll
 [PaintUnlocked] Migration complete. Sentinel written
 ```
 
-The world load pauses while it scans every chunk on disk and rewrites the texture storage from 48-bit to 64-bit format. For a small testbed save (~300 chunks) this takes about a second; for big multi-region worlds it can take several seconds to a minute. Once it's done, a marker file (`paintunlocked.migrated`) is written to the save folder, and subsequent loads skip the scan entirely.
+The world load waits while it rewrites every chunk on disk from 48-bit to 64-bit texture storage. It costs a few milliseconds per chunk: a small testbed save is done in a second, an explored world with ~40,000 chunks takes around three minutes on a fast PC, and a fully explored 8k/10k map takes longer. The loading screen shows `PaintUnlocked: upgrading this save` with a chunk counter the whole time, so it's working, not frozen. Once it's done, a marker file (`paintunlocked.migrated`) is written to the save folder, and subsequent loads skip the scan entirely.
+
+Before touching anything it copies the save's `Region` folder to `Region.pre-paintunlocked` (skipped, with a log warning, if the disk doesn't have room). Delete that folder once you're happy with the world. Closing the game during the upgrade is safe: every converted chunk is recorded in `paintunlocked.migrating`, and the next load continues from there.
 
 **One caveat:** if you were using custom paint packs *before* installing PaintUnlocked, those paints will appear unpainted after migration — see the entry above. Vanilla paints survive the conversion intact.
+
+---
+
+## "Stuck on 'Configuring splatmaps' when loading my save"
+
+Versions up to 1.4.4 ran the save upgrade above without updating the loading screen. The game sat on "Configuring splatmaps" (and Windows could call it Not Responding) until every chunk was done, which on a big save took minutes. Update PaintUnlocked: the upgrade now shows its progress.
+
+If you closed the game during one of those long loads, 1.4.4 and older lost track of the chunks it had already converted, and the next load threw them away (`EXCEPTION: In load chunk ... Attempted to read past the end of the stream` in the log, terrain regenerated). The current version recognises those converted chunks and keeps them, so load the save with the update **before** playing it again on the old version. Any chunk already thrown away left an `error_backup_*.bak` file in the save's `Region` folder; those can't be put back automatically.
 
 ---
 

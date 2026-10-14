@@ -140,6 +140,38 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] RegionFileManager(string, string, int, bool) ctor not found — eager migration disabled");
 
+        // Run that migration in slices from the world-load coroutine instead of inside the
+        // constructor, so a big save shows progress rather than freezing the game.
+        // Any provider not hooked here falls back to the synchronous run.
+        var providerInits = new[]
+        {
+            (typeof(ChunkProviderGenerateWorldFromRaw), "FromRawPostfix"),
+            (typeof(ChunkProviderGenerateWorldFromImage), "OtherPostfix"),
+            (typeof(ChunkProviderDisc), "OtherPostfix"),
+        };
+        foreach (var (providerType, postfixName) in providerInits)
+        {
+            var init = AccessTools.DeclaredMethod(providerType, "Init", new[] { typeof(World) });
+            if (init != null)
+            {
+                harmony.Patch(init, postfix: new HarmonyMethod(AccessTools.Method(typeof(MigrationLoadingDriver), postfixName)));
+                Log.Out($"[PaintUnlocked] {providerType.Name}.Init wrapped: migration runs in slices with loading-screen progress");
+            }
+            else Log.Warning($"[PaintUnlocked] {providerType.Name}.Init not found — migration on that world type runs synchronously");
+        }
+
+        // Chunk.load: read chunks an interrupted migration already converted at width 8,
+        // and recover ones that were converted before the journal existed (1.4.4 and older).
+        var chunkLoad = AccessTools.Method(typeof(Chunk), "load", new[] { typeof(PooledBinaryReader), typeof(uint) });
+        if (chunkLoad != null)
+        {
+            harmony.Patch(chunkLoad,
+                prefix: new HarmonyMethod(AccessTools.Method(typeof(LegacyChunkLoadPatch), "Prefix")),
+                finalizer: new HarmonyMethod(AccessTools.Method(typeof(LegacyChunkLoadPatch), "Finalizer")));
+            Log.Out("[PaintUnlocked] Chunk.load patched: interrupted-migration recovery enabled");
+        }
+        else Log.Warning("[PaintUnlocked] Chunk.load not found — interrupted-migration recovery disabled");
+
         // === Layer 4: Widen chunk face storage from 8-bit to 10-bit ===
         var setBlockFaceTex = AccessTools.Method(typeof(Chunk), "SetBlockFaceTexture");
         harmony.Patch(setBlockFaceTex, transpiler: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "PatchSet")));
