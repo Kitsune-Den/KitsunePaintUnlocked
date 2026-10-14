@@ -32,7 +32,7 @@ Steps:
 2. If you already have an `OcbCustomTextures` folder in `Mods/`, delete it entirely. The PaintUnlocked fork replaces it -- vanilla OcbCustomTextures is not compatible, and overwriting in place can leave stale files behind.
 3. Install (manual or via Vortex) on **both the server and all connecting clients**. You should end up with two folders side-by-side under `Mods/`: `0_PaintUnlocked` and `OcbCustomTextures`. Mismatched installs cause disconnects.
 4. Install your paint packs as usual (KitsunePaints, PyroPaints, CK Textures, etc.).
-5. Load your world. A pre-PaintUnlocked world pauses briefly on first load while every chunk on disk is repacked (the log shows `[PaintUnlocked] EagerMigrator` lines); a `paintunlocked.migrated` marker is then written and later loads skip the scan. See the [FAQ](FAQ.md#do-i-need-a-new-world) for what happens to paints from packs installed before PaintUnlocked.
+5. Load your world. The first load of a pre-PaintUnlocked world repacks every chunk on disk; the loading screen shows `PaintUnlocked: upgrading this save` with a chunk count, and a big explored world can take a few minutes. Before it starts, the save's `Region` folder is copied to `Region.pre-paintunlocked` next to it. If the game is closed part-way, the next load picks up where it stopped. When it finishes, a `paintunlocked.migrated` marker is written and later loads skip the scan. See the [FAQ](FAQ.md#do-i-need-a-new-world) for what happens to paints from packs installed before PaintUnlocked.
 
 ## What it patches
 

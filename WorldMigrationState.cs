@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 
 /// <summary>
@@ -23,9 +24,22 @@ public static class WorldMigrationState
 {
     private const string SentinelFileName = "paintunlocked.migrated";
 
+    /// <summary>
+    /// Append-only list of chunk keys (Int64, little-endian) that the eager migration has
+    /// already rewritten at width 8. Chunk data on disk doesn't record its own width, so
+    /// without this a migration that was interrupted (game killed while it looked frozen)
+    /// re-reads the already-converted chunks as legacy width 6 on the next load, they fail
+    /// with "read past the end of the stream" and the engine deletes them.
+    /// Deleted once the sentinel is written.
+    /// </summary>
+    private const string JournalFileName = "paintunlocked.migrating";
+
     private static bool _needsMigration = false;
     private static bool _flagLoaded = false;
     private static string _saveDir = null;
+
+    private static readonly HashSet<long> _converted = new HashSet<long>();
+    private static FileStream _journal;
 
     /// <summary>
     /// True when chunks loading from disk should be treated as legacy 8-bit and
@@ -97,6 +111,7 @@ public static class WorldMigrationState
             _needsMigration = true;
             Log.Warning($"[PaintUnlocked] Migration sentinel NOT found — treating world as legacy 8-bit. Chunks will be repacked as they load.");
             Log.Warning($"[PaintUnlocked] Sentinel path: {sentinelPath}");
+            LoadJournal();
         }
         catch (System.Exception ex)
         {
@@ -160,6 +175,10 @@ public static class WorldMigrationState
             File.WriteAllText(sentinelPath, "PaintUnlocked migration complete.\nThis world has been migrated from 8-bit to 10-bit paint storage.\n");
             _needsMigration = false;
             Log.Out($"[PaintUnlocked] Migration complete. Sentinel written: {sentinelPath}");
+            CloseJournal();
+            lock (_converted) _converted.Clear();
+            var journalPath = Path.Combine(_saveDir, JournalFileName);
+            if (File.Exists(journalPath)) File.Delete(journalPath);
         }
         catch (System.Exception ex)
         {
@@ -200,8 +219,83 @@ public static class WorldMigrationState
     /// </summary>
     public static void Reset()
     {
+        CloseJournal();
+        lock (_converted) _converted.Clear();
         _needsMigration = false;
         _flagLoaded = false;
         _saveDir = null;
+    }
+
+    /// <summary>Number of chunks the journal says are already at width 8.</summary>
+    public static int ConvertedCount
+    {
+        get { lock (_converted) return _converted.Count; }
+    }
+
+    /// <summary>
+    /// True when this chunk was already rewritten at width 8 by an earlier (possibly
+    /// interrupted) eager migration, so it must be read at width 8 even though the world
+    /// as a whole is still legacy.
+    /// </summary>
+    public static bool IsConverted(long chunkKey)
+    {
+        lock (_converted) return _converted.Contains(chunkKey);
+    }
+
+    /// <summary>
+    /// Record that a chunk is now on disk at width 8. Call only after its write returned.
+    /// Flushed to the OS per call, so it survives the process being killed.
+    /// </summary>
+    public static void RecordConverted(long chunkKey)
+    {
+        lock (_converted)
+        {
+            if (!_converted.Add(chunkKey)) return;
+            try
+            {
+                if (_journal == null)
+                    _journal = new FileStream(Path.Combine(_saveDir, JournalFileName), FileMode.Append, FileAccess.Write, FileShare.Read);
+                var bytes = System.BitConverter.GetBytes(chunkKey);
+                _journal.Write(bytes, 0, bytes.Length);
+                _journal.Flush();
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[PaintUnlocked] Failed to append to migration journal: {ex.Message}");
+            }
+        }
+    }
+
+    private static void LoadJournal()
+    {
+        lock (_converted)
+        {
+            _converted.Clear();
+            var journalPath = Path.Combine(_saveDir, JournalFileName);
+            if (!File.Exists(journalPath)) return;
+            try
+            {
+                var bytes = File.ReadAllBytes(journalPath);
+                // A torn trailing entry (killed mid-write) is dropped; its chunk is re-read
+                // at width 6, which is what it still is unless the kill landed in the
+                // microseconds between the region write and this append.
+                for (int i = 0; i + 8 <= bytes.Length; i += 8)
+                    _converted.Add(System.BitConverter.ToInt64(bytes, i));
+                Log.Warning($"[PaintUnlocked] Resuming an interrupted migration: {_converted.Count} chunks are already converted ({journalPath}).");
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[PaintUnlocked] Failed to read migration journal {journalPath}: {ex.Message}");
+            }
+        }
+    }
+
+    private static void CloseJournal()
+    {
+        lock (_converted)
+        {
+            try { _journal?.Dispose(); } catch { }
+            _journal = null;
+        }
     }
 }
