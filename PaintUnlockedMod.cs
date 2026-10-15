@@ -50,7 +50,10 @@ public class PaintUnlockedMod : IModApi
         // stream. PaintUnlocked's large NetPackageDecoUpdate payloads (500KB+ per
         // prefab) make the buffer far more likely to already be near full when a
         // sign-data batch needs to go out too. See SignDataResponseLengthPatch.
-        var signDataLength = AccessTools.Method(typeof(NetPackageSignDataResponse), "GetLength");
+        var signDataType = AccessTools.TypeByName("NetPackageSignDataResponse");   // absent on V2.6
+        // Plain reflection: AccessTools.Method logs its own warning when the method is absent (3.3+).
+        var signDataLength = signDataType?.GetMethod("GetLength",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
         if (signDataLength != null)
         {
             harmony.Patch(signDataLength, postfix: new HarmonyMethod(AccessTools.Method(typeof(SignDataResponseLengthPatch), "Postfix")));
@@ -58,7 +61,7 @@ public class PaintUnlockedMod : IModApi
         }
         // 3.3 removed GetLength() from every NetPackage: packages are serialized to a
         // staging stream and measured, so there is no length to get wrong any more.
-        else Log.Out("[PaintUnlocked] NetPackageSignDataResponse.GetLength not present (3.3+ measures packages itself) — length fix not needed");
+        else Log.Out("[PaintUnlocked] NetPackageSignDataResponse.GetLength not present (V2.6 has no such package; 3.3+ measures packages itself) — length fix not needed");
 
         // === Legacy world migration: repack 8-bit chunks to 10-bit on load ===
 
@@ -207,7 +210,10 @@ public class PaintUnlockedMod : IModApi
         // GetSetTextureFullArray is called during POI prefab placement with 8-bit packed Int64s.
         // The 10-bit transpilers handle per-face storage, but GetSetTextureFullArray writes the
         // raw Int64 directly — the packed bit positions must be re-encoded from 8-bit to 10-bit.
-        // NOTE: SetTextureFull is NOT patched — it unpacks face-by-face through SetBlockFaceTexture.
+        // NOTE: SetTextureFull is NOT re-encoded. It also stores the raw Int64 as-is (it does not
+        // unpack face by face), but nearly all its callers pass values read back from chunk storage,
+        // which are already 10-bit. The exception is GameManager.SetBlockTextureClient with
+        // _blockFace == 255, which packs at 8-bit; vanilla only does that to clear paint (idx 0).
         var getSetTexFullArr = AccessTools.Method(typeof(Chunk), "GetSetTextureFullArray");
         if (getSetTexFullArr != null)
         {
@@ -488,7 +494,7 @@ public static class PaintIndexWidenerPatch
         {
             if (PaintVerbose.Enabled)
                 Log.Out($"[PaintUnlocked] ApplyTexture: SetBlockTextureClient pos={blockPos} face={blockFace} idx={idx}");
-            GameManager.Instance.SetBlockTextureClient(blockPos, blockFace, idx, 0);
+            GameCompat.SetBlockTextureClient(blockPos, blockFace, idx, 0);
         }
         else
         {

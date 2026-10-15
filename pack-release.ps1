@@ -14,11 +14,19 @@
 #   ./pack-release.ps1 -Version 1.1.0
 #   ./pack-release.ps1 -Version 1.1.0 -BundleOnly   # skip per-mod zips
 #   ./pack-release.ps1 -Version 1.1.0 -PerModOnly   # skip bundle (don't touch existing)
+#   ./pack-release.ps1 -Version 1.5.0 -Variant V2.6 # older-game build, see below
+#
+# -Variant packs ./PaintUnlocked-<Version>-<Variant>/ into PaintUnlocked-<Version>-<Variant>.zip
+# and OcbCustomTextures-<Version>-<Variant>.zip. PaintUnlocked.dll is one universal build, so
+# no separate 0_PaintUnlocked zip is made: the variant's copy must be byte-identical to the main
+# staging dir's (checked when that dir exists). Only the fork differs - it is compiled against
+# the older game's assemblies.
 
 param(
   [string]$Version,
   [switch]$BundleOnly,
-  [switch]$PerModOnly
+  [switch]$PerModOnly,
+  [string]$Variant
 )
 
 $ErrorActionPreference = 'Stop'
@@ -36,7 +44,8 @@ if (-not $Version) {
   Write-Host "Auto-detected version: $Version"
 }
 
-$staging = Join-Path $root "PaintUnlocked-$Version"
+$suffix = if ($Variant) { "-$Variant" } else { '' }
+$staging = Join-Path $root "PaintUnlocked-$Version$suffix"
 if (-not (Test-Path $staging)) { throw "Staging dir not found: $staging" }
 
 $mods = @('0_PaintUnlocked','OcbCustomTextures')
@@ -129,7 +138,7 @@ function Test-ZipTopLevel {
 
 # 1. Bundle - both mods at top level. This is the existing convention.
 if (-not $PerModOnly) {
-  $bundle = Join-Path $root "PaintUnlocked-$Version.zip"
+  $bundle = Join-Path $root "PaintUnlocked-$Version$suffix.zip"
   Write-Host "Building bundle: $(Split-Path -Leaf $bundle)"
   if (Test-Path $bundle) { Remove-Item $bundle -Force }
   [System.IO.Compression.ZipFile]::CreateFromDirectory(
@@ -141,8 +150,16 @@ if (-not $PerModOnly) {
 
 # 2. Per-mod zips - Vortex-friendly.
 if (-not $BundleOnly) {
+  if ($Variant) {
+    $mainDll = Join-Path $root "PaintUnlocked-$Version\0_PaintUnlocked\PaintUnlocked.dll"
+    $variantDll = Join-Path $staging '0_PaintUnlocked\PaintUnlocked.dll'
+    if ((Test-Path $mainDll) -and (Get-FileHash $mainDll).Hash -ne (Get-FileHash $variantDll).Hash) {
+      throw "PaintUnlocked.dll in $staging differs from PaintUnlocked-$Version - it must be the same universal build"
+    }
+  }
   foreach ($m in $mods) {
-    $modZip = Join-Path $root "$m-$Version.zip"
+    if ($Variant -and $m -eq '0_PaintUnlocked') { continue }   # same universal zip as the main release
+    $modZip = Join-Path $root "$m-$Version$suffix.zip"
     Write-Host "Building per-mod: $(Split-Path -Leaf $modZip)"
     New-ZipFromFolder -Source (Join-Path $staging $m) -Destination $modZip -TopFolderName $m
     Test-ZipTopLevel -Path $modZip -ExpectedTops @($m)
@@ -150,8 +167,8 @@ if (-not $BundleOnly) {
 }
 
 Write-Host ""
-Write-Host "Release zips for v$($Version):"
-Get-ChildItem -Path $root -Filter "*-$Version.zip" |
+Write-Host "Release zips for v$($Version)$($suffix):"
+Get-ChildItem -Path $root -Filter "*-$Version$suffix.zip" |
   Sort-Object Name |
   ForEach-Object {
     $sizeMB = [math]::Round($_.Length / 1MB, 2)

@@ -77,14 +77,21 @@ $methods = @(
     @{ t='ChunkBlockChannel'; m='.ctor'; p=@('Int64','Int32'); names=@('_bytesPerVal') },
     @{ t='ChunkBlockChannel'; m='Read'; names=@('_bNetworkRead') },
     @{ t='NetConnectionSimple'; m='InitStreams'; p=@('Boolean') },
-    # GetLength was removed from every NetPackage in 3.3 (packages are measured via a staging stream)
-    @{ t='NetPackageSignDataResponse'; m='GetLength'; optional=$true },
+    # GetLength was removed from every NetPackage in 3.3 (packages are measured via a staging stream);
+    # the whole package type is absent on V2.6. The patch is bound by type name and stands aside.
+    @{ t='NetPackageSignDataResponse'; m='GetLength'; optional=$true; optionalType=$true },
     @{ t='Chunk'; m='save'; p=@('PooledBinaryWriter') },
     @{ t='Chunk'; m='read'; p=@('PooledBinaryReader','UInt32','Boolean'); names=@('_bNetworkRead') },
-    @{ t='World'; m='LoadWorld'; names=@('_levelName') },
+    # first arg bound by position (__0): V2.6 names it _sWorldName, V3.x _levelName
+    @{ t='World'; m='LoadWorld' },
     @{ t='World'; m='Save' },
     @{ t='World'; m='UnloadWorld' },
     @{ t='RegionFileManager'; m='.ctor'; p=@('String','String','Int32','Boolean') },
+    # sliced legacy-save migration (1.4.5+)
+    @{ t='ChunkProviderGenerateWorldFromRaw'; m='Init'; p=@('World') },
+    @{ t='ChunkProviderGenerateWorldFromImage'; m='Init'; p=@('World') },
+    @{ t='ChunkProviderDisc'; m='Init'; p=@('World') },
+    @{ t='Chunk'; m='load'; p=@('PooledBinaryReader','UInt32'); names=@('stream','_version') },
     @{ t='Chunk'; m='SetBlockFaceTexture'; names=@('_x','_y','_z','_face','_texture','channel'); il8ff=3 },
     @{ t='Chunk'; m='GetBlockFaceTexture'; names=@('_x','_y','_z','_face','channel'); il8ff=2 },
     @{ t='Chunk'; m='SetTextureFull' },
@@ -109,7 +116,7 @@ $methods = @(
 Write-Host "`n== Methods ($($asm.Name.Version)) =="
 foreach ($c in $methods) {
     $type = GetType $mod $c.t
-    if (-not $type) { BAD "type $($c.t) missing"; continue }
+    if (-not $type) { if ($c.optionalType) { INFO "type $($c.t) not present (optional - its patch self-disables)" } else { BAD "type $($c.t) missing" }; continue }
     $found = FindMethod $type $c.m $c.p
     $label = "$($c.t).$($c.m)" + $(if ($c.p) { "(" + ($c.p -join ',') + ")" } else { '' })
     if ($found.Count -eq 0) {
@@ -168,12 +175,14 @@ $fields = @(
     @('BlockTextureData','list'), @('BlockTextureData','ID'), @('BlockTextureData','Hidden'),
     @('MeshDescription','TexDiffuse'), @('MeshDescription','TexNormal'), @('MeshDescription','TexSpecular'),
     @('MeshDescription','meshes'), @('MeshDescription','textureAtlas'),
+    @('RegionFileManager','saveDirectory'), @('RegionFileManager','snapshotUtil'),
     @('TextureAtlasBlocks','diffuseTexture'), @('TextureAtlasBlocks','normalTexture'), @('TextureAtlasBlocks','specularTexture')
 )
 Write-Host "`n== Fields =="
+$optionalTypes = @('NetPackageSignDataResponse')   # absent on V2.6; patched by name only when present
 foreach ($f in $fields) {
     $type = GetType $mod $f[0]
-    if (-not $type) { BAD "type $($f[0]) missing"; continue }
+    if (-not $type) { if ($optionalTypes -contains $f[0]) { INFO "type $($f[0]) not present (optional)" } else { BAD "type $($f[0]) missing" }; continue }
     $fd = FindField $type $f[1]
     if ($fd) { OK "$($f[0]).$($f[1]) : $($fd.FieldType.Name) (declared on $($fd.DeclaringType.Name))" } else { BAD "$($f[0]).$($f[1]) MISSING" }
 }
@@ -191,7 +200,10 @@ $types = @('Chunk','ChunkBlockChannel','NetConnectionSimple','NetConnectionAbs',
 Write-Host "`n== IL diff vs baseline ($($base.Name.Version)) =="
 foreach ($tn in $types) {
     $a = GetType $mod $tn; $b = GetType $base.MainModule $tn
-    if (-not $a -or -not $b) { BAD "$tn missing in one side (new=$([bool]$a) base=$([bool]$b))"; continue }
+    if (-not $a -or -not $b) {
+        if ($optionalTypes -contains $tn) { INFO "$tn missing in one side (new=$([bool]$a) base=$([bool]$b)) - optional" } else { BAD "$tn missing in one side (new=$([bool]$a) base=$([bool]$b))" }
+        continue
+    }
     $ma = @{}; foreach ($m in $a.Methods) { $ma[$m.FullName] = $m }
     $mb = @{}; foreach ($m in $b.Methods) { $mb[$m.FullName] = $m }
     $added   = @($ma.Keys | Where-Object { -not $mb.ContainsKey($_) })
