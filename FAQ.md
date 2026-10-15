@@ -87,6 +87,20 @@ If you closed the game during one of those long loads, 1.4.4 and older lost trac
 
 ---
 
+## "Paint all sides leaves one part unpainted"
+
+That part is the block's 7th face, "Middle". Besides its six sides, a block shape can have geometry that isn't on the outside of the block: the frame pieces inside the window shapes, the inside of the hollow counters, `logsHalfCorner`. About 130 shapes have one. The game stores paint for six faces only, so in vanilla the Middle part always shows the block's default texture, and "paint all sides" skips it.
+
+Since 1.5.1 PaintUnlocked remembers Middle as "the same paint as one of the sides" in four spare bits it has left over:
+
+- **Paint all sides** now paints the Middle part too.
+- **Clicking a Middle part** with the brush works if one of that block's sides already has the paint. Otherwise nothing changes (same as vanilla), and the log says why.
+- The Middle part **follows its side**: repaint that side and the Middle part changes with it.
+
+Blocks painted before 1.5.1 keep their unpainted Middle until you paint them again with paint all sides.
+
+---
+
 ## "Does the server AND client need it?"
 
 Yes. Both.

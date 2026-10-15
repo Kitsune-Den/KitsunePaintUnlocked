@@ -206,6 +206,19 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] Value64FullToIndex not found!");
 
+        // === Middle face (7th face slot): paint all sides covers it too ===
+        // Middle is stored as "same paint as side N" in the 4 spare bits. See MiddleFacePatch.
+        var paintBlock = AccessTools.Method(typeof(ItemActionTextureBlock), "paintBlock");
+        if (v64ToIdx != null && paintBlock != null)
+        {
+            harmony.Patch(v64ToIdx, prefix: new HarmonyMethod(AccessTools.Method(typeof(MiddleFacePatch), "Value64Prefix")));
+            harmony.Patch(getBlockFaceTex, prefix: new HarmonyMethod(AccessTools.Method(typeof(MiddleFacePatch), "GetPrefix")));
+            harmony.Patch(setBlockFaceTex, prefix: new HarmonyMethod(AccessTools.Method(typeof(MiddleFacePatch), "SetPrefix")));
+            harmony.Patch(paintBlock, postfix: new HarmonyMethod(AccessTools.Method(typeof(MiddleFacePatch), "PaintBlockPostfix")));
+            Log.Out("[PaintUnlocked] Middle face painting enabled (paint all sides includes it)");
+        }
+        else Log.Warning("[PaintUnlocked] ItemActionTextureBlock.paintBlock not found — Middle face painting disabled");
+
         // === Prefab texture re-encoding (8-bit → 10-bit) ===
         // GetSetTextureFullArray is called during POI prefab placement with 8-bit packed Int64s.
         // The 10-bit transpilers handle per-face storage, but GetSetTextureFullArray writes the

@@ -1,0 +1,20 @@
+<!--
+  Throwaway verification mod - never shipped. Builds against the repo's 7dtd-binaries (V3.1) and binds
+  the V2.6/V3.x differences by reflection, so the same DLL runs on both:
+    dotnet build PUPaintAllSelfTest.csproj -c Release -o ..\_work\paintall\zz_PUPaintAllSelfTest
+  then copy ModInfo.xml next to the DLL and run it with -Commands pu_selftest_paintall
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>PUPaintAllSelfTest</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp"><HintPath>..\..\..\7dtd-binaries\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="LogLibrary"><HintPath>..\..\..\7dtd-binaries\LogLibrary.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>..\..\..\7dtd-binaries\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

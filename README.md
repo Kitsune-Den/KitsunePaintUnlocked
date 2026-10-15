@@ -147,7 +147,8 @@ failing on painting.xml.
 
 ## Known limitations
 
-- `TextureIdxToTextureFullValue64` (paint-all-faces from menu) is not yet patched with a specialized transpiler. Individual face painting works correctly.
+- Picking a paint from the menu while holding a building block (to place it pre-painted) goes through `TextureIdxToTextureFullValue64`, which is not patched yet: it works for paint IDs up to 255, but custom paints (512+) place as the wrong paint. Painting placed blocks with the brush, including "paint all sides", is unaffected.
+- The 7th face slot ("Middle": the frame parts inside window shapes, hollow counters, `logsHalfCorner`) can't hold a paint of its own, in vanilla or here. Since 1.5.1 PaintUnlocked stores it as "same paint as one of the sides": "paint all sides" covers it, and clicking a Middle part works if one of the block's sides already has that paint. See the [FAQ](FAQ.md).
 - Migration is one-way: once a world has been converted to the 10-bit chunk format, it needs PaintUnlocked to load. Back up saves before the first load.
 - Custom paints from packs you had installed *before* PaintUnlocked may need to be re-applied after migration: their IDs move from below 256 to 512+, and blocks painted earlier still reference the old IDs. Vanilla paints survive intact. See the [FAQ](FAQ.md).
 - V3.3: v1.4.3 was verified against the V3.3 b17 experimental dedicated server, and a V3.3.0 (b18) client has since joined a V3.3.0 (b18) dedicated server running it with no PaintUnlocked errors. Picking and placing paints above 255 from a 3.3 client has not been exercised yet.

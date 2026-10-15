@@ -95,7 +95,10 @@ $methods = @(
     @{ t='Chunk'; m='SetBlockFaceTexture'; names=@('_x','_y','_z','_face','_texture','channel'); il8ff=3 },
     @{ t='Chunk'; m='GetBlockFaceTexture'; names=@('_x','_y','_z','_face','channel'); il8ff=2 },
     @{ t='Chunk'; m='SetTextureFull' },
-    @{ t='Chunk'; m='Value64FullToIndex'; static=$true; il8ff=2 },
+    @{ t='Chunk'; m='Value64FullToIndex'; static=$true; il8ff=2; names=@('_valueFull','_blockFace') },
+    # Middle-face painting (MiddleFacePatch): paint-all postfix binds these by name and calls paintFace
+    @{ t='ItemActionTextureBlock'; m='paintBlock'; names=@('_cc','_entityId','_actionData','_blockPos','_blockValue','_channelMask') },
+    @{ t='ItemActionTextureBlock'; m='paintFace' },
     @{ t='Chunk'; m='GetSetTextureFullArray'; names=@('_x','_y','_z','_texturefullArray') },
     @{ t='NetPackageSetBlockTexture'; m='Setup'; names=@('_idx') },
     @{ t='NetPackageSetBlockTexture'; m='write' },
