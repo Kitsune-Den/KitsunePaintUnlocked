@@ -272,6 +272,14 @@ public static class OcbForkCheck
                 Log.Error("[PaintUnlocked] register custom paints on this game version, with");
                 Log.Error("[PaintUnlocked] or without PaintUnlocked.");
             }
+            else if (MentionsV3OnlyMember(chain))
+            {
+                Log.Error("[PaintUnlocked]");
+                Log.Error("[PaintUnlocked] That CustomTextures.dll was built for 7 Days to Die");
+                Log.Error("[PaintUnlocked] V3.x, and this game is older (V2.6). Use the V2.6");
+                Log.Error("[PaintUnlocked] download of PaintUnlocked, whose OcbCustomTextures");
+                Log.Error("[PaintUnlocked] is built against V2.6.");
+            }
 
             Log.Error("[PaintUnlocked]");
             Log.Error("[PaintUnlocked] Fix: delete the OcbCustomTextures folder from Mods/ and");
@@ -326,6 +334,20 @@ public static class OcbForkCheck
         string flat = chain.Replace(" ", "");
         return flat.Contains("Localization.Get(string,bool)")
             || flat.Contains("Localization::Get(System.String,System.Boolean)");
+    }
+
+    /// <summary>
+    /// The reverse mix-up: a V3.x CustomTextures.dll on V2.6 references members V2.6
+    /// doesn't have (the three-argument Localization.Get, DynamicProperties.Add(XElement, bool)).
+    /// </summary>
+    private static bool MentionsV3OnlyMember(string chain)
+    {
+        if (string.IsNullOrEmpty(chain)) return false;
+        string flat = chain.Replace(" ", "");
+        return flat.Contains("Localization.Get(string,bool,string)")
+            || flat.Contains("Localization::Get(System.String,System.Boolean,System.String)")
+            || flat.Contains("DynamicProperties.Add(System.Xml.Linq.XElement,bool)")
+            || flat.Contains("DynamicProperties::Add(System.Xml.Linq.XElement,System.Boolean)");
     }
 
 }

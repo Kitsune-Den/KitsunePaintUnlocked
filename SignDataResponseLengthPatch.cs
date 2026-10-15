@@ -48,7 +48,8 @@ public static class SignDataResponseLengthPatch
 
     static SignDataResponseLengthPatch()
     {
-        _fData = typeof(NetPackageSignDataResponse).GetField("data",
+        // By name: the type doesn't exist on V2.6, and a typeof() would fail to load there.
+        _fData = HarmonyLib.AccessTools.TypeByName("NetPackageSignDataResponse")?.GetField("data",
             BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
         _reflectionValid = _fData != null;
 
@@ -64,7 +65,7 @@ public static class SignDataResponseLengthPatch
     /// will actually emit. On 3.1+, where vanilla computes a real length itself,
     /// leave the result untouched.
     /// </summary>
-    public static void Postfix(NetPackageSignDataResponse __instance, ref int __result)
+    public static void Postfix(object __instance, ref int __result)
     {
         if (!_reflectionValid) return;
         if (__result != 0) return;   // 3.1+ reports a real length -- don't clobber it

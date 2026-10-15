@@ -41,7 +41,7 @@ public static class MigrationLoadingDriver
                         ShowText(EagerMigrator.ProgressText);
                         yield return null;
                     }
-                    ShowText(restoreTextKey != null ? Localization.Get(restoreTextKey) : "PaintUnlocked: save upgrade complete");
+                    ShowText(restoreTextKey != null ? GameCompat.Localize(restoreTextKey) : "PaintUnlocked: save upgrade complete");
                 }
                 yield return inner.Current;
             }

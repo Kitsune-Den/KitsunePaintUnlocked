@@ -43,7 +43,7 @@ public static class ForceFlushPatch
         int chunksMarked = 0;
         foreach (long key in chunkManager.GetActiveChunkSet())
         {
-            if (!(__instance.GetChunkSync(key) is Chunk ch)) continue;
+            if (!(GameCompat.GetChunkSync(__instance, key) is Chunk ch)) continue;
             if (!ch.isModified)
             {
                 ch.isModified = true;

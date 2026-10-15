@@ -3,7 +3,7 @@
 ![KitsunePaintUnlocked — 302 paints running simultaneously](kitsune-paint-unlocked.png)
 
 [![Download on Nexus Mods](https://img.shields.io/badge/Download-Nexus_Mods-da8e35?style=flat&logo=nexusmods&logoColor=white)](https://www.nexusmods.com/7daystodie/mods/10059)
-[![7 Days to Die V3.0-V3.3](https://img.shields.io/badge/7_Days_to_Die-V3.0_%E2%80%93_V3.3-8b0000?style=flat)](https://7daystodie.com)
+[![7 Days to Die V2.6, V3.0-V3.3](https://img.shields.io/badge/7_Days_to_Die-V2.6_%2F_V3.0_%E2%80%93_V3.3-8b0000?style=flat)](https://7daystodie.com)
 [![License](https://img.shields.io/github/license/Kitsune-Den/KitsunePaintUnlocked?style=flat)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/Kitsune-Den/KitsunePaintUnlocked?style=flat&logo=github)](https://github.com/Kitsune-Den/KitsunePaintUnlocked/stargazers)
 
@@ -15,7 +15,7 @@ Vanilla 7D2D caps paint textures at 255 across five separate engine layers. Kits
 
 ## Requirements
 
-- 7 Days to Die V3.0 (Dead Hot Summer), V3.1, V3.2 or V3.3 (V3.3 needs PaintUnlocked 1.4.3+)
+- 7 Days to Die V3.0 (Dead Hot Summer), V3.1, V3.2 or V3.3 (V3.3 needs PaintUnlocked 1.4.3+), or **V2.6** (PaintUnlocked 1.5.0+, with the V2.6 download -- see below)
 - [OcbPaintUnlocked](https://github.com/Kitsune-Den/OcbPaintUnlocked) (KitsunePaintUnlocked-compatible fork of OcbCustomTextures, included in release)
 - EAC **disabled** on server and all clients
 
@@ -25,6 +25,8 @@ Each release ships three downloads:
 
 - `PaintUnlocked-X.Y.Z.zip` -- the bundle (both mods). Use this for **manual installs**: extract into your `Mods/` folder.
 - `0_PaintUnlocked-X.Y.Z.zip` and `OcbCustomTextures-X.Y.Z.zip` -- single-mod zips for **Vortex / mod manager users**. Install both. Vortex's 7DTD extension nests the bundle into a wrapper folder if you give it the combined zip; the per-mod zips install cleanly.
+
+**On 7 Days to Die V2.6** (e.g. for Undead Legacy) use `PaintUnlocked-X.Y.Z-V2.6.zip` instead, or `0_PaintUnlocked-X.Y.Z.zip` plus `OcbCustomTextures-X.Y.Z-V2.6.zip` for Vortex. `PaintUnlocked.dll` is the same file for every game version; only the OcbCustomTextures fork is built separately, because V3.0 changed two game methods it calls. Mixing them up is caught at startup with a log message saying which download you need.
 
 Steps:
 
@@ -181,6 +183,11 @@ PaintUnlocked and the OcbCustomTextures fork are versioned together to prevent v
   PaintUnlocked version as `major*10000 + minor*100 + patch`
 
 Both version numbers are bumped together on every release.
+
+The V2.6 build of the fork uses upstream base `0.8.0` (the V2.x line) instead of
+`0.8.1`, e.g. `0.8.0.10500`, so the log line tells the two builds apart. It is the
+same source compiled against the V2.6 game assemblies; `pack-release.ps1 -Variant V2.6`
+packs it.
 
 The fork's fourth part exists so the fork is identifiable from the log line
 `Loaded Mod: OcbCustomTextures (...)` alone -- stock upstream reports a bare
