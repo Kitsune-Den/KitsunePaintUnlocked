@@ -50,10 +50,11 @@ public class PaintUnlockedMod : IModApi
         // stream. PaintUnlocked's large NetPackageDecoUpdate payloads (500KB+ per
         // prefab) make the buffer far more likely to already be near full when a
         // sign-data batch needs to go out too. See SignDataResponseLengthPatch.
-        // Plain reflection, not AccessTools.Method/DeclaredMethod: both log a Harmony
-        // WRN on a miss, and on 3.3 a miss is the expected outcome.
-        var signDataLength = typeof(NetPackageSignDataResponse).GetMethod("GetLength",
-            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, System.Type.EmptyTypes, null);
+        var signDataType = AccessTools.TypeByName("NetPackageSignDataResponse");   // absent on V2.6
+        // Plain reflection: AccessTools.Method logs its own warning when the method is absent (3.3+).
+        var signDataLength = signDataType?.GetMethod("GetLength",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic,
+            null, System.Type.EmptyTypes, null);
         if (signDataLength != null)
         {
             harmony.Patch(signDataLength, postfix: new HarmonyMethod(AccessTools.Method(typeof(SignDataResponseLengthPatch), "Postfix")));
@@ -61,7 +62,7 @@ public class PaintUnlockedMod : IModApi
         }
         // 3.3 removed GetLength() from every NetPackage: packages are serialized to a
         // staging stream and measured, so there is no length to get wrong any more.
-        else Log.Out("[PaintUnlocked] NetPackageSignDataResponse.GetLength not present (3.3+ measures packages itself) — length fix not needed");
+        else Log.Out("[PaintUnlocked] NetPackageSignDataResponse.GetLength not present (V2.6 has no such package; 3.3+ measures packages itself) — length fix not needed");
 
         // === Legacy world migration: repack 8-bit chunks to 10-bit on load ===
 
@@ -143,6 +144,38 @@ public class PaintUnlockedMod : IModApi
         }
         else Log.Warning("[PaintUnlocked] RegionFileManager(string, string, int, bool) ctor not found — eager migration disabled");
 
+        // Run that migration in slices from the world-load coroutine instead of inside the
+        // constructor, so a big save shows progress rather than freezing the game.
+        // Any provider not hooked here falls back to the synchronous run.
+        var providerInits = new[]
+        {
+            (typeof(ChunkProviderGenerateWorldFromRaw), "FromRawPostfix"),
+            (typeof(ChunkProviderGenerateWorldFromImage), "OtherPostfix"),
+            (typeof(ChunkProviderDisc), "OtherPostfix"),
+        };
+        foreach (var (providerType, postfixName) in providerInits)
+        {
+            var init = AccessTools.DeclaredMethod(providerType, "Init", new[] { typeof(World) });
+            if (init != null)
+            {
+                harmony.Patch(init, postfix: new HarmonyMethod(AccessTools.Method(typeof(MigrationLoadingDriver), postfixName)));
+                Log.Out($"[PaintUnlocked] {providerType.Name}.Init wrapped: migration runs in slices with loading-screen progress");
+            }
+            else Log.Warning($"[PaintUnlocked] {providerType.Name}.Init not found — migration on that world type runs synchronously");
+        }
+
+        // Chunk.load: read chunks an interrupted migration already converted at width 8,
+        // and recover ones that were converted before the journal existed (1.4.4 and older).
+        var chunkLoad = AccessTools.Method(typeof(Chunk), "load", new[] { typeof(PooledBinaryReader), typeof(uint) });
+        if (chunkLoad != null)
+        {
+            harmony.Patch(chunkLoad,
+                prefix: new HarmonyMethod(AccessTools.Method(typeof(LegacyChunkLoadPatch), "Prefix")),
+                finalizer: new HarmonyMethod(AccessTools.Method(typeof(LegacyChunkLoadPatch), "Finalizer")));
+            Log.Out("[PaintUnlocked] Chunk.load patched: interrupted-migration recovery enabled");
+        }
+        else Log.Warning("[PaintUnlocked] Chunk.load not found — interrupted-migration recovery disabled");
+
         // === Layer 4: Widen chunk face storage from 8-bit to 10-bit ===
         var setBlockFaceTex = AccessTools.Method(typeof(Chunk), "SetBlockFaceTexture");
         harmony.Patch(setBlockFaceTex, transpiler: new HarmonyMethod(AccessTools.Method(typeof(ChunkTexturePatch), "PatchSet")));
@@ -178,7 +211,10 @@ public class PaintUnlockedMod : IModApi
         // GetSetTextureFullArray is called during POI prefab placement with 8-bit packed Int64s.
         // The 10-bit transpilers handle per-face storage, but GetSetTextureFullArray writes the
         // raw Int64 directly — the packed bit positions must be re-encoded from 8-bit to 10-bit.
-        // NOTE: SetTextureFull is NOT patched — it unpacks face-by-face through SetBlockFaceTexture.
+        // NOTE: SetTextureFull is NOT re-encoded. It also stores the raw Int64 as-is (it does not
+        // unpack face by face), but nearly all its callers pass values read back from chunk storage,
+        // which are already 10-bit. The exception is GameManager.SetBlockTextureClient with
+        // _blockFace == 255, which packs at 8-bit; vanilla only does that to clear paint (idx 0).
         var getSetTexFullArr = AccessTools.Method(typeof(Chunk), "GetSetTextureFullArray");
         if (getSetTexFullArr != null)
         {
@@ -191,7 +227,10 @@ public class PaintUnlockedMod : IModApi
         // Isolated behind OcbIntegration so an outdated or missing
         // CustomTextures.dll can no longer abort the whole of InitMod. See
         // OcbIntegration for the failure mode this guards against.
-        OcbIntegration.TryRegister(harmony);
+        // Stock OCB crashes painting.xml once the ID-512 floor is applied, so
+        // on stock the OCB patches are skipped entirely (see OcbForkCheck).
+        if (OcbForkCheck.CheckBoundOcbIsFork())
+            OcbIntegration.TryRegister(harmony);
 
         // === Layer 1: Network packet encoding for indices > 255 ===
         var netPkgType = typeof(NetPackageSetBlockTexture);
@@ -456,7 +495,7 @@ public static class PaintIndexWidenerPatch
         {
             if (PaintVerbose.Enabled)
                 Log.Out($"[PaintUnlocked] ApplyTexture: SetBlockTextureClient pos={blockPos} face={blockFace} idx={idx}");
-            GameManager.Instance.SetBlockTextureClient(blockPos, blockFace, idx, 0);
+            GameCompat.SetBlockTextureClient(blockPos, blockFace, idx, 0);
         }
         else
         {

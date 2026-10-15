@@ -65,6 +65,14 @@ public static class ChunkBlockChannelReadPatch
         if (!_reflectionValid) return;
         if (!WorldMigrationState.NeedsMigration) return;
         if (_bNetworkRead) return;
+        // Already rewritten at width 8 by an earlier, interrupted migration. On a retry the
+        // channel object is the one the failed legacy attempt left at 6, so put it back.
+        if (LegacyChunkLoadPatch.CurrentChunkIsAtCurrentWidth())
+        {
+            if ((int)_fBytesPerVal.GetValue(__instance) == 6)
+                _fBytesPerVal.SetValue(__instance, 8);
+            return;
+        }
 
         int before = (int)_fBytesPerVal.GetValue(__instance);
         bool flipped = false;

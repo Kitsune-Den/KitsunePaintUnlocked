@@ -4,11 +4,11 @@
 
 This is expected behaviour, not a bug. Here's what's going on.
 
-When you install a paint pack like PyroPaints or CK Textures *without* PaintUnlocked, the game registers those custom paints at IDs 154-255 (the slots above vanilla's ~154 paints). When PaintUnlocked is enabled, custom paints register at ID 512 and up instead, because the GPU atlas needs that gap to handle the wider paint range.
+When you install a paint pack like PyroPaints or CK Textures *without* PaintUnlocked, the game registers those custom paints in the free IDs below 256 (vanilla V3.2 has 156 paints spread across IDs 0-183, so custom paints fill the gaps and the slots above). When PaintUnlocked is enabled, custom paints register at ID 512 and up instead, because the GPU atlas needs that gap to handle the wider paint range.
 
 The migration system updates how chunk data is stored on disk, but it can't follow paints to their new IDs — a block that used to say "paint ID 200" still says 200, but in the new world that slot doesn't point to your custom paint anymore. So those blocks render as unpainted.
 
-**Vanilla paints are unaffected** — those IDs (0-153) stay stable.
+**Vanilla paints are unaffected**: their IDs stay stable.
 
 **Fix:** Repaint the affected blocks. Your existing custom paint packs all still work, they're just at different IDs now, so picking them again from the paint menu and applying them gets you back where you were.
 
@@ -23,6 +23,20 @@ You're using the wrong OcbCustomTextures.
 PaintUnlocked ships with a special fork of OcbCustomTextures that handles the larger paint ID range. If you downloaded OCB separately from NexusMods, it doesn't have the changes needed and will crash when it tries to register custom paints above ID 255.
 
 **Fix:** Delete your OcbCustomTextures folder entirely. Extract both folders from the PaintUnlocked zip - `0_PaintUnlocked` AND `OcbCustomTextures`. They're a matched pair. Both must come from the same zip.
+
+**Already did that and it still happens?** Then another mod is carrying its own copy of OCB. Some paint packs, texture mods and overhauls bundle stock OcbCustomTextures inside their own folder, and nothing on their mod page says so. A giveaway: if you remove PaintUnlocked and its OCB and still have more than vanilla's 156 paints in the menu, whatever is adding the extras brought its own OCB.
+
+To find it, open your `Mods` folder and search it (Windows search box, top right) for `CustomTextures.dll`. There must be exactly **one** result, inside the `OcbCustomTextures` folder from the PaintUnlocked zip. Delete every other OCB copy; the paints from those mods will still load, through the fork. Also check for a second folder that is OCB under a different name (for example `0_OcbCustomTextures`). The game loads mod folders alphabetically and skips a later one with the same mod name, so a stock copy that sorts first silently replaces the fork.
+
+Newer PaintUnlocked versions check for all of this when the game starts. Look in your log for:
+
+```
+[PaintUnlocked] NON-FORKED OcbCustomTextures DETECTED
+[PaintUnlocked] You're using a non-forked OcbCustomTextures. ...
+[PaintUnlocked] Stock OCB in use: <the folder to delete>
+```
+
+or `MORE THAN ONE OcbCustomTextures INSTALLED`. The lines after it name every copy it found. When it detects stock OCB, PaintUnlocked stays out of OCB's way so the game still loads instead of crashing. Custom paints then stay capped at 255 until the extra copy is gone.
 
 ---
 
@@ -57,9 +71,19 @@ The first time you load a pre-PaintUnlocked world with the mod installed, you'll
 [PaintUnlocked] Migration complete. Sentinel written
 ```
 
-The world load pauses while it scans every chunk on disk and rewrites the texture storage from 48-bit to 64-bit format. For a small testbed save (~300 chunks) this takes about a second; for big multi-region worlds it can take several seconds to a minute. Once it's done, a marker file (`paintunlocked.migrated`) is written to the save folder, and subsequent loads skip the scan entirely.
+The world load waits while it rewrites every chunk on disk from 48-bit to 64-bit texture storage. It costs a few milliseconds per chunk: a small testbed save is done in a second, an explored world with ~40,000 chunks takes around three minutes on a fast PC, and a fully explored 8k/10k map takes longer. The loading screen shows `PaintUnlocked: upgrading this save` with a chunk counter the whole time, so it's working, not frozen. Once it's done, a marker file (`paintunlocked.migrated`) is written to the save folder, and subsequent loads skip the scan entirely.
+
+Before touching anything it copies the save's `Region` folder to `Region.pre-paintunlocked` (skipped, with a log warning, if the disk doesn't have room). Delete that folder once you're happy with the world. Closing the game during the upgrade is safe: every converted chunk is recorded in `paintunlocked.migrating`, and the next load continues from there.
 
 **One caveat:** if you were using custom paint packs *before* installing PaintUnlocked, those paints will appear unpainted after migration — see the entry above. Vanilla paints survive the conversion intact.
+
+---
+
+## "Stuck on 'Configuring splatmaps' when loading my save"
+
+Versions up to 1.4.4 ran the save upgrade above without updating the loading screen. The game sat on "Configuring splatmaps" (and Windows could call it Not Responding) until every chunk was done, which on a big save took minutes. Update PaintUnlocked: the upgrade now shows its progress.
+
+If you closed the game during one of those long loads, 1.4.4 and older lost track of the chunks it had already converted, and the next load threw them away (`EXCEPTION: In load chunk ... Attempted to read past the end of the stream` in the log, terrain regenerated). The current version recognises those converted chunks and keeps them, so load the save with the update **before** playing it again on the old version. Any chunk already thrown away left an `error_backup_*.bak` file in the save's `Region` folder; those can't be put back automatically.
 
 ---
 
@@ -75,7 +99,7 @@ Both `0_PaintUnlocked` and `OcbCustomTextures` (from the zip) on both server and
 
 ## "How many custom textures can I have?"
 
-Up to 1023 total paint textures. Vanilla uses about 154, so that leaves roughly 869 slots for custom paint packs. In practice you probably won't hit that unless you're running a LOT of packs.
+Up to 512 custom paints, on top of vanilla's own. Custom paints get IDs 512 through 1023 (1023 is the highest ID a painted block face can store), and vanilla V3.2 keeps its 156 paints below that. In practice you probably won't hit the limit unless you're running a LOT of packs.
 
 For comparison, vanilla was hardcapped at 255.
 

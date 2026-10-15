@@ -3,7 +3,7 @@
 ![KitsunePaintUnlocked — 302 paints running simultaneously](kitsune-paint-unlocked.png)
 
 [![Download on Nexus Mods](https://img.shields.io/badge/Download-Nexus_Mods-da8e35?style=flat&logo=nexusmods&logoColor=white)](https://www.nexusmods.com/7daystodie/mods/10059)
-[![7 Days to Die V3.0-V3.3](https://img.shields.io/badge/7_Days_to_Die-V3.0_%E2%80%93_V3.3_exp-8b0000?style=flat)](https://7daystodie.com)
+[![7 Days to Die V2.6, V3.0-V3.3](https://img.shields.io/badge/7_Days_to_Die-V2.6_%2F_V3.0_%E2%80%93_V3.3-8b0000?style=flat)](https://7daystodie.com)
 [![License](https://img.shields.io/github/license/Kitsune-Den/KitsunePaintUnlocked?style=flat)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/Kitsune-Den/KitsunePaintUnlocked?style=flat&logo=github)](https://github.com/Kitsune-Den/KitsunePaintUnlocked/stargazers)
 
@@ -15,7 +15,7 @@ Vanilla 7D2D caps paint textures at 255 across five separate engine layers. Kits
 
 ## Requirements
 
-- 7 Days to Die V3.0 (Dead Hot Summer), V3.1, V3.2, or the V3.3 experimental branch (PaintUnlocked 1.4.3+)
+- 7 Days to Die V3.0 (Dead Hot Summer), V3.1, V3.2 or V3.3 (V3.3 needs PaintUnlocked 1.4.3+), or **V2.6** (PaintUnlocked 1.5.0+, with the V2.6 download -- see below)
 - [OcbPaintUnlocked](https://github.com/Kitsune-Den/OcbPaintUnlocked) (KitsunePaintUnlocked-compatible fork of OcbCustomTextures, included in release)
 - EAC **disabled** on server and all clients
 
@@ -26,13 +26,15 @@ Each release ships three downloads:
 - `PaintUnlocked-X.Y.Z.zip` -- the bundle (both mods). Use this for **manual installs**: extract into your `Mods/` folder.
 - `0_PaintUnlocked-X.Y.Z.zip` and `OcbCustomTextures-X.Y.Z.zip` -- single-mod zips for **Vortex / mod manager users**. Install both. Vortex's 7DTD extension nests the bundle into a wrapper folder if you give it the combined zip; the per-mod zips install cleanly.
 
+**On 7 Days to Die V2.6** (e.g. for Undead Legacy) use `PaintUnlocked-X.Y.Z-V2.6.zip` instead, or `0_PaintUnlocked-X.Y.Z.zip` plus `OcbCustomTextures-X.Y.Z-V2.6.zip` for Vortex. `PaintUnlocked.dll` is the same file for every game version; only the OcbCustomTextures fork is built separately, because V3.0 changed two game methods it calls. Mixing them up is caught at startup with a log message saying which download you need.
+
 Steps:
 
 1. **Back up your saves.** Existing worlds are migrated to the new chunk format on first load, and that is one-way: a migrated world needs PaintUnlocked to load. To revert, restore the backup.
 2. If you already have an `OcbCustomTextures` folder in `Mods/`, delete it entirely. The PaintUnlocked fork replaces it -- vanilla OcbCustomTextures is not compatible, and overwriting in place can leave stale files behind.
 3. Install (manual or via Vortex) on **both the server and all connecting clients**. You should end up with two folders side-by-side under `Mods/`: `0_PaintUnlocked` and `OcbCustomTextures`. Mismatched installs cause disconnects.
 4. Install your paint packs as usual (KitsunePaints, PyroPaints, CK Textures, etc.).
-5. Load your world. A pre-PaintUnlocked world pauses briefly on first load while every chunk on disk is repacked (the log shows `[PaintUnlocked] EagerMigrator` lines); a `paintunlocked.migrated` marker is then written and later loads skip the scan. See the [FAQ](FAQ.md#do-i-need-a-new-world) for what happens to paints from packs installed before PaintUnlocked.
+5. Load your world. The first load of a pre-PaintUnlocked world repacks every chunk on disk; the loading screen shows `PaintUnlocked: upgrading this save` with a chunk count, and a big explored world can take a few minutes. Before it starts, the save's `Region` folder is copied to `Region.pre-paintunlocked` next to it. If the game is closed part-way, the next load picks up where it stopped. When it finishes, a `paintunlocked.migrated` marker is written and later loads skip the scan. See the [FAQ](FAQ.md#do-i-need-a-new-world) for what happens to paints from packs installed before PaintUnlocked.
 
 ## What it patches
 
@@ -124,12 +126,31 @@ Since v1.4.2 this no longer aborts mod load: PaintUnlocked logs an
 of the mod still installs. Custom paints above 255 stay unavailable until OCB
 is updated.
 
+### `Loading and parsing 'painting.xml' failed` / `Index was outside the bounds of the array`
+
+The CustomTextures.dll PaintUnlocked hooked into is **stock** OcbCustomTextures,
+not the fork. Stock OCB keeps the paint list at 256 slots, so the first custom
+paint at ID 512 overflows it. When the only OCB folder is the one from the zip,
+the stock copy usually comes from another mod that bundles it, either in a
+folder that sorts before `OcbCustomTextures` (the game skips the later one with
+the same mod name) or under a different mod name.
+
+Fix: search `Mods/` for `CustomTextures.dll` and delete every OCB copy except
+the `OcbCustomTextures` folder from this release. See the
+[FAQ](FAQ.md#paintingxml-index-was-outside-the-bounds-of-the-array).
+
+PaintUnlocked checks for this at startup. It logs
+`NON-FORKED OcbCustomTextures DETECTED` (or `MORE THAN ONE OcbCustomTextures
+INSTALLED`) followed by the path of every copy it found. On stock OCB it skips
+its OCB patches, so the game loads with custom paints capped at 255 instead of
+failing on painting.xml.
+
 ## Known limitations
 
 - `TextureIdxToTextureFullValue64` (paint-all-faces from menu) is not yet patched with a specialized transpiler. Individual face painting works correctly.
 - Migration is one-way: once a world has been converted to the 10-bit chunk format, it needs PaintUnlocked to load. Back up saves before the first load.
-- Custom paints from packs you had installed *before* PaintUnlocked may need to be re-applied after migration: their IDs move from the 154-255 range to 512+, and blocks painted earlier still reference the old IDs. Vanilla paints survive intact. See the [FAQ](FAQ.md).
-- V3.3 is an experimental game branch; v1.4.3 was verified against V3.3 b17 on a dedicated server, but not yet with a 3.3 client joining.
+- Custom paints from packs you had installed *before* PaintUnlocked may need to be re-applied after migration: their IDs move from below 256 to 512+, and blocks painted earlier still reference the old IDs. Vanilla paints survive intact. See the [FAQ](FAQ.md).
+- V3.3: v1.4.3 was verified against the V3.3 b17 experimental dedicated server, and a V3.3.0 (b18) client has since joined a V3.3.0 (b18) dedicated server running it with no PaintUnlocked errors. Picking and placing paints above 255 from a 3.3 client has not been exercised yet.
 - `Graphics.CopyTexture` mip level warnings may appear for paint packs with mismatched texture mip counts. These are cosmetic and come from the paint packs, not PaintUnlocked.
 
 ## Building from source
@@ -162,6 +183,11 @@ PaintUnlocked and the OcbCustomTextures fork are versioned together to prevent v
   PaintUnlocked version as `major*10000 + minor*100 + patch`
 
 Both version numbers are bumped together on every release.
+
+The V2.6 build of the fork uses upstream base `0.8.0` (the V2.x line) instead of
+`0.8.1`, e.g. `0.8.0.10500`, so the log line tells the two builds apart. It is the
+same source compiled against the V2.6 game assemblies; `pack-release.ps1 -Variant V2.6`
+packs it.
 
 The fork's fourth part exists so the fork is identifiable from the log line
 `Loaded Mod: OcbCustomTextures (...)` alone -- stock upstream reports a bare
