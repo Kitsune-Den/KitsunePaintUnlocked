@@ -218,7 +218,7 @@ This auto-detects the highest staged version and produces three zips: the bundle
 
 ## License
 
-MIT -- see [LICENSE](LICENSE).
+[CC BY-NC-SA 4.0](LICENSE), with an extra permission for servers that make money: see [NOTICE.md](NOTICE.md). In short: play it, change it and share it, with credit, not for sale, and with changed versions under the same license.
 
 ## Credits
 
