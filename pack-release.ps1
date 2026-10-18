@@ -30,6 +30,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -97,19 +98,34 @@ if ([int]$Matches['enc'] -ne $encoded) {
 }
 Write-Host "Versions OK: PaintUnlocked $puVersion / OcbCustomTextures $ocbVersion"
 
-function New-ZipFromFolder {
-  param([string]$Source, [string]$Destination, [string]$TopFolderName)
+# Zips the given top-level items of $BaseDir into $Destination, entry names
+# relative to $BaseDir. Entries are written one by one instead of with
+# ZipFile.CreateFromDirectory, which on Windows PowerShell 5.1 (.NET Framework)
+# stores paths with backslashes. The zip spec only allows '/', and Linux unzip
+# and some mod managers / server hosts extract '0_PaintUnlocked\ModInfo.xml' as
+# one file with a backslash in its name instead of a folder.
+function New-ZipFromItems {
+  param([string]$BaseDir, [string[]]$Items, [string]$Destination)
   if (Test-Path $Destination) { Remove-Item $Destination -Force }
-  $tmp = Join-Path ([System.IO.Path]::GetTempPath()) ([System.Guid]::NewGuid().ToString())
-  New-Item -ItemType Directory -Force -Path $tmp | Out-Null
+  $base = (Resolve-Path $BaseDir).Path.TrimEnd('\') + '\'
+  $zip = [System.IO.Compression.ZipFile]::Open($Destination, [System.IO.Compression.ZipArchiveMode]::Create)
   try {
-    Copy-Item $Source (Join-Path $tmp $TopFolderName) -Recurse
-    [System.IO.Compression.ZipFile]::CreateFromDirectory(
-      $tmp, $Destination,
-      [System.IO.Compression.CompressionLevel]::Optimal, $false
-    )
+    foreach ($item in $Items) {
+      $path = Join-Path $base $item
+      $files = if (Test-Path $path -PathType Container) {
+        Get-ChildItem $path -Recurse -File | Sort-Object FullName
+      } else {
+        Get-Item $path
+      }
+      foreach ($f in $files) {
+        $entry = $f.FullName.Substring($base.Length).Replace('\', '/')
+        [void][System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile(
+          $zip, $f.FullName, $entry, [System.IO.Compression.CompressionLevel]::Optimal
+        )
+      }
+    }
   } finally {
-    Remove-Item $tmp -Recurse -Force
+    $zip.Dispose()
   }
 }
 
@@ -119,7 +135,11 @@ function Test-ZipTopLevel {
   try {
     $tops = @{}
     foreach ($e in $z.Entries) {
-      $top = ($e.FullName -split '[\\/]')[0]
+      if ($e.FullName.Contains('\')) {
+        Write-Host "  FAIL $(Split-Path -Leaf $Path) - entry '$($e.FullName)' uses a backslash"
+        throw "Zip entry with a backslash path in $Path"
+      }
+      $top = ($e.FullName -split '/')[0]
       if ($top) { $tops[$top] = $true }
     }
     $actual = ($tops.Keys | Sort-Object) -join ', '
@@ -140,11 +160,9 @@ function Test-ZipTopLevel {
 if (-not $PerModOnly) {
   $bundle = Join-Path $root "PaintUnlocked-$Version$suffix.zip"
   Write-Host "Building bundle: $(Split-Path -Leaf $bundle)"
-  if (Test-Path $bundle) { Remove-Item $bundle -Force }
-  [System.IO.Compression.ZipFile]::CreateFromDirectory(
-    $staging, $bundle,
-    [System.IO.Compression.CompressionLevel]::Optimal, $false
-  )
+  # Everything in staging goes in, so a stray file there fails the check below.
+  $items = Get-ChildItem $staging | ForEach-Object Name
+  New-ZipFromItems -BaseDir $staging -Items $items -Destination $bundle
   Test-ZipTopLevel -Path $bundle -ExpectedTops $mods
 }
 
@@ -161,7 +179,7 @@ if (-not $BundleOnly) {
     if ($Variant -and $m -eq '0_PaintUnlocked') { continue }   # same universal zip as the main release
     $modZip = Join-Path $root "$m-$Version$suffix.zip"
     Write-Host "Building per-mod: $(Split-Path -Leaf $modZip)"
-    New-ZipFromFolder -Source (Join-Path $staging $m) -Destination $modZip -TopFolderName $m
+    New-ZipFromItems -BaseDir $staging -Items @($m) -Destination $modZip
     Test-ZipTopLevel -Path $modZip -ExpectedTops @($m)
   }
 }
