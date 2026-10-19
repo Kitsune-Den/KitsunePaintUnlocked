@@ -113,9 +113,21 @@ Both `0_PaintUnlocked` and `OcbCustomTextures` (from the zip) on both server and
 
 ## "How many custom textures can I have?"
 
-Up to 512 custom paints, on top of vanilla's own. Custom paints get IDs 512 through 1023 (1023 is the highest ID a painted block face can store), and vanilla V3.2 keeps its 156 paints below that. In practice you probably won't hit the limit unless you're running a LOT of packs.
+Two limits, and the second one is usually the one you hit first.
 
-For comparison, vanilla was hardcapped at 255.
+**Paints: up to 512 custom, on top of vanilla's own.** Custom paints get IDs 512 through 1023 (1023 is the highest ID a painted block face can store), and vanilla V3.2 keeps its 156 paints below that. For comparison, vanilla was hardcapped at 255.
+
+**Texture slots: 2048 in total, vanilla included.** Every texture lives in one big texture array on your graphics card, and 2048 is a hard limit of the graphics API that no mod can raise. Vanilla uses 407 of them, which leaves 1641 for packs. A 1×1 paint takes one slot, but a 2×2 paint takes four, so big multi-tile packs fill this up fast. For example, CK Textures N Paints and CK Textures N Paints Vol II together use 1628 slots, which leaves room for only 13 more.
+
+---
+
+## "Too many custom textures: they need N texture slots, but your graphics card supports at most 2048"
+
+Your paint and texture packs together need more texture slots than the 2048 a graphics card can hold (see above). Since 1.5.2, OcbCustomTextures loads everything that fits and skips the rest, so the last N textures are missing from the paint menu. Everything else works.
+
+Before 1.5.2 this showed up as `Texture2DArray has out of range depth (got N max supported 2048)` followed by `Loading and parsing 'painting.xml' failed`, and every custom paint broke.
+
+**Fix:** Remove a texture or paint pack (move its folder out of `Mods`) until you're under the limit. Packs load alphabetically by folder name, so the textures that get skipped are the ones from the pack whose folder name sorts last.
 
 ---
 
