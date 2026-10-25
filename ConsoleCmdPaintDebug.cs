@@ -3,7 +3,7 @@ using System.Reflection;
 
 /// <summary>
 /// Debug console command to dump BlockTextureData for a specific paint ID.
-/// Usage: pu_debug 512
+/// Usage: pu_debug 256
 /// </summary>
 public class ConsoleCmdPaintDebug : ConsoleCmdAbstract
 {

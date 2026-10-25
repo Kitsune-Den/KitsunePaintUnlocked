@@ -36,6 +36,7 @@ public static class WorldMigrationState
 
     private static bool _needsMigration = false;
     private static bool _flagLoaded = false;
+    private static bool _sentinelFoundAtLoad = false;
     private static string _saveDir = null;
 
     private static readonly HashSet<long> _converted = new HashSet<long>();
@@ -54,6 +55,13 @@ public static class WorldMigrationState
     public static string SaveDir => _saveDir;
 
     /// <summary>
+    /// True when the sentinel was already on disk when this world loaded, i.e. an earlier
+    /// session of PaintUnlocked (1.1.0+) played it. False for a brand-new world even after
+    /// LoadFlag writes its sentinel, and false for a vanilla world being migrated.
+    /// </summary>
+    public static bool SentinelFoundAtLoad => _sentinelFoundAtLoad;
+
+    /// <summary>
     /// Read the sentinel file for the given save directory and cache the result.
     /// Called on world load. Safe to call multiple times — only the first call
     /// per world actually hits the filesystem.
@@ -69,6 +77,7 @@ public static class WorldMigrationState
         }
 
         _saveDir = saveDir;
+        _sentinelFoundAtLoad = false;
         var sentinelPath = Path.Combine(saveDir, SentinelFileName);
 
         try
@@ -76,6 +85,7 @@ public static class WorldMigrationState
             if (File.Exists(sentinelPath))
             {
                 _needsMigration = false;
+                _sentinelFoundAtLoad = true;
                 Log.Out($"[PaintUnlocked] Migration sentinel found — world is 10-bit, no migration needed: {sentinelPath}");
                 _flagLoaded = true;
                 return;
@@ -223,6 +233,7 @@ public static class WorldMigrationState
         lock (_converted) _converted.Clear();
         _needsMigration = false;
         _flagLoaded = false;
+        _sentinelFoundAtLoad = false;
         _saveDir = null;
     }
 
