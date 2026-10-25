@@ -6,7 +6,7 @@ using System.Text;
 /// <summary>
 /// Per-world persistence of the paint name -> ID mapping.
 ///
-/// Paint IDs are assigned sequentially from 512 in texture-registration order
+/// Paint IDs are assigned sequentially from PaintIdLimits.CustomIdFloor (256) in texture-registration order
 /// (OcbPaintLimitPatch). That order is NOT stable across server restarts — adding,
 /// removing, or updating a pack (or even a dictionary-iteration shuffle) reshuffles the
 /// IDs. Because painted blocks store the raw numeric ID in chunk data, a reshuffle makes
@@ -14,7 +14,8 @@ using System.Text;
 ///
 /// Fix: snapshot the mapping to &lt;SaveDir&gt;/paintunlocked.idmap on first load and
 /// restore it on every subsequent load, so a given world's IDs never move. Paints added
-/// later are appended above the existing max; removed paints keep their slot reserved
+/// later go to free IDs below 512 (a band no older release used), then above the existing
+/// max; removed paints keep their slot reserved
 /// (rendered via placeholder) so nothing else shifts into it.
 ///
 /// The first snapshot captures the CURRENT session's assignment — it does not reorder an

@@ -18,7 +18,7 @@ using System.Text;
 /// </summary>
 public static class PaintIdSyncManager
 {
-    private const int CustomIdFloor = 512;
+    private const int CustomIdFloor = PaintIdLimits.CustomIdFloor;
 
     // Server's authoritative mapping: texture config ID (string) -> paint ID (ushort)
     private static Dictionary<string, ushort> _serverMapping;
@@ -62,6 +62,8 @@ public static class PaintIdSyncManager
         // (or not). Purely a log warning; never affects behaviour.
         OcbForkCheck.Verify();
 
+        DropUnstorablePaints("registration");
+
         try
         {
             _serverMapping = BuildMapping();
@@ -78,6 +80,33 @@ public static class PaintIdSyncManager
         // If the world is already loaded (save dir known), reconcile now. Otherwise the
         // WorldLifecyclePatch.LoadWorld hook will trigger it once the save dir is set.
         TryReconcilePersistent();
+    }
+
+    /// <summary>
+    /// Removes every paint registered above PaintIdLimits.MaxPaintId. Chunk storage keeps
+    /// 10 bits per face, so painting with one would save id &amp; 0x3FF: the paint shows in
+    /// the menu but the block comes out as a different paint. Dropping it keeps it out of
+    /// the menu and logs one error that says why and what to do.
+    /// </summary>
+    private static void DropUnstorablePaints(string stage)
+    {
+        var list = BlockTextureData.list;
+        if (list == null) return;
+
+        var dropped = new List<string>();
+        for (int i = PaintIdLimits.MaxPaintId + 1; i < list.Length; i++)
+        {
+            if (list[i] == null) continue;
+            dropped.Add(string.IsNullOrEmpty(list[i].Name) ? $"#{i}" : list[i].Name);
+            list[i] = null;
+        }
+        if (dropped.Count == 0) return;
+
+        var sample = string.Join(", ", dropped.GetRange(0, Math.Min(5, dropped.Count)).ToArray());
+        Log.Error($"[PaintUnlocked] Too many custom paints ({stage}): a painted block can store paint IDs up to " +
+                  $"{PaintIdLimits.MaxPaintId}, which leaves room for {PaintIdLimits.CustomCapacity} custom paints. " +
+                  $"Skipped {dropped.Count} paint(s) past that limit; they won't be in the paint menu. " +
+                  $"Remove a paint pack to make room. Skipped: {sample}{(dropped.Count > 5 ? ", ..." : "")}");
     }
 
     /// <summary>
@@ -174,14 +203,28 @@ public static class PaintIdSyncManager
             var persisted = PaintIdPersistence.Load(saveDir);
             bool firstRun = persisted.Count == 0;
 
-            // Persisted IDs are authoritative for names we've seen before. Brand-new names
-            // keep their natural session ID when free, otherwise get the next free slot —
-            // never an ID already claimed by a persisted (possibly painted) name. The merge
-            // math lives in PaintIdMerge (pure, unit-tested in PaintIdMerge.Tests).
-            int added;
-            var merged = PaintIdMerge.Merge(persisted, current, CustomIdFloor, out added);
+            // A world an earlier PaintUnlocked played (sentinel already on disk) but never
+            // snapshotted predates the idmap (1.3.0), and its blocks were painted with IDs
+            // counted from the old 512 floor. Snapshot those, not this session's 256-based
+            // ones, or every custom paint in it would shift.
+            bool legacyFloorWorld = firstRun && WorldMigrationState.SentinelFoundAtLoad;
+            if (legacyFloorWorld)
+                current = PaintIdMerge.LegacyAssignment(CustomNamesInIdOrder(), PaintIdLimits.LegacyIdFloor);
 
-            if (firstRun)
+            // Persisted IDs are authoritative for names we've seen before. Brand-new names
+            // keep their natural session ID when free, otherwise get the lowest free slot
+            // below the old 512 floor, then the next one above the max — never an ID
+            // already claimed by a persisted (possibly painted) name. The merge math lives
+            // in PaintIdMerge (pure, unit-tested in PaintIdMerge.Tests).
+            int added;
+            List<string> dropped;
+            var merged = PaintIdMerge.Merge(persisted, current,
+                PaintIdLimits.CustomIdFloor, PaintIdLimits.LegacyIdFloor, PaintIdLimits.MaxPaintId,
+                out added, out dropped);
+
+            if (legacyFloorWorld)
+                Log.Out($"[PaintUnlocked] No persistent paint map for this world, which an earlier PaintUnlocked played — snapshotting {merged.Count} IDs as that release assigned them (from {PaintIdLimits.LegacyIdFloor}).");
+            else if (firstRun)
                 Log.Out($"[PaintUnlocked] No persistent paint map for this world — snapshotting current {merged.Count} IDs as the baseline (existing paint is NOT reshuffled).");
             else
                 Log.Out($"[PaintUnlocked] Reconciled with persistent paint map: {persisted.Count} persisted, {added} new paint(s) appended.");
@@ -189,9 +232,11 @@ public static class PaintIdSyncManager
             // Align this session's live BlockTextureData.list to the merged map so the
             // server itself reads and writes chunk data using the stable IDs. Reuses the
             // same remap the client runs when it receives the server's mapping.
+            // Paints Merge had no room for come out of it as leftovers above the max, which
+            // the remap then drops from the menu.
             RemapBlockTextureData(merged);
 
-            if (firstRun || added > 0)
+            if (firstRun || added > 0 || merged.Count != persisted.Count)
                 PaintIdPersistence.Save(saveDir, merged);
 
             // This merged map is now what we sync to connecting clients.
@@ -428,5 +473,28 @@ public static class PaintIdSyncManager
         OcbPaintLimitPatch.ResetCounterTo(nextSlot);
 
         Log.Out($"[PaintUnlocked] Remap result: {remapped} matched, {placeholders} placeholders, {extracted.Count} client-only");
+
+        // Leftovers placed above the max (no room in the map, or client-only paints past
+        // a full server range) can't be stored on a block.
+        DropUnstorablePaints("paint ID remap");
+    }
+
+    /// <summary>
+    /// Names of every registered custom paint, by ascending ID, duplicates included — the
+    /// order OCB registered them in, which is the order the pre-1.6.0 counter numbered them.
+    /// A paint without a name stays in as null: it used up an ID all the same, and leaving
+    /// it out would shift every paint after it by one.
+    /// </summary>
+    private static List<string> CustomNamesInIdOrder()
+    {
+        var names = new List<string>();
+        var list = BlockTextureData.list;
+        if (list == null) return names;
+        for (int i = CustomIdFloor; i < list.Length; i++)
+        {
+            var entry = list[i];
+            if (entry != null) names.Add(entry.Name);
+        }
+        return names;
     }
 }

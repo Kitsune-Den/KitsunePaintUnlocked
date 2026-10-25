@@ -11,5 +11,6 @@
   <ItemGroup>
     <!-- Link the pure merge logic from the mod project (no game DLLs needed). -->
     <Compile Include="..\PaintIdMerge.cs" Link="PaintIdMerge.cs" />
+    <Compile Include="..\PaintIdLimits.cs" Link="PaintIdLimits.cs" />
   </ItemGroup>
 </Project>

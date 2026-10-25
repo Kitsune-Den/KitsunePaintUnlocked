@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// Console command: report custom paints (ID &gt;= 512) that share the same Name across
+/// Console command: report custom paints (ID &gt;= 256) that share the same Name across
 /// loaded packs. Duplicate names break the name-keyed paint ID sync — the same block can
 /// render as a different texture for different players, and which paint "wins" varies by
 /// machine. This lists every collision so the offending packs can be renamed.
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 /// </summary>
 public class ConsoleCmdPaintAudit : ConsoleCmdAbstract
 {
-    private const int CustomIdFloor = 512;
+    private const int CustomIdFloor = PaintIdLimits.CustomIdFloor;
 
     public override string[] getCommands() => new[] { "pu_audit" };
     public override string getDescription() => "PaintUnlocked: list custom paints that share a name (duplicate-name collisions).";

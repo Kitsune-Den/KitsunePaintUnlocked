@@ -58,7 +58,7 @@ On the receive side, `ProcessPackagePrefix` decodes the overflow from the channe
 
 ### Layer 4: Paint ID allocation
 
-The server loads fewer vanilla paints than the client (~155 vs ~407), causing custom paint IDs to diverge. The OcbCustomTextures fork seeds `GetFreePaintID` at ID 512 on both sides, ensuring identical allocation. It also dynamically resizes `BlockTextureData.list` when more paints are registered.
+Stock OCB hands each custom paint the first free slot, so IDs depend on what else loaded and can diverge between server and client. PaintUnlocked seeds `GetFreePaintID` at ID 256 on both sides (vanilla uses 0-183; 184-255 stays free for painting.xml mods), skipping any slot that's already taken, so allocation is identical. Paints that would land above 1023 are dropped with an error, since a block face can't store them. The paint ID is independent of the paint's GPU texture slot (`TextureID`), so the floor has nothing to do with the texture array. The OcbCustomTextures fork resizes `BlockTextureData.list` when more paints are registered.
 
 ### Layer 5: Prefab texture re-encoding
 
@@ -130,7 +130,7 @@ is updated.
 
 The CustomTextures.dll PaintUnlocked hooked into is **stock** OcbCustomTextures,
 not the fork. Stock OCB keeps the paint list at 256 slots, so the first custom
-paint at ID 512 overflows it. When the only OCB folder is the one from the zip,
+paint at ID 256 overflows it. When the only OCB folder is the one from the zip,
 the stock copy usually comes from another mod that bundles it, either in a
 folder that sorts before `OcbCustomTextures` (the game skips the later one with
 the same mod name) or under a different mod name.
@@ -147,11 +147,11 @@ failing on painting.xml.
 
 ## Known limitations
 
-- Picking a paint from the menu while holding a building block (to place it pre-painted) goes through `TextureIdxToTextureFullValue64`, which is not patched yet: it works for paint IDs up to 255, but custom paints (512+) place as the wrong paint. Painting placed blocks with the brush, including "paint all sides", is unaffected.
+- Picking a paint from the menu while holding a building block (to place it pre-painted) goes through `TextureIdxToTextureFullValue64`, which is not patched yet: it works for paint IDs up to 255, but custom paints (256+) place as the wrong paint. Painting placed blocks with the brush, including "paint all sides", is unaffected.
 - The 7th face slot ("Middle": the frame parts inside window shapes, hollow counters, `logsHalfCorner`) can't hold a paint of its own, in vanilla or here. Since 1.5.1 PaintUnlocked stores it as "same paint as one of the sides": "paint all sides" covers it, and clicking a Middle part works if one of the block's sides already has that paint. See the [FAQ](FAQ.md).
-- All textures share one GPU texture array capped at 2048 slots (a graphics API limit), and vanilla uses 407 of them. A 2×2 paint takes 4 slots, so large multi-tile packs can fill it before the 1023 paint ID limit is reached. Since 1.5.2 the fork skips whatever doesn't fit and logs one clear error, instead of crashing the whole paint load. See the [FAQ](FAQ.md).
+- All textures share one GPU texture array capped at 2048 slots (a graphics API limit), and vanilla uses 407 of them. A 2×2 paint takes 4 slots, so large multi-tile packs can fill it before the 768 custom paint IDs (256-1023) run out. Since 1.5.2 the fork skips whatever doesn't fit and logs one clear error, instead of crashing the whole paint load. See the [FAQ](FAQ.md).
 - Migration is one-way: once a world has been converted to the 10-bit chunk format, it needs PaintUnlocked to load. Back up saves before the first load.
-- Custom paints from packs you had installed *before* PaintUnlocked may need to be re-applied after migration: their IDs move from below 256 to 512+, and blocks painted earlier still reference the old IDs. Vanilla paints survive intact. See the [FAQ](FAQ.md).
+- Custom paints from packs you had installed *before* PaintUnlocked may need to be re-applied after migration: their IDs move from below 256 to 256+, and blocks painted earlier still reference the old IDs. Vanilla paints survive intact. See the [FAQ](FAQ.md).
 - V3.3: v1.4.3 was verified against the V3.3 b17 experimental dedicated server, and a V3.3.0 (b18) client has since joined a V3.3.0 (b18) dedicated server running it with no PaintUnlocked errors. Picking and placing paints above 255 from a 3.3 client has not been exercised yet.
 - `Graphics.CopyTexture` mip level warnings may appear for paint packs with mismatched texture mip counts. These are cosmetic and come from the paint packs, not PaintUnlocked.
 

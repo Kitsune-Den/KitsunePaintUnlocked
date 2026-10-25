@@ -3,20 +3,26 @@ using System.Reflection;
 
 /// <summary>
 /// Patches OpaqueTextures.GetFreePaintID() to ensure server and client assign
-/// identical custom paint IDs by using a fixed floor of 512.
+/// identical custom paint IDs by using a fixed floor (PaintIdLimits.CustomIdFloor).
 ///
-/// Problem: Server loads ~155 vanilla paints, client loads ~407. Without a fixed
-/// floor, custom paint IDs diverge between server and client, causing painted
-/// blocks to show wrong textures on the client side.
+/// Problem: stock OCB hands out the first empty slot, so custom IDs depend on
+/// what else was loaded. Without a fixed floor, custom paint IDs diverge between
+/// server and client, causing painted blocks to show wrong textures on the client.
 ///
-/// Solution: Both sides skip to ID 512 before assigning any custom paint IDs,
-/// leaving 0-511 as vanilla reserved. Custom packs then get identical IDs on
-/// both server and client regardless of how many vanilla paints each side loaded.
+/// Solution: Both sides start custom paints at the floor (256), leaving 0-255 to
+/// vanilla (0-183) and painting.xml mods. Custom packs then get identical IDs on
+/// both server and client. The floor deliberately ignores builtinOpaques: that is
+/// the client's GPU texture-array depth (407), not a paint count, and a paint's
+/// texture slot (TextureID) is independent of its paint ID.
+///
+/// IDs above PaintIdLimits.MaxPaintId are still handed out so OCB's registration
+/// loop doesn't crash; PaintIdSyncManager drops those paints right after
+/// InitOpaqueConfig, since a block face can't store them.
 /// </summary>
 [HarmonyPatch(typeof(OpaqueTextures), "GetFreePaintID")]
 public static class OcbPaintLimitPatch
 {
-    private const int CustomIdFloor = 512;
+    private const int CustomIdFloor = PaintIdLimits.CustomIdFloor;
 
     private static readonly FieldInfo _fBuiltinOpaques =
         typeof(OpaqueTextures).GetField("builtinOpaques",
@@ -41,8 +47,8 @@ public static class OcbPaintLimitPatch
             int builtin = (int)_fBuiltinOpaques.GetValue(null);
 
             // Detect world reload: if BlockTextureData.list was recreated (our entries are gone),
-            // reset the counter so IDs start from 512 again. Without this, quit-to-menu + reload
-            // on listen servers assigns IDs 575+ instead of 512+, causing empty paint menus.
+            // reset the counter so IDs start from the floor again. Without this, quit-to-menu +
+            // reload on listen servers assigns IDs past the first batch, causing empty paint menus.
             if (_nextId >= CustomIdFloor && BlockTextureData.list != null
                 && (_nextId >= BlockTextureData.list.Length || BlockTextureData.list[CustomIdFloor] == null))
             {
@@ -57,9 +63,15 @@ public static class OcbPaintLimitPatch
                     return true; // vanilla init not done yet
 
                 // Use fixed floor so server and client always match
-                _nextId = System.Math.Max(builtin, CustomIdFloor);
-                Log.Out($"[PaintUnlocked] GetFreePaintID seeded at {_nextId} (vanilla count: {builtin}, floor: {CustomIdFloor}). Custom paint limit removed.");
+                _nextId = CustomIdFloor;
+                Log.Out($"[PaintUnlocked] GetFreePaintID seeded at {_nextId} (custom paints get IDs {CustomIdFloor}-{PaintIdLimits.MaxPaintId}).");
             }
+
+            // Never hand out a slot something already holds, e.g. a painting.xml mod that
+            // defines its own paint at a fixed ID inside the custom range.
+            var list = BlockTextureData.list;
+            while (list != null && _nextId < list.Length && list[_nextId] != null)
+                _nextId++;
 
             if (_nextId >= 65535)
             {

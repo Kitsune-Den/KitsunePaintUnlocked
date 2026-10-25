@@ -4,7 +4,7 @@
 
 This is expected behaviour, not a bug. Here's what's going on.
 
-When you install a paint pack like PyroPaints or CK Textures *without* PaintUnlocked, the game registers those custom paints in the free IDs below 256 (vanilla V3.2 has 156 paints spread across IDs 0-183, so custom paints fill the gaps and the slots above). When PaintUnlocked is enabled, custom paints register at ID 512 and up instead, because the GPU atlas needs that gap to handle the wider paint range.
+When you install a paint pack like PyroPaints or CK Textures *without* PaintUnlocked, the game registers those custom paints in the free IDs below 256 (vanilla V3.2 has 156 paints spread across IDs 0-183, so custom paints fill the gaps and the slots above). When PaintUnlocked is enabled, custom paints register at ID 256 and up instead (512 and up before 1.6.0), so they get the same IDs on the server and every client no matter what else loaded.
 
 The migration system updates how chunk data is stored on disk, but it can't follow paints to their new IDs — a block that used to say "paint ID 200" still says 200, but in the new world that slot doesn't point to your custom paint anymore. So those blocks render as unpainted.
 
@@ -115,7 +115,9 @@ Both `0_PaintUnlocked` and `OcbCustomTextures` (from the zip) on both server and
 
 Two limits, and the second one is usually the one you hit first.
 
-**Paints: up to 512 custom, on top of vanilla's own.** Custom paints get IDs 512 through 1023 (1023 is the highest ID a painted block face can store), and vanilla V3.2 keeps its 156 paints below that. For comparison, vanilla was hardcapped at 255.
+**Paints: up to 768 custom, on top of vanilla's own.** Custom paints get IDs 256 through 1023 (1023 is the highest ID a painted block face can store), and vanilla keeps its 156 paints below that, in IDs 0-183. For comparison, vanilla was hardcapped at 255. Before 1.6.0 custom paints started at 512, which left room for only 512 of them.
+
+Worlds from before 1.6.0 keep every paint exactly where it was. Paints you add later fill IDs 256-511 first, since no older release ever used them.
 
 **Texture slots: 2048 in total, vanilla included.** Every texture lives in one big texture array on your graphics card, and 2048 is a hard limit of the graphics API that no mod can raise. Vanilla uses 407 of them, which leaves 1641 for packs. A 1×1 paint takes one slot, but a 2×2 paint takes four, so big multi-tile packs fill this up fast. For example, CK Textures N Paints and CK Textures N Paints Vol II together use 1628 slots, which leaves room for only 13 more.
 
@@ -128,6 +130,14 @@ Your paint and texture packs together need more texture slots than the 2048 a gr
 Before 1.5.2 this showed up as `Texture2DArray has out of range depth (got N max supported 2048)` followed by `Loading and parsing 'painting.xml' failed`, and every custom paint broke.
 
 **Fix:** Remove a texture or paint pack (move its folder out of `Mods`) until you're under the limit. Packs load alphabetically by folder name, so the textures that get skipped are the ones from the pack whose folder name sorts last.
+
+---
+
+## "Too many custom paints: a painted block can store paint IDs up to 1023"
+
+Your packs register more than the 768 custom paints that fit in IDs 256-1023. A block face stores its paint in 10 bits, so a paint with a higher ID would get saved as a different paint. Before 1.6.0 that's exactly what happened: the paint showed up fine in the menu, but painting with it put down a vanilla texture instead. Since 1.6.0 PaintUnlocked skips the paints past the limit, so they're missing from the paint menu, and logs this error with the first few names.
+
+**Fix:** Remove a paint pack until you're under the limit. As with texture slots, the paints that get skipped come from the pack whose folder name sorts last.
 
 ---
 
