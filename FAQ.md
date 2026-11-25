@@ -139,6 +139,18 @@ The only requirement is that both PaintUnlocked and the included OcbCustomTextur
 
 ---
 
+## "My Custom Avatars thumbnails turned yellow"
+
+With Custom Avatars (by Alter) and OcbCustomTextures both installed, the small avatar pictures in the Custom Avatars list can turn into flat yellow squares once a world starts. Both mods keep working, and only those pictures are affected.
+
+Custom Avatars draws them once at the main menu and keeps them only on the graphics card. While OcbCustomTextures builds the paint textures it switches the game's texture quality to full for a moment and back. The game reloads its textures when that happens, and those pictures come back empty. The standard OcbCustomTextures does the same.
+
+Since 1.5.3 the included OcbCustomTextures asks Custom Avatars to draw them again once it is done.
+
+**Fix on older versions, or if you still see yellow:** in the world, open Options, then Video, change any setting and apply. Custom Avatars redraws its pictures whenever the video options are saved.
+
+---
+
 ## "I'm getting NullReferenceException in updateBackgroundTexture"
 
 That's expected and harmless. It's our mod catching a null reference when the game tries to render a toolbar thumbnail for a custom paint ID that doesn't have a vanilla texture entry. The error is swallowed (caught and ignored) so it doesn't affect gameplay. You might see it in the log but it won't cause any problems.

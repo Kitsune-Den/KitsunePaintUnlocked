@@ -28,6 +28,8 @@ Each release ships three downloads:
 
 **On 7 Days to Die V2.6** (e.g. for Undead Legacy) use `PaintUnlocked-X.Y.Z-V2.6.zip` instead, or `0_PaintUnlocked-X.Y.Z.zip` plus `OcbCustomTextures-X.Y.Z-V2.6.zip` for Vortex. `PaintUnlocked.dll` is the same file for every game version; only the OcbCustomTextures fork is built separately, because V3.0 changed two game methods it calls. Mixing them up is caught at startup with a log message saying which download you need.
 
+There is no V2.6 build of 1.5.3. On V2.6, 1.5.2 is still the current version.
+
 Steps:
 
 1. **Back up your saves.** Existing worlds are migrated to the new chunk format on first load, and that is one-way: a migrated world needs PaintUnlocked to load. To revert, restore the backup.
