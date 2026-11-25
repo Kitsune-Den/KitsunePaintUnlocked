@@ -71,12 +71,12 @@ the mods bind at compile time (which the audit does not cover). Expects a siblin
 ```
 
 Proves the patches actually apply at runtime. Deploys the given mods (use the *shipped* bundle to
-test what users install, plus a paint pack so custom IDs land above 512), boots the server with
+test what users install, plus a paint pack so custom IDs land at 256+), boots the server with
 EAC off and telnet on, runs `pu_audit`, then a graceful `shutdown`. Read `_work\smoke-<tag>.log`:
 
 - `Loaded assembly PaintUnlocked (in <this install>)` - not a stale `%APPDATA%\7DaysToDie\Mods` copy
 - every `[PaintUnlocked] ... registered` / `patched N constants` line, no `WRN ... not found`
-- `GetFreePaintID seeded at 512`, `OCB fork check passed`, `Paint ID mapping built: N custom textures`
+- `GetFreePaintID seeded at 256`, `OCB fork check passed`, `Paint ID mapping built: N custom textures`
 - run 2: `Loaded persistent paint map`, `N persisted, 0 new`, `N matched, 0 placeholders, 0 client-only`
 - no `EXC`/`Exception` lines outside the usual shader/EOS/Xbox noise a headless box always prints
 

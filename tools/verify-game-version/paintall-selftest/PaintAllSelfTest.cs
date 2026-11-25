@@ -123,7 +123,7 @@ public class ConsoleCmdMiddlePaintSelfTest : ConsoleCmdAbstract
             // Registered paint IDs only: the renderer path clamps unregistered IDs to 0.
             var list = BlockTextureData.list;
             int vanillaId = Enumerable.Range(100, 156).First(i => list[i] != null);
-            var custom = Enumerable.Range(512, list.Length - 512).Where(i => list[i] != null).Take(2).ToArray();
+            var custom = Enumerable.Range(256, list.Length - 256).Where(i => list[i] != null).Take(2).ToArray();
             Out($"using paint IDs {vanillaId} (vanilla), {custom[0]} and {custom[1]} (custom)");
 
             var ids = new[] { vanillaId, custom[0] };

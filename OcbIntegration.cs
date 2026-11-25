@@ -54,14 +54,14 @@ public static class OcbIntegration
     private static void Register(Harmony harmony)
     {
         // === Layer 2: Paint ID allocation floor ===
-        // Seed GetFreePaintID at 512 so server and client allocate identical
-        // custom paint IDs despite loading different numbers of vanilla paints.
+        // Seed GetFreePaintID at the custom floor (256) so server and client allocate identical
+        // custom paint IDs no matter what else filled the low slots.
         var getFreePaintID = AccessTools.Method(typeof(OpaqueTextures), "GetFreePaintID");
         if (getFreePaintID != null)
         {
             harmony.Patch(getFreePaintID,
                 prefix: new HarmonyMethod(AccessTools.Method(typeof(OcbPaintLimitPatch), "GetFreePaintIDPrefix")));
-            Log.Out("[PaintUnlocked] OpaqueTextures.GetFreePaintID prefix registered (ID floor 512)");
+            Log.Out($"[PaintUnlocked] OpaqueTextures.GetFreePaintID prefix registered (ID floor {PaintIdLimits.CustomIdFloor})");
         }
         else Log.Warning("[PaintUnlocked] OpaqueTextures.GetFreePaintID not found — paint ID floor disabled");
 

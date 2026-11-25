@@ -4,7 +4,7 @@
 ///
 /// Why this exists: stock OcbCustomTextures never grows BlockTextureData.list
 /// past its vanilla default of 256 entries. The PaintUnlocked fork resizes it
-/// to hold custom paint IDs (which start at 512). When a user installs stock
+/// to hold custom paint IDs (which start at 256). When a user installs stock
 /// OCB by mistake ~ e.g. they grabbed it from its own mod page instead of
 /// using the fork bundled with PaintUnlocked ~ custom paints above 255
 /// silently fail to register. The visible symptoms are subtle and confusing:
@@ -39,7 +39,7 @@ public static class OcbForkCheck
     /// the fork. Returns false when it is stock OCB, in which case the caller
     /// must NOT register the OCB-dependent patches.
     ///
-    /// Why this can't wait for <see cref="Verify"/>: with stock OCB, the ID-512
+    /// Why this can't wait for <see cref="Verify"/>: with stock OCB, the ID-256
     /// floor hands stock InitOpaqueConfig a paint ID that its 256-slot
     /// BlockTextureData.list can't hold, so painting.xml dies with
     /// "Index was outside the bounds of the array" INSIDE InitOpaqueConfig ~
@@ -175,7 +175,7 @@ public static class OcbForkCheck
 
             // Vanilla BlockTextureData.InitStatic() allocates exactly 256.
             // The PaintUnlocked fork resizes well past that (to >=768) so it
-            // can hold custom IDs at 512+. So len <= 256 means the fork's
+            // can hold custom IDs at 256+. So len <= 256 means the fork's
             // resize never happened ~ the user is on stock OCB (or OCB is
             // missing / failed to init).
             if (len > 256)
