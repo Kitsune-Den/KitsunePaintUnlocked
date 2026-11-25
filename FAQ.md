@@ -117,7 +117,7 @@ Everyone else sees a block's paint correctly, but one player sees a different pa
 
 When you join, the server sends your game its paint ID list, so both sides agree on which number means which paint. Before 1.5.4 the server could send that list to the wrong player when someone else was already online, and the player who was joining kept their own numbering. That only shows when the two differ, for example when the world's paint ID list has gaps left by a paint pack that was removed.
 
-**Fix:** Update the server and every client to 1.5.4. To check, the server log has `[PaintUnlocked] Sent paint ID mapping to <player>` each time someone joins, and it should name the player who just joined.
+**Fix:** Update the server and every client to 1.5.4 or later. To check, the server log has `[PaintUnlocked] Sent paint ID mapping to <player>` each time someone joins, and it should name the player who just joined.
 
 On older versions, the first player to join after a server restart gets the list; later players may not.
 

@@ -28,7 +28,7 @@ Each release ships three downloads:
 
 **On 7 Days to Die V2.6** (e.g. for Undead Legacy) use `PaintUnlocked-X.Y.Z-V2.6.zip` instead, or `0_PaintUnlocked-X.Y.Z.zip` plus `OcbCustomTextures-X.Y.Z-V2.6.zip` for Vortex. `PaintUnlocked.dll` is the same file for every game version; only the OcbCustomTextures fork is built separately, because V3.0 changed two game methods it calls. Mixing them up is caught at startup with a log message saying which download you need.
 
-1.5.4 has a V2.6 download again. Its OcbCustomTextures (`0.8.0.10504`) is the same DLL as the V2.6 build in 1.5.2, with only the version number moved on, so the Custom Avatars fix from 1.5.3 is in the V3.x download only.
+The V2.6 download's OcbCustomTextures (`0.8.0.10600` in 1.6.0) is the same DLL as the V2.6 build in 1.5.2, with only the version number moved on, so the Custom Avatars fix from 1.5.3 is in the V3.x download only.
 
 Steps:
 
