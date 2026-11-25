@@ -267,7 +267,12 @@ public static class PaintIdSyncManager
 
         try
         {
-            // Get the sender's ClientInfo from the package
+            // The package's Sender IS the joining client's ClientInfo. Send to it
+            // directly. Do not look it up again by entity id: the joiner has no
+            // entity yet (entityId is -1), and ClientInfoCollection.ForEntityId
+            // caches its answer, so a lookup for -1 returns whichever client was
+            // first seen with -1 (often a player who is already in game) and
+            // the mapping went to the wrong player.
             var sender = __instance.Sender;
             if (sender == null)
             {
@@ -275,15 +280,7 @@ public static class PaintIdSyncManager
                 return;
             }
 
-            // Find the ClientInfo for this sender
-            var clientInfo = ConnectionManager.Instance?.Clients?.ForEntityId(sender.entityId);
-            if (clientInfo == null)
-            {
-                Log.Warning($"[PaintUnlocked] RequestToEnterGame: no ClientInfo for entity {sender.entityId}");
-                return;
-            }
-
-            SendMappingToClient(clientInfo);
+            SendMappingToClient(sender);
         }
         catch (Exception ex)
         {
