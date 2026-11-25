@@ -111,6 +111,18 @@ Both `0_PaintUnlocked` and `OcbCustomTextures` (from the zip) on both server and
 
 ---
 
+## "One player sees the wrong paints on a server"
+
+Everyone else sees a block's paint correctly, but one player sees a different paint there, and what they paint can come out as a different paint for everyone else.
+
+When you join, the server sends your game its paint ID list, so both sides agree on which number means which paint. Before 1.5.4 the server could send that list to the wrong player when someone else was already online, and the player who was joining kept their own numbering. That only shows when the two differ, for example when the world's paint ID list has gaps left by a paint pack that was removed.
+
+**Fix:** Update the server and every client to 1.5.4. To check, the server log has `[PaintUnlocked] Sent paint ID mapping to <player>` each time someone joins, and it should name the player who just joined.
+
+On older versions, the first player to join after a server restart gets the list; later players may not.
+
+---
+
 ## "How many custom textures can I have?"
 
 Two limits, and the second one is usually the one you hit first.
