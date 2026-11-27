@@ -87,6 +87,30 @@ If you closed the game during one of those long loads, 1.4.4 and older lost trac
 
 ---
 
+## "My base disappeared" / "The world reset to fresh terrain"
+
+This happens when a world that has been played with PaintUnlocked is loaded **without** PaintUnlocked running.
+
+PaintUnlocked stores paint in a wider format, and it does that for every chunk in the world, painted or not. The game on its own can't read that format. When it fails to read a chunk, it treats the chunk as corrupt: it saves a copy of it as `error_backup_*.bak` in the save's `Region` folder, throws it away and generates it again from the world map. So your builds vanish chunk by chunk as you walk around, and the original terrain and POIs come back in their place. The log shows `EXCEPTION: In load chunk ... Attempted to read past the end of the stream` and has no `[PaintUnlocked]` lines.
+
+Common ways PaintUnlocked ends up missing:
+
+- It was removed or disabled for that save, or a server update or modpack change dropped it.
+- EAC was turned on. EAC silently blocks mod DLLs, so the game loads without PaintUnlocked.
+- It failed to load. Check the log for `Failed initializing ModAPI instance on mod 'PaintUnlocked'`, and see the [README](README.md#troubleshooting).
+- On a server, the **server** loaded the save without it.
+
+**What to do:**
+
+1. Stop playing that save. Every minute it runs, more chunks get thrown away and saved over.
+2. Copy the whole save folder somewhere safe before you do anything else.
+3. Put PaintUnlocked back (EAC off) before loading the save again. Chunks the game never loaded while PaintUnlocked was missing are still intact and load normally.
+4. The chunks that were already thrown away can't be recovered automatically. If you have a backup of the save from before, restore it. The `error_backup_*.bak` files hold the original chunks, and someone comfortable with a region editor can put them back by hand.
+
+Removing PaintUnlocked from a world is one-way, the same as installing it. To stop using it, start a new world, or restore a backup from before PaintUnlocked's first load. That first load copies the save's `Region` folder to `Region.pre-paintunlocked`, but anything you built since then isn't in that copy.
+
+---
+
 ## "Paint all sides leaves one part unpainted"
 
 That part is the block's 7th face, "Middle". Besides its six sides, a block shape can have geometry that isn't on the outside of the block: the frame pieces inside the window shapes, the inside of the hollow counters, `logsHalfCorner`. About 130 shapes have one. The game stores paint for six faces only, so in vanilla the Middle part always shows the block's default texture, and "paint all sides" skips it.
