@@ -171,9 +171,9 @@ public class PaintUnlockedMod : IModApi
             harmony.Patch(chunkLoad,
                 prefix: new HarmonyMethod(AccessTools.Method(typeof(LegacyChunkLoadPatch), "Prefix")),
                 finalizer: new HarmonyMethod(AccessTools.Method(typeof(LegacyChunkLoadPatch), "Finalizer")));
-            Log.Out("[PaintUnlocked] Chunk.load patched: interrupted-migration recovery enabled");
+            Log.Out("[PaintUnlocked] Chunk.load patched: chunks at an unexpected width are re-read instead of discarded");
         }
-        else Log.Warning("[PaintUnlocked] Chunk.load not found — interrupted-migration recovery disabled");
+        else Log.Warning("[PaintUnlocked] Chunk.load not found — wrong-width chunk recovery disabled");
 
         // === Layer 4: Widen chunk face storage from 8-bit to 10-bit ===
         var setBlockFaceTex = AccessTools.Method(typeof(Chunk), "SetBlockFaceTexture");

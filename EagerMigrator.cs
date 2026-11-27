@@ -66,6 +66,7 @@ public static class EagerMigrator
         _backupFiles = null;
         ChunkBlockChannelReadPatch.ResetDiagnostics();
         LegacyChunkLoadPatch.ResetCounters();
+        LostChunkRestorer.ResetWarning();
     }
 
     /// <summary>
@@ -84,6 +85,18 @@ public static class EagerMigrator
         {
             Log.Out("[PaintUnlocked] EagerMigrator: pure client, skipping (chunks arrive via network).");
             return;
+        }
+
+        // A world PaintUnlocked played before: put back chunks the game threw away while it
+        // was loaded without PaintUnlocked. Separate method so a member missing on some game
+        // version fails here, not in the migration.
+        if (!WorldMigrationState.NeedsMigration && WorldMigrationState.SentinelFoundAtLoad)
+        {
+            try { LostChunkRestorer.Run(__instance); }
+            catch (Exception ex)
+            {
+                Log.Warning($"[PaintUnlocked] Lost-chunk check failed: {ex.Message}");
+            }
         }
 
         if (!WorldMigrationState.NeedsMigration)
