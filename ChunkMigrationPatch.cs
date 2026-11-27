@@ -43,7 +43,8 @@ public static class ChunkMigrationPatch
     /// </summary>
     public static void ReadPostfix(Chunk __instance, bool _bNetworkRead)
     {
-        if (!WorldMigrationState.NeedsMigration) return;
+        // Also runs when LegacyChunkLoadPatch re-reads a migrated world's chunk at vanilla width.
+        if (!WorldMigrationState.NeedsMigration && LegacyChunkLoadPatch.ForcedWidth != 6) return;
         if (_bNetworkRead) return;
         if (__instance == null) return;
         if (__instance.chnTextures == null || __instance.chnTextures.Length == 0) return;
@@ -88,7 +89,9 @@ public static class ChunkMigrationPatch
             __instance.chnTextures[ch] = newChannel;
         }
 
-        if (anyMigrated)
+        // Counted (and logged) only for a legacy world's migration: the eager migrator reads
+        // the count, and LegacyChunkLoadPatch logs its own vanilla-width conversions.
+        if (anyMigrated && !LegacyChunkLoadPatch.Probing && WorldMigrationState.NeedsMigration)
         {
             __instance.isModified = true;
 

@@ -63,8 +63,19 @@ public static class ChunkBlockChannelReadPatch
     public static void ReadPrefix(ChunkBlockChannel __instance, bool _bNetworkRead)
     {
         if (!_reflectionValid) return;
-        if (!WorldMigrationState.NeedsMigration) return;
         if (_bNetworkRead) return;
+
+        // LegacyChunkLoadPatch is retrying or test-reading a chunk at a fixed width.
+        int forced = LegacyChunkLoadPatch.ForcedWidth;
+        if (forced == 6 || forced == 8)
+        {
+            int other = forced == 6 ? 8 : 6;
+            if ((int)_fBytesPerVal.GetValue(__instance) == other)
+                _fBytesPerVal.SetValue(__instance, forced);
+            return;
+        }
+
+        if (!WorldMigrationState.NeedsMigration) return;
         // Already rewritten at width 8 by an earlier, interrupted migration. On a retry the
         // channel object is the one the failed legacy attempt left at 6, so put it back.
         if (LegacyChunkLoadPatch.CurrentChunkIsAtCurrentWidth())

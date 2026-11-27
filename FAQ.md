@@ -104,8 +104,17 @@ Common ways PaintUnlocked ends up missing:
 
 1. Stop playing that save. Every minute it runs, more chunks get thrown away and saved over.
 2. Copy the whole save folder somewhere safe before you do anything else.
-3. Put PaintUnlocked back (EAC off) before loading the save again. Chunks the game never loaded while PaintUnlocked was missing are still intact and load normally.
-4. The chunks that were already thrown away can't be recovered automatically. If you have a backup of the save from before, restore it. The `error_backup_*.bak` files hold the original chunks, and someone comfortable with a region editor can put them back by hand.
+3. Put **PaintUnlocked 1.6.1 or later** back (EAC off) and load the save. Chunks the game never loaded while PaintUnlocked was missing are still intact and load normally.
+4. Since 1.6.1, PaintUnlocked puts the thrown-away chunks back by itself when the world loads. It reads the `error_backup_*.bak` files the game left in the `Region` folder, and the log says `Lost-chunk check done: N restored`. Check that your base is back.
+
+How the automatic restore works, and its limits:
+
+- It only uses backups of PaintUnlocked chunks, and only where the chunk in the save now is missing, or is a vanilla chunk the game generated while PaintUnlocked was missing. A chunk PaintUnlocked has saved since then is left alone.
+- Anything built *in a thrown-away chunk* while PaintUnlocked was missing is replaced by the restored original. The replaced chunk is kept as `paintunlocked_replaced_*.comp.bak`, and the used backup is renamed to `paintunlocked_restored_*.bak`.
+- Chunks the game saved without PaintUnlocked that were never thrown away (new areas you explored or built in) are kept and converted, not discarded.
+- The game keeps only one backup per chunk. Loading the save with **PaintUnlocked 1.6.0 or older** after the loss throws the regenerated chunks away too, and their backups overwrite the original ones. So go straight to 1.6.1 or later.
+
+If the restore can't bring something back, restore a backup of the save from before the loss.
 
 Removing PaintUnlocked from a world is one-way, the same as installing it. To stop using it, start a new world, or restore a backup from before PaintUnlocked's first load. That first load copies the save's `Region` folder to `Region.pre-paintunlocked`, but anything you built since then isn't in that copy.
 

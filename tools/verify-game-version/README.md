@@ -89,3 +89,18 @@ command builds bare `NetConnectionSimple`s, runs the patched `InitStreams` on bo
 it after step 2 (it references `_work\refs`), put `ModInfo.xml` beside the DLL, and add that
 folder to `-Mods` with `-Commands pu_selftest_streams,pu_audit`; look for `[PUSelfTest] RESULT PASS`.
 It still isn't a substitute for a real client joining before a release.
+
+`chunkloss-selftest\` (also never shipped) tests what happens when a PaintUnlocked world is loaded
+without PaintUnlocked, and the 1.6.1 recovery. Its `pu_chunktest mark|paint|check|remove <worldX>
+<worldZ> [paint id]` command puts a 4x4 plate of blocks in the chunk at that spot, paints their tops
+(default paint 300), counts both, or deletes the 4x4 chunks around it from the save. Load the chunk
+first with `chunkobserver add <x> <z> 1` and a wait. The run that found the bug, on a V3.4 server:
+
+1. PaintUnlocked + fork + test mod: `mark` and `paint` two spots, `saveworld`. `check` says 16/16 both.
+2. Test mod only: load one spot (`check` says 0/16, the log has 16 `In load chunk` exceptions and the
+   Region folder 16 `error_backup_*` pairs). `mark` a third spot so it's saved at vanilla width.
+3. All three mods again: the log says `Lost-chunk check done: 16 restored`, the lost spot checks
+   16/16 painted again, and the third spot loads with `converted it instead of discarding it`.
+
+For the legacy-save upgrade, `paint` with an ID below 256 on a world without PaintUnlocked, then load
+it with PaintUnlocked and `check` with the same ID.
